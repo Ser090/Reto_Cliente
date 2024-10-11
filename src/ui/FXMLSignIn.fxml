@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="500.0" stylesheets="@estilos.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="vista.ApplicationClientSignInController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="600.0" stylesheets="@estilos.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="vista.ApplicationClientSignInController">
     <children>
         <VBox alignment="CENTER" layoutX="125.0" layoutY="71.0" spacing="20">
                     <AnchorPane.topAnchor>50.0</AnchorPane.topAnchor>
