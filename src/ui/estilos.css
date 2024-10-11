@@ -1,0 +1,55 @@
+
+/* estilos.css */
+AnchorPane {
+    -fx-background-image: url('../../resources/img/fondo.jpg');
+    -fx-background-size: cover; 
+    -fx-background-repeat: no-repeat; 
+    -fx-background-position: center; 
+}
+
+GridPane {
+    -fx-padding: 20;
+    -fx-background-color: rgba(58, 58, 58, 0.5); 
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+    -fx-effect: gaussian-blur(10); 
+}
+
+Label {
+    -fx-text-fill: #FFFFFF; 
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+TextField, PasswordField, DatePicker {
+    -fx-pref-width: 200px;
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-background-color: rgba(74, 74, 74, 0.8); /* Fondo semitransparente para los campos */
+    -fx-text-fill: #E0E0E0; /* Texto claro dentro de los campos */
+    -fx-border-radius: 5;
+    -fx-border-color: #666; /* Bordes ligeramente más claros */
+    -fx-border-width: 1px;
+}
+
+TextField:focused, PasswordField:focused, DatePicker:focused {
+    -fx-border-color: #8A2BE2; 
+}
+
+Button {
+    -fx-background-color: rgba(90, 90, 90, 0.8); 
+    -fx-text-fill: #FFFFFF; 
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #8A2BE2;
+}
+
+Button:pressed {
+    -fx-background-color: #4A148C; 
+}
