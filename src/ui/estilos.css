@@ -22,11 +22,11 @@ Label {
     -fx-font-weight: bold;
 }
 
-TextField, PasswordField, DatePicker {
+TextField, PasswordField , DatePicker{
     -fx-pref-width: 200px;
     -fx-padding: 5;
     -fx-background-radius: 5;
-    -fx-background-color: rgba(74, 74, 74, 0.8); /* Fondo semitransparente para los campos */
+    -fx-background-color: rgba(74, 74, 74, 0.8); 
     -fx-text-fill: #E0E0E0; /* Texto claro dentro de los campos */
     -fx-border-radius: 5;
     -fx-border-color: #666; /* Bordes ligeramente más claros */
@@ -53,3 +53,34 @@ Button:hover {
 Button:pressed {
     -fx-background-color: #4A148C; 
 }
+
+ComboBox {
+    -fx-pref-width: 198px;
+    -fx-pref-height: 20px;
+    -fx-background-color: rgba(74, 74, 74, 0.8);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: #666;
+    -fx-border-width: 1px;
+    -fx-text-fill: #E0E0E0;
+}
+/*Desplegable combobox*/
+ComboBox .list-cell {
+    -fx-background-color: rgba(74, 74, 74, 0.8);
+    -fx-text-fill: #FFFFFF;
+}
+
+ComboBox .list-cell:hover {
+    -fx-background-color: #8A2BE2;
+    -fx-text-fill: #FFFFFF;
+}
+
+VBox {
+    -fx-padding: 20; 
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+}
+
+
+

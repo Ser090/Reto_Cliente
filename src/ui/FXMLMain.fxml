@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientPrincipalController" stylesheets="@estilos.css">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientPrincipalController" stylesheets="@estilos.css">
     <children>
         <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <ImageView fx:id="LogoG2CAGE" fitWidth="200" fitHeight="200" preserveRatio="true">
