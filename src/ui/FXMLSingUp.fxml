@@ -6,41 +6,44 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController" stylesheets="@estilos.css">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController" stylesheets="@estilos.css">
     <children>
         <GridPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                   hgap="10" vgap="10" alignment="center">
- 
+
             <columnConstraints>
-                <ColumnConstraints halignment="center" /> 
+                <ColumnConstraints halignment="left" /> 
                 <ColumnConstraints halignment="center" />
             </columnConstraints>
+                        
+            <Label text="Nombre:" GridPane.rowIndex="1" />
+            <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
             
-            <Label text="Login:" GridPane.rowIndex="1" />
-            <TextField fx:id="login" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            <Label text="Primer Apellido:" GridPane.rowIndex="2" />
+            <TextField fx:id="surname1Field" GridPane.rowIndex="2" GridPane.columnIndex="1" />
 
-            <Label text="Contraseña:" GridPane.rowIndex="2" />
-            <PasswordField fx:id="pass" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            <Label text="Segundo Apellido:" GridPane.rowIndex="3" />
+            <TextField fx:id="surname2Field" GridPane.rowIndex="3" GridPane.columnIndex="1" />
 
-            <Label text="Nombre:" GridPane.rowIndex="3" />
-            <TextField fx:id="nombre" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+            <Label text="Correo Electrónico:" GridPane.rowIndex="4" />
+            <TextField fx:id="emailField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
 
-            <Label text="Apellido:" GridPane.rowIndex="4" />
-            <TextField fx:id="apellido" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+            <Label text="Contraseña:" GridPane.rowIndex="5" />
+            <PasswordField fx:id="passwordField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+            
+            <Label text="Calle:" GridPane.rowIndex="6" />
+            <TextField fx:id="streetField" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
-            <Label text="Teléfono:" GridPane.rowIndex="5" />
-            <TextField fx:id="telefono" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+            <Label text="Ciudad:" GridPane.rowIndex="7" />
+            <TextField fx:id="cityField" GridPane.rowIndex="7" GridPane.columnIndex="1" />
 
-            <Label text="Localidad:" GridPane.rowIndex="6" />
-            <TextField fx:id="localidad" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+            <Label text="Código Postal:" GridPane.rowIndex="8" />
+            <TextField fx:id="zipField" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+                       
+            <Label text="Activo:" GridPane.rowIndex="9" />
+            <CheckBox fx:id="activeCheckBox" GridPane.rowIndex="9" GridPane.columnIndex="1" />
 
-            <Label text="Provincia:" GridPane.rowIndex="7" />
-            <ComboBox fx:id="provincia" GridPane.rowIndex="7" GridPane.columnIndex="1" />
-
-            <Label text="Fecha de Nacimiento:" GridPane.rowIndex="8" />
-            <DatePicker fx:id="fechaNacimiento" GridPane.rowIndex="8" GridPane.columnIndex="1" />
-
-            <Button text="Registrar" GridPane.rowIndex="9" GridPane.columnSpan="2" maxWidth="Infinity" />
+            <Button text="Registrar" GridPane.rowIndex="10" GridPane.columnSpan="2" maxWidth="Infinity" />
         </GridPane>
     </children>
 </AnchorPane>
