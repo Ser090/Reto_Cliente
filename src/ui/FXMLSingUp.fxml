@@ -31,19 +31,23 @@
             <Label text="Contraseña:" GridPane.rowIndex="5" />
             <PasswordField fx:id="passwordField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
             
-            <Label text="Calle:" GridPane.rowIndex="6" />
-            <TextField fx:id="streetField" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+            <Label text="Confirmar Contraseña:" GridPane.rowIndex="6" />
+            <PasswordField fx:id="confirmpasswordField" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+            
+            <Label text="Calle:" GridPane.rowIndex="7" />
+            <TextField fx:id="streetField" GridPane.rowIndex="7" GridPane.columnIndex="1" />
 
-            <Label text="Ciudad:" GridPane.rowIndex="7" />
-            <TextField fx:id="cityField" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+            <Label text="Ciudad:" GridPane.rowIndex="8" />
+            <TextField fx:id="cityField" GridPane.rowIndex="8" GridPane.columnIndex="1" />
 
-            <Label text="Código Postal:" GridPane.rowIndex="8" />
-            <TextField fx:id="zipField" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+            <Label text="Código Postal:" GridPane.rowIndex="9" />
+            <TextField fx:id="zipField" GridPane.rowIndex="9" GridPane.columnIndex="1" />
                        
-            <Label text="Activo:" GridPane.rowIndex="9" />
-            <CheckBox fx:id="activeCheckBox" GridPane.rowIndex="9" GridPane.columnIndex="1" />
+            <Label text="Activo:" GridPane.rowIndex="10" />
+            <CheckBox fx:id="activeCheckBox" GridPane.rowIndex="10" GridPane.columnIndex="1" />
 
-            <Button text="Registrar" GridPane.rowIndex="10" GridPane.columnSpan="2" maxWidth="Infinity" />
+            <Button text="Iniciar Sesión" GridPane.rowIndex="11" GridPane.columnSpan="2" maxWidth="Infinity" />
+            <Button text="Registrar" GridPane.rowIndex="12" GridPane.columnSpan="2" maxWidth="Infinity" />
         </GridPane>
     </children>
 </AnchorPane>
