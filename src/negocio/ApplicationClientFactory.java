@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import vista.ApplicationClientSignUpController;
 
 /**
  *
@@ -47,16 +48,33 @@ public class ApplicationClientFactory {
         }
     }
 
-    // Método para cargar la ventana de Registro (SignUp)
-    public void loadSignUpWindow(Stage stage) {
+    //Ejemplo Modo JAVI
+    public void loadSignInWindow(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FXMLSignIN.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
-            stage.setTitle("Registro de Usuario");
+            stage.setTitle("Inicio de Sesión");
             stage.setScene(scene);
             stage.show();
+
+        } catch (IOException e) {
+            showErrorDialog("No se pudo cargar la vista de Inicio de Sesión.");
+            e.printStackTrace();
+        }
+    }
+
+    // Método para cargar la ventana de Registro (SignUp)
+    public void loadSignUpWindowJavi(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
+            Parent root = loader.load();
+            ApplicationClientSignUpController controller = (ApplicationClientSignUpController) loader.getController();
+            Scene scene = new Scene(root);
+
+            controller.setStage(stage);
+            controller.initStage(root);
         } catch (IOException e) {
             showErrorDialog("No se pudo cargar la vista de Registro.");
             e.printStackTrace();
