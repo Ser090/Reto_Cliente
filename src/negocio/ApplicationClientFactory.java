@@ -36,7 +36,7 @@ public class ApplicationClientFactory {
 
     public void loadSignInWindow(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FXMLSignIN.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignIn.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);

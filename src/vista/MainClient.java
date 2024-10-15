@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import negocio.ApplicationClientFactory;
 
 /**
  *
@@ -19,12 +20,8 @@ public class MainClient extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));
-
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
+        ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
+        factory.loadSignInWindow(stage);
     }
 
     /**
