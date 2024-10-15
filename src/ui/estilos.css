@@ -22,20 +22,23 @@ Label {
     -fx-text-fill: #FFFFFF; 
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-alignment: center;
+    -fx-font-family: "Protest Strike";
 }
 
-TextField, PasswordField , DatePicker{
+TextField, PasswordField {
     -fx-pref-width: 400px;
     -fx-padding: 15;
     -fx-background-radius: 5;
-    -fx-font-size: 15px;
+    -fx-font-size: 14px;
     -fx-background-color: rgba(74, 74, 74, 0.8); 
-    -fx-text-fill: #E0E0E0; /* Texto claro dentro de los campos */
+    -fx-text-fill: #FFFFFF;
     -fx-border-radius: 5;
-    -fx-border-color: #666; /* Bordes ligeramente más claros */
+    -fx-border-color: #666;
     -fx-border-width: 1px;
+    -fx-font-family: "Protest Strike";
+    -fx-alignment: center-left;
 }
+
 
 .titulo {
     -fx-font-family: "Protest Strike";
@@ -46,7 +49,7 @@ TextField, PasswordField , DatePicker{
 }
 
 
-TextField:focused, PasswordField:focused, DatePicker:focused {
+TextField:focused, PasswordField:focused {
     -fx-border-color: #8A2BE2; 
 }
 
@@ -59,6 +62,7 @@ Button {
     -fx-cursor: hand;
     -fx-pref-width: 330px;
     -fx-pref-height: 55px;
+    -fx-font-family: "Protest Strike";
 }
 
 Button:hover {
