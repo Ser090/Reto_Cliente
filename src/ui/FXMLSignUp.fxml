@@ -7,7 +7,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController" stylesheets="@estilos.css">
+<AnchorPane id="AnchorPane" prefHeight="850.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController" stylesheets="@estilos.css">
     <children>
         <GridPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                   hgap="10" vgap="10" alignment="center">
@@ -15,91 +15,92 @@
                 <ColumnConstraints halignment="center" /> 
                 <ColumnConstraints halignment="center" />
             </columnConstraints>
-            
-            <ImageView GridPane.rowIndex="0" fitWidth="40" fitHeight="40" >
+
+            <Label styleClass="titulo" text="Registro" GridPane.rowIndex="0" GridPane.columnSpan="2" />
+
+            <ImageView GridPane.rowIndex="1" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/usuario2.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="Nombre" />
-            
-            <ImageView GridPane.rowIndex="1" fitWidth="40" fitHeight="40">
+            <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Nombre" />
+
+            <ImageView GridPane.rowIndex="2" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/usuario3.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="surname1Field" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Primer Apellido" />
+            <TextField fx:id="surname1Field" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Primer Apellido" />
 
-            <ImageView GridPane.rowIndex="2" fitWidth="40" fitHeight="40">
+            <ImageView GridPane.rowIndex="3" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/usuario1.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="surname2Field" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Segundo Apellido" />
+            <TextField fx:id="surname2Field" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="Segundo Apellido" />
 
-            <ImageView GridPane.rowIndex="3" fitWidth="40" fitHeight="40">
+            <ImageView GridPane.rowIndex="4" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/email.png" />
                 </image>
-            </ImageView>            
-            <TextField fx:id="emailField" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="Correo Electrónico" />
+            </ImageView>
+            <TextField fx:id="emailField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="Correo Electrónico" />
 
-            <ImageView fx:id="errorImageEmail" GridPane.rowIndex="3" fitWidth="40" fitHeight="40" visible="false">
+            <ImageView fx:id="errorImageEmail" GridPane.rowIndex="4" fitWidth="40" fitHeight="40" visible="false">
                 <image>
                     <Image url="@../../resources/iconos/error.png" />
                 </image>
-            </ImageView>   
-             
-            <ImageView GridPane.rowIndex="4" fitWidth="40" fitHeight="40">
+            </ImageView>
+
+            <ImageView GridPane.rowIndex="5" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/contraseña.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="passwordField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="Contraseña" />
-            
-            <ImageView GridPane.rowIndex="5" fitWidth="40" fitHeight="40">
+            <PasswordField fx:id="passwordField" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="Contraseña" />
+
+            <ImageView GridPane.rowIndex="6" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/contraseñaconf.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="confirmpasswordField" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="Confirmar contraseña" />
+            <PasswordField fx:id="confirmpasswordField" GridPane.rowIndex="6" GridPane.columnIndex="1" promptText="Confirmar contraseña" />
 
-            <ImageView GridPane.rowIndex="6" fitWidth="40" fitHeight="40">
+            <ImageView GridPane.rowIndex="7" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/direccion.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="streetField" GridPane.rowIndex="6" GridPane.columnIndex="1" promptText="Dirección" />
+            <TextField fx:id="streetField" GridPane.rowIndex="7" GridPane.columnIndex="1" promptText="Dirección" />
 
-            <ImageView GridPane.rowIndex="7" fitWidth="40" fitHeight="40">
+            <ImageView GridPane.rowIndex="8" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/ciudad.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="cityField" GridPane.rowIndex="7" GridPane.columnIndex="1" promptText="Ciudad" />
+            <TextField fx:id="cityField" GridPane.rowIndex="8" GridPane.columnIndex="1" promptText="Ciudad" />
 
-            <ImageView GridPane.rowIndex="8" fitWidth="40" fitHeight="40">
+            <ImageView GridPane.rowIndex="9" fitWidth="40" fitHeight="40">
                 <image>
                     <Image url="@../../resources/iconos/cp.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="zipField" GridPane.rowIndex="8" GridPane.columnIndex="1" promptText="Código Postal" />
+            <TextField fx:id="zipField" GridPane.rowIndex="9" GridPane.columnIndex="1" promptText="Código Postal" />
 
-            <Label text="Activo:" GridPane.rowIndex="9" />
-            <CheckBox fx:id="activeCheckBox" GridPane.rowIndex="9" GridPane.columnIndex="1" selected="true" GridPane.halignment="LEFT" />
-         
-            <HBox fx:id="MensajeWarningbox" spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="10" GridPane.columnSpan="2"  visible="false">
-                <Label fx:id="MensajeWarning" text="No podrá hacer Login"  style="-fx-text-fill: #FFFF55;" />
+            <Label text="Activo:" GridPane.rowIndex="10" />
+            <CheckBox fx:id="activeCheckBox" GridPane.rowIndex="10" GridPane.columnIndex="1" selected="true" GridPane.halignment="LEFT" />
+
+            <HBox fx:id="MensajeWarningbox" spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="11" GridPane.columnSpan="2" visible="false">
+                <Label fx:id="MensajeWarning" text="No podrá hacer Login" style="-fx-text-fill: #FFFF55;" />
                 <ImageView fitWidth="40" fitHeight="40">
-                 <image>
-                         <Image url="@../../resources/iconos/warning.png" />
-                 </image>
+                    <image>
+                        <Image url="@../../resources/iconos/warning.png" />
+                    </image>
                 </ImageView>
             </HBox>
 
-            
-            <Button text="Registrar" GridPane.rowIndex="11" GridPane.columnSpan="2" maxWidth="Infinity" />
-            <Button text="Iniciar Sesión" GridPane.rowIndex="12" GridPane.columnSpan="2" maxWidth="Infinity" />
+            <Button text="Registrar" GridPane.rowIndex="12" GridPane.columnSpan="2" maxWidth="Infinity" />
+            <Button text="Iniciar Sesión" GridPane.rowIndex="13" GridPane.columnSpan="2" maxWidth="Infinity" />
         </GridPane>
     </children>
 </AnchorPane>
