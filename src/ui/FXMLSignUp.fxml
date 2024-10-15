@@ -1,106 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="850.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController" stylesheets="@estilos.css">
+<AnchorPane id="AnchorPane" prefHeight="850.0" prefWidth="800.0" maxHeight="850.0" maxWidth="800.0" minHeight="850.0" minWidth="800.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController">
     <children>
-        <GridPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-                  hgap="10" vgap="10" alignment="center">
+        <GridPane fx:id="gridPane" alignment="center" hgap="10" vgap="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <columnConstraints>
-                <ColumnConstraints halignment="center" /> 
-                <ColumnConstraints halignment="center" />
+                <ColumnConstraints halignment="CENTER" /> 
+                <ColumnConstraints halignment="CENTER" />
+                <ColumnConstraints halignment="CENTER" />
+                <ColumnConstraints halignment="CENTER" />
+                <ColumnConstraints halignment="CENTER" />
             </columnConstraints>
 
-            <Label styleClass="titulo" text="Registro" GridPane.rowIndex="0" GridPane.columnSpan="2" />
+            <Label styleClass="titulo" text="Registro" GridPane.columnSpan="2" GridPane.rowIndex="0" />
 
-            <ImageView GridPane.rowIndex="1" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="1">
                 <image>
-                    <Image url="@../../resources/iconos/usuario2.png" />
+                    <Image url="@../resources/iconos/usuario2.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Nombre" />
+            <TextField fx:id="nameField" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <ImageView GridPane.rowIndex="2" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="3">
                 <image>
-                    <Image url="@../../resources/iconos/usuario3.png" />
+                    <Image url="@../resources/iconos/usuario3.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="surname1Field" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Primer Apellido" />
+            <TextField fx:id="surname1Field" promptText="Primer Apellido" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-            <ImageView GridPane.rowIndex="3" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="4">
                 <image>
-                    <Image url="@../../resources/iconos/usuario1.png" />
+                    <Image url="@../resources/iconos/usuario1.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="surname2Field" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="Segundo Apellido" />
+            <TextField fx:id="surname2Field" promptText="Segundo Apellido" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-            <ImageView GridPane.rowIndex="4" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="5">
                 <image>
-                    <Image url="@../../resources/iconos/email.png" />
+                    <Image url="@../resources/iconos/email.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="emailField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="Correo Electrónico" />
+            <TextField fx:id="emailField" promptText="Correo Electrónico" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-            <ImageView fx:id="errorImageEmail" GridPane.rowIndex="4" fitWidth="40" fitHeight="40" visible="false">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="6">
                 <image>
-                    <Image url="@../../resources/iconos/error.png" />
+                    <Image url="@../resources/iconos/contraseña.png" />
                 </image>
             </ImageView>
+            <PasswordField fx:id="passwordField" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-            <ImageView GridPane.rowIndex="5" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="7">
                 <image>
-                    <Image url="@../../resources/iconos/contraseña.png" />
+                    <Image url="@../resources/iconos/contraseñaconf.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="passwordField" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="Contraseña" />
+            <PasswordField fx:id="confirmpasswordField" promptText="Confirmar contraseña" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-            <ImageView GridPane.rowIndex="6" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="8">
                 <image>
-                    <Image url="@../../resources/iconos/contraseñaconf.png" />
+                    <Image url="@../resources/iconos/direccion.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="confirmpasswordField" GridPane.rowIndex="6" GridPane.columnIndex="1" promptText="Confirmar contraseña" />
+            <TextField fx:id="streetField" promptText="Dirección" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-            <ImageView GridPane.rowIndex="7" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="9">
                 <image>
-                    <Image url="@../../resources/iconos/direccion.png" />
+                    <Image url="@../resources/iconos/ciudad.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="streetField" GridPane.rowIndex="7" GridPane.columnIndex="1" promptText="Dirección" />
+            <TextField fx:id="cityField" promptText="Ciudad" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-            <ImageView GridPane.rowIndex="8" fitWidth="40" fitHeight="40">
+            <ImageView fitHeight="40" fitWidth="40" GridPane.rowIndex="10">
                 <image>
-                    <Image url="@../../resources/iconos/ciudad.png" />
+                    <Image url="@../resources/iconos/cp.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="cityField" GridPane.rowIndex="8" GridPane.columnIndex="1" promptText="Ciudad" />
+            <TextField fx:id="zipField" promptText="Código Postal" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
-            <ImageView GridPane.rowIndex="9" fitWidth="40" fitHeight="40">
-                <image>
-                    <Image url="@../../resources/iconos/cp.png" />
-                </image>
-            </ImageView>
-            <TextField fx:id="zipField" GridPane.rowIndex="9" GridPane.columnIndex="1" promptText="Código Postal" />
+            <Label text="Activo:" GridPane.rowIndex="11" />
+            <CheckBox fx:id="activeCheckBox" selected="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="11" />
 
-            <Label text="Activo:" GridPane.rowIndex="10" />
-            <CheckBox fx:id="activeCheckBox" GridPane.rowIndex="10" GridPane.columnIndex="1" selected="true" GridPane.halignment="LEFT" />
-
-            <HBox fx:id="MensajeWarningbox" spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="11" GridPane.columnSpan="2" visible="false">
-                <Label fx:id="MensajeWarning" text="No podrá hacer Login" style="-fx-text-fill: #FFFF55;" />
-                <ImageView fitWidth="40" fitHeight="40">
+            <HBox fx:id="MensajeWarningbox" alignment="CENTER_LEFT" spacing="10" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                <Label fx:id="MensajeWarning" style="-fx-text-fill: #FFFF55;" text="No podrá hacer Login" />
+                <ImageView fitHeight="40" fitWidth="40">
                     <image>
-                        <Image url="@../../resources/iconos/warning.png" />
+                        <Image url="@/resources/iconos/warning.png" />
                     </image>
                 </ImageView>
             </HBox>
 
-            <Button text="Registrar" GridPane.rowIndex="12" GridPane.columnSpan="2" maxWidth="Infinity" />
-            <Button text="Iniciar Sesión" GridPane.rowIndex="13" GridPane.columnSpan="2" maxWidth="Infinity" />
+            <Button fx:id="btnRegistrar" maxWidth="Infinity" text="Registrar" GridPane.columnSpan="2" GridPane.rowIndex="13" onAction="#handleButtonRegistrar" />
+            <Button fx:id="btnCancelar" maxWidth="Infinity" text="Cancelar" GridPane.columnSpan="2" GridPane.rowIndex="14" />
+            
+            <ImageView fx:id="errorImageName" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="1" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImageSurname1" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="3" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImageSurname2" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="4" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImageEmail" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="5" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImagePass" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="6" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImagePassRepeat" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="7" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImageStreet" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT"  GridPane.columnIndex="2" GridPane.rowIndex="8" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImageCity" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="9" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="errorImageZip" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" GridPane.columnIndex="2" GridPane.rowIndex="10" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+            
+
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
         </GridPane>
     </children>
 </AnchorPane>

@@ -110,6 +110,10 @@ VBox {
     -fx-font-size: 20px;
 }
 
+.error-field {
+    -fx-border-color: red;
+}
+
 
 
 

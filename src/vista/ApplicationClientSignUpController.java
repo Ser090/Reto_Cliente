@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,7 +54,9 @@ public class ApplicationClientSignUpController implements Initializable {
     @FXML
     private CheckBox activeCheckBox;
     @FXML
-    private Button btAceptar;
+    private Button btnRegistrar;
+    @FXML
+    private Button btnCancelar;
     @FXML
     private GridPane gridPane;  // Asume que todos los campos están dentro de este GridPane
     @FXML
@@ -82,29 +85,10 @@ public class ApplicationClientSignUpController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Ocultar todas las imágenes de error inicialmente
-        errorImageName.setVisible(false);
-        errorImageSurname1.setVisible(false);
-        errorImageSurname2.setVisible(false);
-        errorImageEmail.setVisible(false);
-        errorImagePass.setVisible(false);
-        errorImagePassRepeat.setVisible(false);
-        errorImageStreet.setVisible(false);
-        errorImageCity.setVisible(false);
-        errorImageZip.setVisible(false);
-
         // Añadir listener a cada TextField o PasswordField en el GridPane
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof TextField) {
-                TextField textField = (TextField) node;
-                textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    hideErrorImage(textField);  // Ocultar la imagen de error y resetear el estilo
-                });
-            } else if (node instanceof PasswordField) {
-                PasswordField passwordField = (PasswordField) node;
-                passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    hideErrorImage(passwordField);  // Ocultar la imagen de error y resetear el estilo
-                });
+            if (node instanceof TextField || node instanceof PasswordField) {
+                node.setOnKeyTyped(event -> hideErrorImage(node));  // Ocultar error tan pronto como se escribe algo
             }
         }
     }
@@ -121,11 +105,12 @@ public class ApplicationClientSignUpController implements Initializable {
         try {
             LOGGER.info("Inicializando la carga del stage");
             Scene scene = new Scene(root);
+            scene.focusOwnerProperty();
             stage.setScene(scene);
             stage.setTitle("Registro de Usuario");
             stage.setResizable(false);
             stage.setOnShowing(this::handleWindowShowing);
-            btAceptar.addEventHandler(ActionEvent.ACTION, this::handleButtonAceptarAction);
+            btnRegistrar.addEventHandler(ActionEvent.ACTION, this::handleButtonRegistrar);
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al inicializar el stage", e);
@@ -136,99 +121,70 @@ public class ApplicationClientSignUpController implements Initializable {
         LOGGER.info("Mostrando Ventana de registro");
     }
 
-    private void hideErrorImage(Node node) {
-        // Restablecer el estilo del campo
-        node.setStyle("");
-
-        // Ocultar la imagen de error correspondiente
-        if (node == nameField) {
-            errorImageName.setVisible(false);
-        } else if (node == surname1Field) {
-            errorImageSurname1.setVisible(false);
-        } else if (node == surname2Field) {
-            errorImageSurname2.setVisible(false);
-        } else if (node == emailField) {
-            errorImageEmail.setVisible(false);
-        } else if (node == passwordField) {
-            errorImagePass.setVisible(false);
-        } else if (node == confirmpasswordField) {
-            errorImagePassRepeat.setVisible(false);
-        } else if (node == streetField) {
-            errorImageStreet.setVisible(false);
-        } else if (node == cityField) {
-            errorImageCity.setVisible(false);
-        } else if (node == zipField) {
-            errorImageZip.setVisible(false);
-        }
-    }
-
     @FXML
-    private void handleButtonAceptarAction(ActionEvent event) {
+    private void handleButtonRegistrar(ActionEvent event) {
         LOGGER.info("Botón Aceptar presionado");
-
-        // Llamar al método para comprobar que todos los campos están llenos
-        if (!areAllFieldsFilled()) {
-            LOGGER.severe("Error: Todos los campos deben ser completados.");
-            return;
-        }
-
         boolean hasError = false;
 
-        // Validar todos los campos
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof TextField) {
-                TextField textField = (TextField) node;
-                if (textField.getText().isEmpty()) {
-                    showErrorImage(textField); // Mostrar error y marcar el campo
-                    hasError = true;
-                }
-            } else if (node instanceof PasswordField) {
-                PasswordField passwordField = (PasswordField) node;
-                if (passwordField.getText().isEmpty()) {
-                    showErrorImage(passwordField); // Mostrar error y marcar el campo
-                    hasError = true;
+        // Verificar si todos los campos están llenos
+        if (!areAllFieldsFilled()) {
+            LOGGER.severe("Error: Todos los campos deben ser completados.");
+            for (Node node : gridPane.getChildren()) {
+                if (node instanceof TextField || node instanceof PasswordField) {
+                    if (((TextField) node).getText().isEmpty()) {
+                        showErrorImage(node); // Mostrar error y marcar el campo
+                        hasError = true;
+                    }
                 }
             }
+        } else {
+            // Validar campos específicos como contraseña y correo electrónico
+            if (!isValid(passwordField.getText(), PASSPATTERN)) {
+                showErrorImage(passwordField);
+                hasError = true;
+            }
+
+            if (!passwordField.getText().equals(confirmpasswordField.getText())) {
+                showErrorImage(confirmpasswordField);
+                hasError = true;
+            }
+
+            if (!isValid(emailField.getText(), EMAILPATTERN)) {
+                showErrorImage(emailField);
+                hasError = true;
+            }
+
+            // Si hay errores, no continuar
+            if (hasError) {
+                LOGGER.severe("Hay errores en el formulario.");
+                return;
+            }
+
+            // Si no hay errores, proceder con el registro
+            User user = new User(emailField.getText(), passwordField.getText(),
+                    nameField.getText() + " " + surname1Field.getText() + " " + surname2Field.getText(),
+                    streetField.getText(), zipField.getText(), cityField.getText(), activeCheckBox.isSelected());
+
+            LOGGER.info("Validación de campos correcta.");
+            messageManager(client.signUp(user));
         }
-
-        // Verificar validaciones específicas (contraseña, email, etc.)
-        if (!isValid(passwordField.getText(), PASSPATTERN)) {
-            passwordField.setStyle("-fx-border-color: red;");
-            errorImagePass.setVisible(true);
-            hasError = true;
-        }
-
-        if (!passwordField.getText().equals(confirmpasswordField.getText())) {
-            confirmpasswordField.setStyle("-fx-border-color: red;");
-            errorImagePassRepeat.setVisible(true);
-            hasError = true;
-        }
-
-        if (!isValid(emailField.getText(), EMAILPATTERN)) {
-            emailField.setStyle("-fx-border-color: red;");
-            errorImageEmail.setVisible(true);
-            hasError = true;
-        }
-
-        // Si hay errores, no continuar
-        if (hasError) {
-            LOGGER.severe("Hay errores en el formulario.");
-            return;
-        }
-
-        // Si no hay errores, proceder con el registro
-        User user = new User(emailField.getText(), passwordField.getText(),
-                nameField.getText() + " " + surname1Field.getText() + " " + surname2Field.getText(),
-                streetField.getText(), zipField.getText(), cityField.getText(), activeCheckBox.isSelected());
-
-        LOGGER.info("Validación de campos correcta.");
-        messageManager(client.signUp(user));
     }
 
     private void showErrorImage(Node node) {
-        // Marcar el campo con borde rojo y mostrar la imagen de error correspondiente
-        node.setStyle("-fx-border-color: red;");
+        Platform.runLater(() -> {
+            node.getStyleClass().add("error-field");  // Añadir clase CSS para marcar el error
+            showErrorIcon(node);  // Mostrar icono de error
+        });
+    }
 
+    private void hideErrorImage(Node node) {
+        Platform.runLater(() -> {
+            node.getStyleClass().remove("error-field");  // Eliminar clase CSS
+            hideErrorIcon(node);  // Ocultar el icono de error
+        });
+    }
+
+    private void showErrorIcon(Node node) {
         if (node == nameField) {
             errorImageName.setVisible(true);
         } else if (node == surname1Field) {
@@ -250,13 +206,35 @@ public class ApplicationClientSignUpController implements Initializable {
         }
     }
 
+    private void hideErrorIcon(Node node) {
+        if (node == nameField) {
+            errorImageName.setVisible(false);
+        } else if (node == surname1Field) {
+            errorImageSurname1.setVisible(false);
+        } else if (node == surname2Field) {
+            errorImageSurname2.setVisible(false);
+        } else if (node == emailField) {
+            errorImageEmail.setVisible(false);
+        } else if (node == passwordField) {
+            errorImagePass.setVisible(false);
+        } else if (node == confirmpasswordField) {
+            errorImagePassRepeat.setVisible(false);
+        } else if (node == streetField) {
+            errorImageStreet.setVisible(false);
+        } else if (node == cityField) {
+            errorImageCity.setVisible(false);
+        } else if (node == zipField) {
+            errorImageZip.setVisible(false);
+        }
+    }
+
     private void messageManager(Message message) {
         switch (message.getType()) {
             case OK_RESPONSE:
                 // Aviso de registro correcto y vuelta a la ventana de sign in
                 break;
             case SIGNUP_ERROR:
-                // Se aproducido un error al registrar al usuario
+                // Se ha producido un error al registrar al usuario
                 break;
             case LOGIN_EXIST_ERROR:
                 // El login está repetido, avisar al usuario
@@ -264,7 +242,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 errorImageEmail.setVisible(true);
                 break;
             case BAD_RESPONSE:
-                // Se aproducido un error al registrar al usuario
+                // Se ha producido un error al registrar al usuario
                 break;
             case SQL_ERROR:
                 // El servidor no está operativo, hable con sistemas
@@ -272,38 +250,18 @@ public class ApplicationClientSignUpController implements Initializable {
         }
     }
 
-    /**
-     * Valida si todos los campos del formulario están llenos.
-     *
-     * @return true si todos los campos están llenos, false en caso contrario.
-     */
     private boolean areAllFieldsFilled() {
-        // Recorre todos los nodos hijos del GridPane
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof TextField) {
-                TextField textField = (TextField) node;
-                if (textField.getText() == null || textField.getText().isEmpty()) {
-                    LOGGER.severe("Error: El campo " + textField.getPromptText() + " está vacío.");
-                    return false;
-                }
-            } else if (node instanceof PasswordField) {
-                PasswordField passwordField = (PasswordField) node;
-                if (passwordField.getText() == null || passwordField.getText().isEmpty()) {
-                    LOGGER.severe("Error: El campo " + passwordField.getPromptText() + " está vacío.");
+            if (node instanceof TextField || node instanceof PasswordField) {
+                if (((TextField) node).getText() == null || ((TextField) node).getText().isEmpty()) {
+                    LOGGER.severe("Error: El campo " + ((TextField) node).getPromptText() + " está vacío.");
                     return false;
                 }
             }
         }
-        return true;  // Todos los campos están llenos
+        return true;
     }
 
-    /**
-     * Valida si una cadena cumple con el patrón proporcionado.
-     *
-     * @param validacion El texto a validar.
-     * @param VALIDATOR El patrón con el que validar.
-     * @return true si la cadena cumple con el patrón, false en caso contrario.
-     */
     private Boolean isValid(String validacion, String VALIDATOR) {
         Pattern patron = Pattern.compile(VALIDATOR);
         Matcher matcher = patron.matcher(validacion);
