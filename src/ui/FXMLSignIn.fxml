@@ -8,18 +8,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="600.0" stylesheets="@estilos.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="vista.ApplicationClientSignInController">
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="750.0" stylesheets="@estilos.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="vista.ApplicationClientSignInController">
     <children>
         <VBox alignment="CENTER" layoutX="125.0" layoutY="71.0" spacing="20">
-                    <AnchorPane.topAnchor>50.0</AnchorPane.topAnchor>
-                    <AnchorPane.bottomAnchor>50.0</AnchorPane.bottomAnchor>
-                    <AnchorPane.leftAnchor>150.0</AnchorPane.leftAnchor>
-                    <AnchorPane.rightAnchor>150.0</AnchorPane.rightAnchor>
+            <AnchorPane.topAnchor>50.0</AnchorPane.topAnchor>
+            <AnchorPane.bottomAnchor>50.0</AnchorPane.bottomAnchor>
+            <AnchorPane.leftAnchor>150.0</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>150.0</AnchorPane.rightAnchor>
+            
             <Label styleClass="titulo" text="Iniciar Sesión" />
             <TextField fx:id="loginField" promptText="Login" />
             <PasswordField fx:id="passwordField" promptText="Contraseña" />
             <Button fx:id="loginButton" text="Iniciar Sesión" />
             <Label fx:id="errorLabel" styleClass="error" textFill="red" visible="false" />
+            
+            <Label fx:id="RegisterLinkText" text="No tienes cuenta? " styleClass="label-text" />
+            <Hyperlink fx:id="registerLink" text="Regístrate" styleClass="custom-hyperlink" />
+
         </VBox>
     </children>
 </AnchorPane>
