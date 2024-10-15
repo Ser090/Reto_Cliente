@@ -22,7 +22,6 @@ Label {
     -fx-text-fill: #FFFFFF; 
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-alignment: center;
     -fx-font-family: "Protest Strike";
 }
 
@@ -37,7 +36,9 @@ TextField, PasswordField {
     -fx-border-color: #666;
     -fx-border-width: 1px;
     -fx-font-family: "Protest Strike";
+    -fx-alignment: center-left;
 }
+
 
 .titulo {
     -fx-font-family: "Protest Strike";
