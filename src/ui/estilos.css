@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap');
 
 AnchorPane {
-    -fx-background-image: url('@/../../resources/img/fondo.jpg');
+    -fx-background-image: url('/resources/img/fondo.jpg');
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -15,7 +15,7 @@ GridPane {
     -fx-border-radius: 10;
     -fx-background-radius: 10;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
-    -fx-effect: gaussian-blur(10);
+    /*-fx-effect: gaussian-blur(10);*/
 }
 
 Label {
