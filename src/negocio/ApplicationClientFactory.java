@@ -50,23 +50,6 @@ public class ApplicationClientFactory {
         }
     }
 
-    //Ejemplo Modo JAVI
-    public void loadSignInWindow(Stage stage) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/FXMLSignIN.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setTitle("Inicio de Sesión");
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            showErrorDialog("No se pudo cargar la vista de Inicio de Sesión.");
-            e.printStackTrace();
-        }
-    }
-
     // Método para cargar la ventana de Registro (SignUp)
     public void loadSignUpWindowJavi(Stage stage) {
         try {

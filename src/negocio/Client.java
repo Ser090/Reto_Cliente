@@ -91,17 +91,6 @@ public class Client implements Signable {
         return response;
     }
 
-    @Override
-    public Message getCountries() {
-        connect();
-        Object object = Optional.ofNullable(this); //Permite que no sea nulo solo vacio
-        Message signInRequest = new Message(MessageType.SIGN_IN_REQUEST, object);
-        sendMessage(signInRequest);
-        Message response = receiveMessage();
-        closeConnection();
-        return response;
-    }
-
     //METODOS PRIVADOS
     private void sendMessage(Message message) {
         try {
