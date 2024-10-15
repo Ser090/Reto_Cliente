@@ -29,9 +29,18 @@ public class Client implements Signable {
     private String serverIP;
     private Integer serverPort;
 
-    public Client(String serverIP, Integer serverPort) {
-        this.serverIP = serverIP;
-        this.serverPort = serverPort;
+    public Client() {
+        this.serverIP = "127.0.0.1";
+        this.serverPort = 1234;
+    }
+
+    private static Client instance;
+
+    public static Client getInstance() {
+        if (instance == null) {
+            instance = new Client();
+        }
+        return instance;
     }
 
     public void connect() {

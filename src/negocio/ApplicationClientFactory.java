@@ -21,6 +21,7 @@ import vista.ApplicationClientSignUpController;
 public class ApplicationClientFactory {
 
     private static ApplicationClientFactory instance;
+    private static Client client;
 
     private ApplicationClientFactory() {
     }
@@ -28,6 +29,7 @@ public class ApplicationClientFactory {
     public static ApplicationClientFactory getInstance() {
         if (instance == null) {
             instance = new ApplicationClientFactory();
+            client = Client.getInstance();
         }
         return instance;
     }
@@ -72,7 +74,7 @@ public class ApplicationClientFactory {
             Parent root = loader.load();
             ApplicationClientSignUpController controller = (ApplicationClientSignUpController) loader.getController();
             Scene scene = new Scene(root);
-
+            controller.setClient(client);
             controller.setStage(stage);
             controller.initStage(root);
         } catch (IOException e) {
