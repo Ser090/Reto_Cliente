@@ -56,7 +56,6 @@ public class ApplicationClientFactory {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
             Parent root = loader.load();
             ApplicationClientSignUpController controller = (ApplicationClientSignUpController) loader.getController();
-            Scene scene = new Scene(root);
             controller.setClient(client);
             controller.setStage(stage);
             controller.initStage(root);
