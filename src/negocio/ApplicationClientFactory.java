@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import vista.ApplicationClientSignInController;
 import vista.ApplicationClientSignUpController;
 
 /**
@@ -34,18 +35,17 @@ public class ApplicationClientFactory {
         return instance;
     }
 
-    public void loadSignInWindow(Stage stage) {
+    public void loadSignInWindow(Stage stage, String login) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignIn.fxml"));
             Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setTitle("Inicio de Sesión");
-            stage.setScene(scene);
-            stage.show();
-
+            ApplicationClientSignInController controller = (ApplicationClientSignInController) loader.getController();
+            controller.setClient(client);
+            controller.setStage(stage);
+            controller.setLogin(login);
+            controller.initStage(root);
         } catch (IOException e) {
-            showErrorDialog("No se pudo cargar la vista de Inicio de Sesión.");
+            showErrorDialog("No se pudo cargar la vista de Registro.");
             e.printStackTrace();
         }
     }
