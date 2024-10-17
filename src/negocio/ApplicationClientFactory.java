@@ -45,7 +45,7 @@ public class ApplicationClientFactory {
             controller.setLogin(login);
             controller.initStage(root);
         } catch (IOException e) {
-            showErrorDialog("No se pudo cargar la vista de Registro.");
+            showErrorDialog("No se pudo cargar la vista de Inicio de Sesion.");
             e.printStackTrace();
         }
     }
