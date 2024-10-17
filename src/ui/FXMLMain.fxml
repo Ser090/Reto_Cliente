@@ -12,10 +12,10 @@
         <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <ImageView fx:id="LogoG2CAGE" fitWidth="200" fitHeight="200" preserveRatio="true">
                 <image>
-                    <Image url="@../../resources/img/logo_empresa.png" />
+                    <Image url="@../resources/img/logo_empresa.png" />
                 </image>
             </ImageView>
-            <Label text="¡Bienvenido!" fx:id="welcomeLabel" />
+            <Label text="¡Bienvenido! @usuario" fx:id="welcomeLabel" />
             <Button text="Cerrar Sesión" fx:id="logoutButton" />
         </VBox>
     </children>
