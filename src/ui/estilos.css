@@ -29,7 +29,7 @@ TextField, PasswordField {
     -fx-pref-width: 400px;
     -fx-padding: 15;
     -fx-background-radius: 5;
-    -fx-font-size: 14px;
+    -fx-font-size: 18px;
     -fx-background-color: rgba(74, 74, 74, 0.8);
     -fx-text-fill: #FFFFFF;
     -fx-border-radius: 5;
@@ -38,6 +38,7 @@ TextField, PasswordField {
     -fx-font-family: "Protest Strike";
     -fx-alignment: center-left;
 }
+
 
 
 .titulo {
@@ -113,6 +114,18 @@ VBox {
 .error-field {
     -fx-border-color: red;
 }
+
+Tooltip,.tooltip {
+    -fx-font-size: 20px; /* Cambia el tamaño aquí según tus necesidades */
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #FFFFFF; /* Opcional: Cambia el color del texto */
+    -fx-background-color: rgba(0, 0, 0, 0.8); /* Opcional: Fondo oscuro */
+    -fx-max-width: 250px;  /* Limita el ancho máximo */
+    -fx-wrap-text: true;   /* Ajusta el texto al ancho máximo */
+    -fx-padding: 10px;     /* Añade un relleno interno */
+}
+
 
 
 

@@ -20,7 +20,7 @@
             <HBox spacing="10">
                 <ImageView fitWidth="40" fitHeight="40">
                     <image>
-                        <Image url="@/resources/iconos/usuario2.png" /> 
+                        <Image url="@/resources/iconos/usuario2.png" />
                     </image>
                 </ImageView>
                 <TextField fx:id="loginField" promptText="Login" />
@@ -29,13 +29,13 @@
             <HBox spacing="10">
                 <ImageView fitWidth="40" fitHeight="40">
                     <image>
-                        <Image url="@/resources/iconos/contraseña.png" /> 
+                        <Image url="@/resources/iconos/contraseña.png" />
                     </image>
                 </ImageView>
                 <PasswordField fx:id="passwordField" promptText="Contraseña" />
             </HBox>
 
-            <Button fx:id="loginButton" text="Iniciar Sesión" />
+            <Button fx:id="loginButton"  text="Iniciar Sesión" />
 
             <Label fx:id="errorLabel" styleClass="error" textFill="red" visible="false" />
 
