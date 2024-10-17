@@ -126,6 +126,23 @@ Tooltip,.tooltip {
     -fx-padding: 10px;     /* Añade un relleno interno */
 }
 
+Button.mostrarPass {
+    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-pref-width: auto; /* Ancho automático para adaptarse al contenido */
+    -fx-pref-height: auto; /* Alto automático */
+    -fx-padding: 0; /* Sin padding para el botón */
+    -fx-cursor: hand; /* El cursor sigue siendo la mano al pasar por encima */
+}
+
+/* Opcional: puedes agregar un estilo específico para cuando los botones 'mostrarPass' se presionan o al pasar el cursor */
+Button.mostrarPass:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1); /* Un pequeño cambio de color al pasar el cursor */
+}
+
+Button.mostrarPass:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.2); /* Un pequeño cambio de color al presionar */
+}
+
 
 
 

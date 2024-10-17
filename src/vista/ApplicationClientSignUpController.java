@@ -119,7 +119,6 @@ public class ApplicationClientSignUpController implements Initializable {
                 + "-fx-max-width: 250px;"
                 + "-fx-wrap-text: true;"
                 + "-fx-padding: 10px;"
-                + "-fx-border-color: #ccc;"
                 + "-fx-border-width: 1;"
                 + "-fx-border-radius: 5;"
                 + "-fx-background-radius: 5;");

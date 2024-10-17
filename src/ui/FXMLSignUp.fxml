@@ -84,7 +84,7 @@
                 </tooltip>
             </PasswordField>
             <!-- Botón con imagen del ojo -->
-            <Button fx:id="toggleVisibilityButton1" translateX="135" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="RIGHT" onAction="#handleTogglePasswordVisibility" style="-fx-background-color: transparent;">
+            <Button fx:id="toggleVisibilityButton1" styleClass="mostrarPass" translateX = "175" GridPane.columnIndex="1" GridPane.rowIndex="5" onAction="#handleTogglePasswordVisibility" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView  fx:id="eyeIcon1" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
                         <image>
@@ -105,9 +105,9 @@
                 </tooltip>
             </PasswordField>
             <!-- Botón con imagen del ojo -->
-            <Button fx:id="toggleVisibilityButton2" translateX="135" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="RIGHT" onAction="#handleTogglePasswordVisibility" style="-fx-background-color: transparent;">
+            <Button fx:id="toggleVisibilityButton2" styleClass="mostrarPass" translateX = "175" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#handleTogglePasswordVisibility" style="-fx-background-color: transparent;">
                 <graphic>
-                    <ImageView  fx:id="eyeIcon2" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                    <ImageView  fx:id="eyeIcon2"  fitHeight="30" fitWidth="30"  pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../resources/iconos/visualizar.png" />
                         </image>
