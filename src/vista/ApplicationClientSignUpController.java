@@ -16,9 +16,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -37,6 +41,8 @@ public class ApplicationClientSignUpController implements Initializable {
     private ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
     private User user;
     private boolean hasError = false;
+    @FXML
+    private Label labelTitulo;
     @FXML
     private TextField nameField;
     @FXML
@@ -83,6 +89,12 @@ public class ApplicationClientSignUpController implements Initializable {
     private ImageView errorImageZip;
     @FXML
     private HBox warningbox;
+    @FXML
+    private Button toggleVisibilityButton1;
+    @FXML
+    private Button toggleVisibilityButton2;
+
+    private ContextMenu contextMenu;
 
     private Client client;
 
@@ -91,12 +103,80 @@ public class ApplicationClientSignUpController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // Crear el menú contextual personalizado
+        contextMenu = new ContextMenu();
+
+        // Añadir una clase de estilo para el menú contextual
+        contextMenu.getStyleClass().add("context-menu");
+        // Aplicar el mismo estilo que el Tooltip al ContextMenu
+        // Aplicar el mismo estilo que el Tooltip al ContextMenu
+        contextMenu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);"
+                + "-fx-text-fill: #FFFFFF;"
+                + "-fx-font-size: 20px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-font-family: 'Arial';"
+                + "-fx-max-width: 250px;"
+                + "-fx-wrap-text: true;"
+                + "-fx-padding: 10px;"
+                + "-fx-border-color: #ccc;"
+                + "-fx-border-width: 1;"
+                + "-fx-border-radius: 5;"
+                + "-fx-background-radius: 5;");
+        // Opción "Borrar campos"
+        MenuItem clearFieldsItem = new MenuItem("Borrar campos");
+        clearFieldsItem.setStyle("-fx-font-size: 20px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-font-family: 'Arial';"
+                + "-fx-text-fill: #FFFFFF;"
+                + "-fx-background-color: transparent;"
+                + "-fx-max-width: 250px;"
+                + "-fx-wrap-text: true;");
+        clearFieldsItem.setOnAction(event -> handleClearFields());
+
+        // Opción "Salir"
+        MenuItem exitItem = new MenuItem("Salir");
+        exitItem.setStyle("-fx-font-size: 20px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-font-family: 'Arial';"
+                + "-fx-text-fill: #FFFFFF;"
+                + "-fx-background-color: transparent;"
+                + "-fx-max-width: 250px;"
+                + "-fx-wrap-text: true;");
+        exitItem.setOnAction(event -> handleExit());
+
+        // Añadir las opciones personalizadas al menú contextual
+        contextMenu.getItems().addAll(clearFieldsItem, exitItem);
+
+        // Asignar el menú personalizado a cada campo de texto y eliminar el menú predeterminado
+        assignCustomContextMenu(nameField);
+        assignCustomContextMenu(surname1Field);
+        assignCustomContextMenu(surname2Field);
+        assignCustomContextMenu(emailField);
+        assignCustomContextMenu(streetField);
+        assignCustomContextMenu(cityField);
+        assignCustomContextMenu(zipField);
+        assignCustomContextMenu(passwordField);
+        assignCustomContextMenu(confirmpasswordField);
+
+        // Asignar el menú contextual al GridPane
+        gridPane.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(gridPane, event.getScreenX(), event.getScreenY());
+            }
+        });
+
         // Añadir listener a cada TextField o PasswordField en el GridPane
         for (Node node : gridPane.getChildren()) {
             if (node instanceof TextField || node instanceof PasswordField) {
                 node.setOnKeyTyped(event -> hideErrorImage(node));  // Ocultar error tan pronto como se escribe algo
             }
         }
+    }
+
+    private void assignCustomContextMenu(TextField textField) {
+        // Asignar el menú contextual personalizado y eliminar el predeterminado
+        textField.setContextMenu(contextMenu);
     }
 
     public void setClient(Client client) {
@@ -307,4 +387,35 @@ public class ApplicationClientSignUpController implements Initializable {
         Matcher matcher = patron.matcher(validacion);
         return matcher.matches();
     }
+
+    @FXML
+    private void handleClearFields() {
+        nameField.clear();
+        surname1Field.clear();
+        surname2Field.clear();
+        emailField.clear();
+        passwordField.clear();
+        confirmpasswordField.clear();
+        streetField.clear();
+        cityField.clear();
+        zipField.clear();
+        labelTitulo.requestFocus();
+    }
+
+    @FXML
+    private void handleExit() {
+        // Obtener el Stage a través del GridPane (o cualquier otro nodo de la ventana)
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();  // Cierra la ventana
+    }
+
+    @FXML
+    private void handleTogglePasswordVisibility(ActionEvent event) {
+
+    }
+
+    private void togglePasswordVisibility(PasswordField passwordField, TextField textField) {
+
+    }
+
 }
