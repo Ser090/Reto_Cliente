@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +25,6 @@ import javafx.stage.Stage;
 import negocio.ApplicationClientFactory;
 import negocio.Client;
 import utilidades.Message;
-import utilidades.MessageType;
 import utilidades.User;
 
 /**
@@ -149,7 +147,7 @@ public class ApplicationClientSignUpController implements Initializable {
     @FXML
     private void handleButtonRegistrar(ActionEvent event) {
         LOGGER.info("Botón Aceptar presionado");
-
+        hasError = false;
         // Verificar si todos los campos están llenos
         if (!areAllFieldsFilled()) {
             LOGGER.severe("Error: Todos los campos deben ser completados.");
