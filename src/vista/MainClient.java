@@ -23,7 +23,7 @@ public class MainClient extends Application {
         ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
 
         //factory.loadSignInWindow(stage, "");
-        factory.loadSignUpWindowJavi(stage);
+        factory.loadMainWindow(stage);
     }
 
     /**

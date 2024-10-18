@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import vista.ApplicationClientPrincipalController;
 import vista.ApplicationClientSignInController;
 import vista.ApplicationClientSignUpController;
 
@@ -69,11 +70,10 @@ public class ApplicationClientFactory {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLMain.fxml"));
             Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setTitle("Ventana Principal");
-            stage.setScene(scene);
-            stage.show();
+            ApplicationClientPrincipalController controller = (ApplicationClientPrincipalController) loader.getController();
+            controller.setClient(client);
+            controller.setStage(stage);
+            controller.initStage(root);
         } catch (IOException e) {
             showErrorDialog("No se pudo cargar la vista principal.");
             e.printStackTrace();

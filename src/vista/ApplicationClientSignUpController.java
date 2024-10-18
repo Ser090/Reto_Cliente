@@ -127,7 +127,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 + "-fx-border-radius: 5;"
                 + "-fx-background-radius: 5;");
         // Opción "Borrar campos"
-        MenuItem clearFieldsItem = new MenuItem("Borrar campos");
+        MenuItem clearFieldsItem = new MenuItem("Cerrar Sesión");
         clearFieldsItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
                 + "-fx-font-family: 'Protest Strike';"
