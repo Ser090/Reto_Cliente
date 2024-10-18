@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -51,6 +52,8 @@ public class ApplicationClientSignInController implements Initializable {
     private PasswordField passwordField;
     @FXML
     private Button loginButton;
+    @FXML
+    private Hyperlink registerLink;
     @FXML
     private GridPane gridPane;
     @FXML
@@ -89,6 +92,7 @@ public class ApplicationClientSignInController implements Initializable {
             stage.setOnShowing(this::handleWindowShowing);
             loginButton.setOnAction(null);
             loginButton.addEventHandler(ActionEvent.ACTION, this::handleButtonLoginButton);
+            registerLink.setOnAction(this::handleHyperLinkRegistry);
             //  scene.getStylesheets().add(getClass().getResource("estilos.css").toExternalForm());
             stage.show();
         } catch (Exception e) {
@@ -105,6 +109,11 @@ public class ApplicationClientSignInController implements Initializable {
 
     private void handleWindowShowing(javafx.event.Event event) {
         LOGGER.info("Mostrando Ventana de Inicio de Sesión");
+    }
+
+    @FXML
+    private void handleHyperLinkRegistry(ActionEvent event) {
+        ApplicationClientFactory.getInstance().loadSignUpWindowJavi(stage);
     }
 
     @FXML
