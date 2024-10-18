@@ -39,7 +39,19 @@
                 </image>
             </ImageView>
             <PasswordField fx:id="passwordField" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+            <TextField fx:id="passwordFieldVisual" promptText="Confirmar contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" visible="false">
 
+            </TextField>
+            <!-- Botón con imagen del ojo -->
+            <Button fx:id="toggleVisibilityButton" styleClass="mostrarPass" translateX = "163" GridPane.columnIndex="2" GridPane.rowIndex="2" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView  fx:id="eyeIcon2" styleClass="mostrarPassImage" fitHeight="30" fitWidth="30"  pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image fx:id="imagePassConfirm" url="@../resources/iconos/visualizar.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
             <!-- Botón de Iniciar Sesión -->
             <Button fx:id="loginButton" text="Iniciar Sesión" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" onAction="#handleButtonLoginButton"/>
 
