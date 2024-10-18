@@ -23,7 +23,9 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import negocio.ApplicationClientFactory;
@@ -51,6 +53,8 @@ public class ApplicationClientSignInController implements Initializable {
     @FXML
     private PasswordField passwordField;
     @FXML
+    private TextField passwordFieldVisual;
+    @FXML
     private Button loginButton;
     @FXML
     private Hyperlink registerLink;
@@ -60,6 +64,8 @@ public class ApplicationClientSignInController implements Initializable {
     private ImageView errorImageLogin;
     @FXML
     private ImageView errorImagePass;
+    @FXML
+    private Button toggleVisibilityButton;
 
     private final String EMAILPATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
     private final String PASSPATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9]).{9,}$";
@@ -94,6 +100,17 @@ public class ApplicationClientSignInController implements Initializable {
             loginButton.addEventHandler(ActionEvent.ACTION, this::handleButtonLoginButton);
             registerLink.setOnAction(this::handleHyperLinkRegistry);
             //  scene.getStylesheets().add(getClass().getResource("estilos.css").toExternalForm());
+            toggleVisibilityButton.setOnMousePressed(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    togglePasswordVisibility();
+                }
+            });
+
+            toggleVisibilityButton.setOnMouseReleased(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    togglePasswordVisibilityReleased();
+                }
+            });
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al inicializar el stage", e);
@@ -134,6 +151,7 @@ public class ApplicationClientSignInController implements Initializable {
             }
         } else {
             // Validar campos específicos como contraseña y correo electrónico
+            passwordField.setText(passwordField.getText().trim());
             if (!isValid(passwordField.getText(), PASSPATTERN)) {
                 showErrorImage(passwordField);
                 hasError = true;
@@ -242,5 +260,30 @@ public class ApplicationClientSignInController implements Initializable {
         } else if (node == passwordField) {
             errorImagePass.setVisible(false);
         }
+    }
+
+    private void togglePasswordVisibility() {
+
+        // Mostrar el TextField y ocultar el PasswordField
+        passwordFieldVisual.setText(passwordField.getText());  // Copiar contenido del PasswordField al TextField
+        passwordField.setVisible(false);
+        passwordFieldVisual.setVisible(true);
+
+        // Cambiar la imagen del botón a "mostrar"
+        ImageView imageView = (ImageView) toggleVisibilityButton.getGraphic();
+        imageView.setImage(new Image("resources/iconos/ocultar.png"));
+
+    }
+
+    private void togglePasswordVisibilityReleased() {
+
+        // Mostrar el PasswordField y ocultar el TextField
+        passwordField.setText(passwordFieldVisual.getText());  // Copiar contenido del TextField al PasswordField
+        passwordField.setVisible(true);
+        passwordFieldVisual.setVisible(false);
+
+        ImageView imageView = (ImageView) toggleVisibilityButton.getGraphic();
+        imageView.setImage(new Image("resources/iconos/visualizar.png"));
+
     }
 }

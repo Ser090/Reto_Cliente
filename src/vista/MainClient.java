@@ -21,6 +21,7 @@ public class MainClient extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
+
         //factory.loadSignInWindow(stage, "");
         factory.loadSignUpWindowJavi(stage);
     }

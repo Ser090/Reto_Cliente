@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
@@ -55,6 +56,10 @@ public class ApplicationClientSignUpController implements Initializable {
     private PasswordField passwordField;
     @FXML
     private PasswordField confirmpasswordField;
+    @FXML
+    private TextField passwordFieldVisual;
+    @FXML
+    private TextField confirmPasswordFieldVisual;
     @FXML
     private TextField streetField;
     @FXML
@@ -110,12 +115,11 @@ public class ApplicationClientSignUpController implements Initializable {
         // Añadir una clase de estilo para el menú contextual
         contextMenu.getStyleClass().add("context-menu");
         // Aplicar el mismo estilo que el Tooltip al ContextMenu
-        // Aplicar el mismo estilo que el Tooltip al ContextMenu
         contextMenu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);"
                 + "-fx-text-fill: #FFFFFF;"
-                + "-fx-font-size: 20px;"
+                + "-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
-                + "-fx-font-family: 'Arial';"
+                + "-fx-font-family: 'Protest Strike';"
                 + "-fx-max-width: 250px;"
                 + "-fx-wrap-text: true;"
                 + "-fx-padding: 10px;"
@@ -124,9 +128,9 @@ public class ApplicationClientSignUpController implements Initializable {
                 + "-fx-background-radius: 5;");
         // Opción "Borrar campos"
         MenuItem clearFieldsItem = new MenuItem("Borrar campos");
-        clearFieldsItem.setStyle("-fx-font-size: 20px;"
+        clearFieldsItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
-                + "-fx-font-family: 'Arial';"
+                + "-fx-font-family: 'Protest Strike';"
                 + "-fx-text-fill: #FFFFFF;"
                 + "-fx-background-color: transparent;"
                 + "-fx-max-width: 250px;"
@@ -135,9 +139,9 @@ public class ApplicationClientSignUpController implements Initializable {
 
         // Opción "Salir"
         MenuItem exitItem = new MenuItem("Salir");
-        exitItem.setStyle("-fx-font-size: 20px;"
+        exitItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
-                + "-fx-font-family: 'Arial';"
+                + "-fx-font-family: 'Protest Strike';"
                 + "-fx-text-fill: #FFFFFF;"
                 + "-fx-background-color: transparent;"
                 + "-fx-max-width: 250px;"
@@ -199,7 +203,28 @@ public class ApplicationClientSignUpController implements Initializable {
             /*Si alguna parte del código está corriendo en un hilo separado
             (por ejemplo, si llamas a un servicio remoto o una tarea asíncrona),
             asegúrate de que no estés haciendo la misma llamada varias veces de manera simultánea.*/
-            btnRegistrar.addEventHandler(ActionEvent.ACTION, this::handleButtonRegistrar);
+            btnRegistrar.addEventHandler(ActionEvent.ACTION, this::handleButtonRegister);
+            toggleVisibilityButton1.setOnMousePressed(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    togglePasswordVisibility(passwordField, passwordFieldVisual);
+                }
+            });
+            toggleVisibilityButton2.setOnMousePressed(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    togglePasswordVisibility(confirmpasswordField, confirmPasswordFieldVisual);
+                }
+            });
+
+            toggleVisibilityButton1.setOnMouseReleased(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    togglePasswordVisibilityReleased(passwordField, passwordFieldVisual);
+                }
+            });
+            toggleVisibilityButton2.setOnMouseReleased(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    togglePasswordVisibilityReleased(confirmpasswordField, confirmPasswordFieldVisual);
+                }
+            });
 
             stage.show();
         } catch (Exception e) {
@@ -224,7 +249,7 @@ public class ApplicationClientSignUpController implements Initializable {
     }
 
     @FXML
-    private void handleButtonRegistrar(ActionEvent event) {
+    private void handleButtonRegister(ActionEvent event) {
         LOGGER.info("Botón Aceptar presionado");
         hasError = false;
         // Verificar si todos los campos están llenos
@@ -240,12 +265,13 @@ public class ApplicationClientSignUpController implements Initializable {
                 }
             }
         } else {
+            passwordField.setText(passwordField.getText().trim());
             // Validar campos específicos como contraseña y correo electrónico
             if (!isValid(passwordField.getText(), PASSPATTERN)) {
                 showErrorImage(passwordField);
                 hasError = true;
             }
-
+            confirmpasswordField.setText(confirmpasswordField.getText().trim());
             if (!passwordField.getText().equals(confirmpasswordField.getText())) {
                 showErrorImage(confirmpasswordField);
                 hasError = true;
@@ -408,12 +434,38 @@ public class ApplicationClientSignUpController implements Initializable {
         stage.close();  // Cierra la ventana
     }
 
-    @FXML
-    private void handleTogglePasswordVisibility(ActionEvent event) {
+    private void togglePasswordVisibility(PasswordField passwordFieldParam, TextField textFieldParam) {
 
+        // Mostrar el TextField y ocultar el PasswordField
+        textFieldParam.setText(passwordFieldParam.getText());  // Copiar contenido del PasswordField al TextField
+        passwordFieldParam.setVisible(false);
+        textFieldParam.setVisible(true);
+
+        // Cambiar la imagen del botón a "mostrar"
+        if (passwordFieldParam == passwordField) {
+            ImageView imageView = (ImageView) toggleVisibilityButton1.getGraphic();
+            imageView.setImage(new Image("resources/iconos/ocultar.png"));
+        } else if (passwordFieldParam == confirmpasswordField) {
+            ImageView imageView = (ImageView) toggleVisibilityButton2.getGraphic();
+            imageView.setImage(new Image("resources/iconos/ocultar.png"));
+        }
     }
 
-    private void togglePasswordVisibility(PasswordField passwordField, TextField textField) {
+    private void togglePasswordVisibilityReleased(PasswordField passwordFieldParam, TextField textFieldParam) {
+
+        // Mostrar el PasswordField y ocultar el TextField
+        passwordFieldParam.setText(textFieldParam.getText());  // Copiar contenido del TextField al PasswordField
+        passwordFieldParam.setVisible(true);
+        textFieldParam.setVisible(false);
+
+        // Cambiar la imagen del botón a "ocultar"
+        if (passwordFieldParam == passwordField) {
+            ImageView imageView = (ImageView) toggleVisibilityButton1.getGraphic();
+            imageView.setImage(new Image("resources/iconos/visualizar.png"));
+        } else if (passwordFieldParam == confirmpasswordField) {
+            ImageView imageView = (ImageView) toggleVisibilityButton2.getGraphic();
+            imageView.setImage(new Image("resources/iconos/visualizar.png"));
+        }
 
     }
 
