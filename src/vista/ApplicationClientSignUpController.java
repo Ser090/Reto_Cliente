@@ -127,7 +127,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 + "-fx-border-radius: 5;"
                 + "-fx-background-radius: 5;");
         // Opción "Borrar campos"
-        MenuItem clearFieldsItem = new MenuItem("Cerrar Sesión");
+        MenuItem clearFieldsItem = new MenuItem("Borrar campos");
         clearFieldsItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
                 + "-fx-font-family: 'Protest Strike';"
@@ -264,24 +264,24 @@ public class ApplicationClientSignUpController implements Initializable {
                     }
                 }
             }
-        } else {
-            passwordField.setText(passwordField.getText().trim());
-            // Validar campos específicos como contraseña y correo electrónico
-            if (!isValid(passwordField.getText(), PASSPATTERN)) {
-                showErrorImage(passwordField);
-                hasError = true;
-            }
-            confirmpasswordField.setText(confirmpasswordField.getText().trim());
-            if (!passwordField.getText().equals(confirmpasswordField.getText())) {
-                showErrorImage(confirmpasswordField);
-                hasError = true;
-            }
-
-            if (!isValid(emailField.getText(), EMAILPATTERN)) {
-                showErrorImage(emailField);
-                hasError = true;
-            }
         }
+        passwordField.setText(passwordField.getText().trim());
+        // Validar campos específicos como contraseña y correo electrónico
+        if (!isValid(passwordField.getText(), PASSPATTERN)) {
+            showErrorImage(passwordField);
+            hasError = true;
+        }
+        confirmpasswordField.setText(confirmpasswordField.getText().trim());
+        if (!passwordField.getText().equals(confirmpasswordField.getText())) {
+            showErrorImage(confirmpasswordField);
+            hasError = true;
+        }
+
+        if (!isValid(emailField.getText(), EMAILPATTERN)) {
+            showErrorImage(emailField);
+            hasError = true;
+        }
+
         // Si hay errores, no continuar
         if (hasError) {
             LOGGER.severe("Hay errores en el formulario.");
