@@ -1,6 +1,15 @@
+<<<<<<< OURS
 /build.xml
 /manifest.mf
 /build/
 /dist/
 /lib/
+/src/dbserver/odooDev.properties
+=======
+/build.xml
+/manifest.mf
+/build/
+/dist/
+/lib/
+>>>>>>> THEIRS
 /nbproject/private/
