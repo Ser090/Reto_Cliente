@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import utilidades.User;
 import vista.ApplicationClientPrincipalController;
 import vista.ApplicationClientSignInController;
 import vista.ApplicationClientSignUpController;
@@ -52,7 +53,7 @@ public class ApplicationClientFactory {
     }
 
     // Método para cargar la ventana de Registro (SignUp)
-    public void loadSignUpWindowJavi(Stage stage) {
+    public void loadSignUpWindow(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
             Parent root = loader.load();
@@ -66,12 +67,13 @@ public class ApplicationClientFactory {
         }
     }
 
-    public void loadMainWindow(Stage stage) {
+    public void loadMainWindow(Stage stage, User user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLMain.fxml"));
             Parent root = loader.load();
             ApplicationClientPrincipalController controller = (ApplicationClientPrincipalController) loader.getController();
             controller.setClient(client);
+            controller.setUser(user);
             controller.setStage(stage);
             controller.initStage(root);
         } catch (IOException e) {

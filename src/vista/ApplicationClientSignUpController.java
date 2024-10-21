@@ -1,6 +1,7 @@
 package vista;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -104,7 +106,8 @@ public class ApplicationClientSignUpController implements Initializable {
     private Client client;
 
     private final String EMAILPATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-    private final String PASSPATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9]).{9,}$";
+    private final String PASSPATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[\\S]{9,}$";
+    private final String ZIPPATTERN = "^\\d{5}$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -199,11 +202,14 @@ public class ApplicationClientSignUpController implements Initializable {
             stage.setTitle("Registro de Usuario");
             stage.setResizable(false);
             stage.setOnShowing(this::handleWindowShowing);
-            btnRegistrar.setOnAction(null);  // Eliminar cualquier manejador anterior
+            btnRegistrar.setOnAction(null);
+            btnCancelar.setOnAction(null);// Eliminar cualquier manejador anterior
             /*Si alguna parte del código está corriendo en un hilo separado
             (por ejemplo, si llamas a un servicio remoto o una tarea asíncrona),
             asegúrate de que no estés haciendo la misma llamada varias veces de manera simultánea.*/
             btnRegistrar.addEventHandler(ActionEvent.ACTION, this::handleButtonRegister);
+            btnCancelar.addEventHandler(ActionEvent.ACTION, this::handleButtonCancel);
+            activeCheckBox.addEventHandler(ActionEvent.ACTION, this::handleActiveCheckBoxChange);
             toggleVisibilityButton1.setOnMousePressed(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     togglePasswordVisibility(passwordField, passwordFieldVisual);
@@ -240,8 +246,8 @@ public class ApplicationClientSignUpController implements Initializable {
 
     }
 
-    private void showErrorDialog(String message) {
-        Alert alert = new Alert(AlertType.ERROR);
+    private void showErrorDialog(AlertType type, String message) {
+        Alert alert = new Alert(type);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -255,7 +261,6 @@ public class ApplicationClientSignUpController implements Initializable {
         // Verificar si todos los campos están llenos
         if (!areAllFieldsFilled()) {
             LOGGER.severe("Error: Todos los campos deben ser completados.");
-            showErrorDialog("Todos los campos deben ser rellenados.");
             for (Node node : gridPane.getChildren()) {
                 if (node instanceof TextField || node instanceof PasswordField) {
                     if (((TextField) node).getText().isEmpty()) {
@@ -281,11 +286,16 @@ public class ApplicationClientSignUpController implements Initializable {
             showErrorImage(emailField);
             hasError = true;
         }
+        if (!isValid(zipField.getText(), ZIPPATTERN)) {
+            showErrorImage(zipField);
+            hasError = true;
+        }
 
         // Si hay errores, no continuar
         if (hasError) {
             LOGGER.severe("Hay errores en el formulario.");
             // Volver a habilitar el botón si hay errores
+            showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.");
             btnRegistrar.setDisable(false);
             return;
         } else {
@@ -299,6 +309,22 @@ public class ApplicationClientSignUpController implements Initializable {
             messageManager(response);
         }
 
+    }
+
+    @FXML
+    private void handleButtonCancel(ActionEvent event) {
+        // Crear la alerta de confirmación
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Estás seguro de que deseas cancelar?");
+
+        // Obtener la respuesta del usuario
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Si el usuario confirma, realizar la acción de cancelar
+            factory.loadSignInWindow(stage, "");
+        }
     }
 
     @FXML
@@ -373,23 +399,25 @@ public class ApplicationClientSignUpController implements Initializable {
             case OK_RESPONSE:
                 // Aviso de registro correcto y vuelta a la ventana de sign in
                 btnRegistrar.setDisable(true);
-                new Alert(AlertType.CONFIRMATION, "El registro se ha realizado con éxito.").showAndWait();
+                showErrorDialog(AlertType.CONFIRMATION, "El registro se ha realizado con éxito.");
                 factory.loadSignInWindow(stage, user.getLogin());
-
                 break;
             case SIGNUP_ERROR:
-                // Se ha producido un error al registrar al usuario
+                showErrorDialog(AlertType.ERROR, "Correo electrónico (login) y/o contraseña incorrectas.");
                 break;
             case LOGIN_EXIST_ERROR:
-                // El login está repetido, avisar al usuario
+                showErrorDialog(AlertType.ERROR, "El correo electronico ya existe en la base de datos.");
                 emailField.setStyle("-fx-border-color: red;");
                 errorImageEmail.setVisible(true);
                 break;
             case BAD_RESPONSE:
-                // Se ha producido un error al registrar al usuario
+                showErrorDialog(AlertType.ERROR, "Error interno de la base de datos, inténtelo de nuevo...");
                 break;
             case SQL_ERROR:
-                // El servidor no está operativo, hable con sistemas
+                showErrorDialog(AlertType.ERROR, "Error al introducir los datos en la base de datos, inténtelo de nuevo...");
+                break;
+            case CONNECTION_ERROR:
+                showErrorDialog(AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...");
                 break;
         }
     }
@@ -449,6 +477,9 @@ public class ApplicationClientSignUpController implements Initializable {
             ImageView imageView = (ImageView) toggleVisibilityButton2.getGraphic();
             imageView.setImage(new Image("resources/iconos/ocultar.png"));
         }
+        // Recuperar el foco y colocar el cursor al final del texto sin seleccionar todo
+        textFieldParam.requestFocus();
+        textFieldParam.positionCaret(textFieldParam.getText().length());
     }
 
     private void togglePasswordVisibilityReleased(PasswordField passwordFieldParam, TextField textFieldParam) {
@@ -466,6 +497,9 @@ public class ApplicationClientSignUpController implements Initializable {
             ImageView imageView = (ImageView) toggleVisibilityButton2.getGraphic();
             imageView.setImage(new Image("resources/iconos/visualizar.png"));
         }
+        // Recuperar el foco y colocar el cursor al final del texto sin seleccionar todo
+        passwordFieldParam.requestFocus();
+        passwordFieldParam.positionCaret(passwordFieldParam.getText().length());
 
     }
 

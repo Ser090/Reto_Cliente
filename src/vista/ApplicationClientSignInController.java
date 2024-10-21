@@ -130,7 +130,7 @@ public class ApplicationClientSignInController implements Initializable {
 
     @FXML
     private void handleHyperLinkRegistry(ActionEvent event) {
-        ApplicationClientFactory.getInstance().loadSignUpWindowJavi(stage);
+        ApplicationClientFactory.getInstance().loadSignUpWindow(stage);
     }
 
     @FXML
@@ -169,13 +169,13 @@ public class ApplicationClientSignInController implements Initializable {
             loginButton.setDisable(false);
             return;
         } else {
-            // Si no hay errores, proceder con el registro
+            // Si no hay errores, proceder con el formulario
             user = new User();
             user.setLogin(loginField.getText());
             user.setPass(passwordField.getText());
 
             LOGGER.info("Validación de campos correcta.");
-            Message response = client.signUp(user);
+            Message response = client.signIn(user);
             messageManager(response);
         }
 
@@ -186,23 +186,20 @@ public class ApplicationClientSignInController implements Initializable {
             case OK_RESPONSE:
                 // Aviso de registro correcto y vuelta a la ventana de sign in
                 loginButton.setDisable(true);
-                new Alert(Alert.AlertType.CONFIRMATION, "El registro se ha realizado con éxito.").showAndWait();
-                factory.loadSignInWindow(stage, user.getLogin());
-
+                factory.loadMainWindow(stage, (User) message.getObject());
                 break;
-            case SIGNUP_ERROR:
-                // Se ha producido un error al registrar al usuario
-                break;
-            case LOGIN_EXIST_ERROR:
-                // El login está repetido, avisar al usuario
+            case SIGNIN_ERROR:
                 loginField.setStyle("-fx-border-color: red;");
+                passwordField.setStyle("-fx-border-color: red;");
                 errorImageLogin.setVisible(true);
+                errorImagePass.setVisible(true);
+                new Alert(Alert.AlertType.ERROR, "El correo electrónico (login) y/o la contraseña incorrect@/s").showAndWait();
                 break;
             case BAD_RESPONSE:
-                // Se ha producido un error al registrar al usuario
+                new Alert(Alert.AlertType.ERROR, "Error interno de la base de datos, inténtelo de nuevo...").showAndWait();
                 break;
-            case SQL_ERROR:
-                // El servidor no está operativo, hable con sistemas
+            case CONNECTION_ERROR:
+                new Alert(Alert.AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...").showAndWait();
                 break;
         }
     }

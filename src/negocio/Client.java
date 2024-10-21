@@ -15,6 +15,7 @@ import utilidades.Message;
 import utilidades.MessageType;
 import utilidades.Signable;
 import utilidades.User;
+import vista.ApplicationClientSignUpController;
 
 /**
  *
@@ -22,6 +23,7 @@ import utilidades.User;
  */
 public class Client implements Signable {
 
+    private static final Logger LOGGER = Logger.getLogger(Client.class.getName());
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -48,7 +50,7 @@ public class Client implements Signable {
             socket = new Socket(serverIP, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-            Logger.getLogger("Conectado al servidor en " + serverIP + ":" + serverPort);
+            LOGGER.getLogger("Conectado al servidor en " + serverIP + ":" + serverPort);
         } catch (IOException e) {
             e.fillInStackTrace();
         }
@@ -85,6 +87,7 @@ public class Client implements Signable {
     public Message signIn(User user) {
         connect();
         Message signInRequest = new Message(MessageType.SIGN_IN_REQUEST, user);
+        System.out.println("Pre mandar error.");
         sendMessage(signInRequest);
         Message response = receiveMessage();
         closeConnection();
@@ -96,19 +99,19 @@ public class Client implements Signable {
         try {
             outputStream.writeObject(message);
             outputStream.flush();
-            Logger.getLogger("Mensaje enviado al servidor: " + message);
+            LOGGER.getLogger("Mensaje enviado al servidor: " + message);
         } catch (IOException e) {
-            Logger.getLogger("Error al enviar mensaje al servidor: " + e.getMessage());
+            LOGGER.getLogger("Error al enviar mensaje al servidor: " + e.getMessage());
         }
     }
 
     private Message receiveMessage() {
         try {
             Message message = (Message) inputStream.readObject();
-            Logger.getLogger("Mensaje recibido del servidor: " + message);
+            LOGGER.getLogger("Mensaje recibido del servidor: " + message);
             return message;
         } catch (IOException | ClassNotFoundException e) {
-            Logger.getLogger("Error al recibir mensaje del servidor: " + e.getMessage());
+            LOGGER.getLogger("Error al recibir mensaje del servidor: " + e.getMessage());
             return null;
         }
     }
