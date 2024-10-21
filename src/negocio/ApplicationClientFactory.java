@@ -6,6 +6,7 @@
 package negocio;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ import vista.ApplicationClientSignUpController;
  */
 public class ApplicationClientFactory {
 
+    private static final Logger LOGGER = Logger.getLogger(ApplicationClientFactory.class.getName());
     private static ApplicationClientFactory instance;
     private static Client client;
 
@@ -47,8 +49,9 @@ public class ApplicationClientFactory {
             controller.setLogin(login);
             controller.initStage(root);
         } catch (IOException e) {
+            LOGGER.severe("Abriendo ventana SignIn: " + e.getMessage());
             showErrorDialog("No se pudo cargar la vista de Inicio de Sesion.");
-            e.printStackTrace();
+
         }
     }
 
@@ -62,8 +65,9 @@ public class ApplicationClientFactory {
             controller.setStage(stage);
             controller.initStage(root);
         } catch (IOException e) {
+            LOGGER.severe("Abriendo ventana SignUp: " + e.getMessage());
             showErrorDialog("No se pudo cargar la vista de Registro.");
-            e.printStackTrace();
+
         }
     }
 
@@ -77,8 +81,9 @@ public class ApplicationClientFactory {
             controller.setStage(stage);
             controller.initStage(root);
         } catch (IOException e) {
+            LOGGER.severe("Abriendo ventana Main: " + e.getMessage());
             showErrorDialog("No se pudo cargar la vista principal.");
-            e.printStackTrace();
+
         }
     }
 

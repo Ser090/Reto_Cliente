@@ -297,7 +297,6 @@ public class ApplicationClientSignUpController implements Initializable {
             // Volver a habilitar el botón si hay errores
             showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.");
             btnRegistrar.setDisable(false);
-            return;
         } else {
             // Si no hay errores, proceder con el registro
             user = new User(emailField.getText(), passwordField.getText(),
@@ -424,7 +423,7 @@ public class ApplicationClientSignUpController implements Initializable {
 
     private boolean areAllFieldsFilled() {
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof TextField || node instanceof PasswordField) {
+            if ((node instanceof TextField || node instanceof PasswordField) && (node != passwordFieldVisual) && (node != confirmPasswordFieldVisual)) {
                 if (((TextField) node).getText() == null || ((TextField) node).getText().isEmpty()) {
                     LOGGER.severe("Error: El campo " + ((TextField) node).getPromptText() + " está vacío.");
 

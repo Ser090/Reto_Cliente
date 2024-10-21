@@ -274,12 +274,18 @@ public class ApplicationClientSignInController implements Initializable {
             case CONNECTION_ERROR:
                 showErrorDialog(Alert.AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...");
                 break;
+            case NON_ACTIVE:
+                showErrorDialog(Alert.AlertType.ERROR, "El usuario introducido esta desactivado, no puede hacer login.");
+                break;
+            default:
+                showErrorDialog(Alert.AlertType.ERROR, "No hay señal del servidor.");
+                break;
         }
     }
 
     private boolean areAllFieldsFilled() {
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof TextField || node instanceof PasswordField) {
+            if ((node instanceof TextField || node instanceof PasswordField) && (node != passwordFieldVisual)) {
                 if (((TextField) node).getText() == null || ((TextField) node).getText().isEmpty()) {
                     LOGGER.severe("Error: El campo " + ((TextField) node).getPromptText() + " está vacío.");
                     return false;
