@@ -9,13 +9,26 @@
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientPrincipalController" stylesheets="@estilos.css">
     <children>
-        <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <!-- MenuBar en la parte superior -->
+        <MenuBar AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <menus>
+                <!-- Menú "App" -->
+                <Menu text="App">
+                    <!-- Submenú con las opciones "Cerrar Sesión" y "Salir" -->
+                    <MenuItem text="Cerrar Sesión" fx:id="menuCerrarSesion"/>
+                    <MenuItem text="Salir" fx:id="menuSalir"/>
+                </Menu>
+            </menus>
+        </MenuBar>
+
+        <!-- Contenido principal centrado -->
+        <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="30.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <ImageView fx:id="LogoG2CAGE" fitWidth="200" fitHeight="200" preserveRatio="true">
                 <image>
                     <Image url="@../../resources/img/logo_empresa.png" />
                 </image>
             </ImageView>
-            <Label text="¡Bienvenido!" fx:id="welcomeLabel" />
+            <Label text="¡Bienvenido! @usuario" fx:id="welcomeLabel" />
             <Button text="Cerrar Sesión" fx:id="logoutButton" />
         </VBox>
     </children>
