@@ -18,9 +18,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -67,17 +70,88 @@ public class ApplicationClientSignInController implements Initializable {
     @FXML
     private Button toggleVisibilityButton;
 
+    private ContextMenu contextMenu;
+
     private final String EMAILPATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
     private final String PASSPATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9]).{9,}$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Crear el menú contextual personalizado
+        contextMenu = new ContextMenu();
+
+        // Añadir una clase de estilo para el menú contextual
+        contextMenu.getStyleClass().add("context-menu");
+        // Aplicar el mismo estilo que el Tooltip al ContextMenu
+        contextMenu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);"
+                + "-fx-text-fill: #FFFFFF;"
+                + "-fx-font-size: 18px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-font-family: 'Protest Strike';"
+                + "-fx-max-width: 250px;"
+                + "-fx-wrap-text: true;"
+                + "-fx-padding: 10px;"
+                + "-fx-border-width: 1;"
+                + "-fx-border-radius: 5;"
+                + "-fx-background-radius: 5;");
+        // Opción "Borrar campos"
+        MenuItem clearFieldsItem = new MenuItem("Borrar campos");
+        clearFieldsItem.setStyle("-fx-font-size: 18px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-font-family: 'Protest Strike';"
+                + "-fx-text-fill: #FFFFFF;"
+                + "-fx-background-color: transparent;"
+                + "-fx-max-width: 250px;"
+                + "-fx-wrap-text: true;");
+        clearFieldsItem.setOnAction(event -> handleClearFields());
+
+        // Opción "Salir"
+        MenuItem exitItem = new MenuItem("Salir");
+        exitItem.setStyle("-fx-font-size: 18px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-font-family: 'Protest Strike';"
+                + "-fx-text-fill: #FFFFFF;"
+                + "-fx-background-color: transparent;"
+                + "-fx-max-width: 250px;"
+                + "-fx-wrap-text: true;");
+        exitItem.setOnAction(event -> handleExit());
+
+        // Añadir las opciones personalizadas al menú contextual
+        contextMenu.getItems().addAll(clearFieldsItem, exitItem);
+
+        // Asignar el menú personalizado a cada campo de texto y eliminar el menú predeterminado
+        assignCustomContextMenu(loginField);
+        assignCustomContextMenu(passwordField);
+
+        // Asignar el menú contextual al GridPane
+        gridPane.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(gridPane, event.getScreenX(), event.getScreenY());
+            }
+        });
         // Añadir listener a cada TextField o PasswordField en el GridPane
         for (Node node : gridPane.getChildren()) {
             if (node instanceof TextField || node instanceof PasswordField) {
                 node.setOnKeyTyped(event -> hideErrorImage(node));  // Ocultar error tan pronto como se escribe algo
             }
         }
+    }
+
+    private void handleExit() {
+        // Obtener el Stage a través del GridPane (o cualquier otro nodo de la ventana)
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();  // Cierra la ventana
+    }
+
+    private void assignCustomContextMenu(TextField textField) {
+        // Asignar el menú contextual personalizado y eliminar el predeterminado
+        textField.setContextMenu(contextMenu);
+    }
+
+    private void handleClearFields() {
+        loginField.clear();
+        passwordField.clear();
+        label.requestFocus();
     }
 
     public void setClient(Client client) {
@@ -130,17 +204,17 @@ public class ApplicationClientSignInController implements Initializable {
 
     @FXML
     private void handleHyperLinkRegistry(ActionEvent event) {
-        ApplicationClientFactory.getInstance().loadSignUpWindowJavi(stage);
+        ApplicationClientFactory.getInstance().loadSignUpWindow(stage);
     }
 
     @FXML
     private void handleButtonLoginButton(ActionEvent event) {
         LOGGER.info("Botón Aceptar presionado");
-
+        hasError = false;
         // Verificar si todos los campos están llenos
         if (!areAllFieldsFilled()) {
             LOGGER.severe("Error: Todos los campos deben ser completados.");
-            showErrorDialog("Todos los campos deben ser rellenados.");
+            showErrorDialog(Alert.AlertType.ERROR, "Todos los campos deben ser rellenados.");
             for (Node node : gridPane.getChildren()) {
                 if (node instanceof TextField || node instanceof PasswordField) {
                     if (((TextField) node).getText().isEmpty()) {
@@ -167,15 +241,14 @@ public class ApplicationClientSignInController implements Initializable {
             LOGGER.severe("Hay errores en el formulario.");
             // Volver a habilitar el botón si hay errores
             loginButton.setDisable(false);
-            return;
         } else {
-            // Si no hay errores, proceder con el registro
+            // Si no hay errores, proceder con el formulario
             user = new User();
             user.setLogin(loginField.getText());
             user.setPass(passwordField.getText());
 
             LOGGER.info("Validación de campos correcta.");
-            Message response = client.signUp(user);
+            Message response = client.signIn(user);
             messageManager(response);
         }
 
@@ -183,33 +256,36 @@ public class ApplicationClientSignInController implements Initializable {
 
     private void messageManager(Message message) {
         switch (message.getType()) {
-            case OK_RESPONSE:
+            case LOGIN_OK:
                 // Aviso de registro correcto y vuelta a la ventana de sign in
                 loginButton.setDisable(true);
-                new Alert(Alert.AlertType.CONFIRMATION, "El registro se ha realizado con éxito.").showAndWait();
-                factory.loadSignInWindow(stage, user.getLogin());
-
+                factory.loadMainWindow(stage, (User) message.getObject());
                 break;
-            case SIGNUP_ERROR:
-                // Se ha producido un error al registrar al usuario
-                break;
-            case LOGIN_EXIST_ERROR:
-                // El login está repetido, avisar al usuario
+            case SIGNIN_ERROR:
                 loginField.setStyle("-fx-border-color: red;");
+                passwordField.setStyle("-fx-border-color: red;");
                 errorImageLogin.setVisible(true);
+                errorImagePass.setVisible(true);
+                showErrorDialog(Alert.AlertType.ERROR, "El correo electrónico (login) y/o la contraseña incorrect@/s");
                 break;
             case BAD_RESPONSE:
-                // Se ha producido un error al registrar al usuario
+                showErrorDialog(Alert.AlertType.ERROR, "Error interno de la base de datos, inténtelo de nuevo...");
                 break;
-            case SQL_ERROR:
-                // El servidor no está operativo, hable con sistemas
+            case CONNECTION_ERROR:
+                showErrorDialog(Alert.AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...");
+                break;
+            case NON_ACTIVE:
+                showErrorDialog(Alert.AlertType.ERROR, "El usuario introducido esta desactivado, no puede hacer login.");
+                break;
+            default:
+                showErrorDialog(Alert.AlertType.ERROR, "No hay señal del servidor.");
                 break;
         }
     }
 
     private boolean areAllFieldsFilled() {
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof TextField || node instanceof PasswordField) {
+            if ((node instanceof TextField || node instanceof PasswordField) && (node != passwordFieldVisual)) {
                 if (((TextField) node).getText() == null || ((TextField) node).getText().isEmpty()) {
                     LOGGER.severe("Error: El campo " + ((TextField) node).getPromptText() + " está vacío.");
                     return false;
@@ -219,8 +295,8 @@ public class ApplicationClientSignInController implements Initializable {
         return true;
     }
 
-    private void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    private void showErrorDialog(AlertType type, String message) {
+        Alert alert = new Alert(type);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);

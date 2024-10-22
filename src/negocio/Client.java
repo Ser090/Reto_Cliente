@@ -15,6 +15,7 @@ import utilidades.Message;
 import utilidades.MessageType;
 import utilidades.Signable;
 import utilidades.User;
+import vista.ApplicationClientSignUpController;
 
 /**
  *
@@ -22,6 +23,7 @@ import utilidades.User;
  */
 public class Client implements Signable {
 
+    private static final Logger LOGGER = Logger.getLogger(Client.class.getName());
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -48,9 +50,9 @@ public class Client implements Signable {
             socket = new Socket(serverIP, serverPort);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-            Logger.getLogger("Conectado al servidor en " + serverIP + ":" + serverPort);
+            LOGGER.info("Conectado al servidor en " + serverIP + ":" + serverPort);
         } catch (IOException e) {
-            e.fillInStackTrace();
+            LOGGER.severe("Al abrir conexión. " + e.getMessage());
         }
     }
 
@@ -58,10 +60,10 @@ public class Client implements Signable {
         try {
             if (socket != null) {
                 socket.close();
-                Logger.getLogger("Conexion Cerrada.");
+                LOGGER.info("Conexion Cerrada.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe("Al cerrar conexión. " + e.getMessage());
         }
     }
 
@@ -96,19 +98,19 @@ public class Client implements Signable {
         try {
             outputStream.writeObject(message);
             outputStream.flush();
-            Logger.getLogger("Mensaje enviado al servidor: " + message);
+            LOGGER.info("Mensaje enviado al servidor: " + message);
         } catch (IOException e) {
-            Logger.getLogger("Error al enviar mensaje al servidor: " + e.getMessage());
+            LOGGER.severe("Al enviar mensaje al servidor: " + e.getMessage());
         }
     }
 
     private Message receiveMessage() {
         try {
             Message message = (Message) inputStream.readObject();
-            Logger.getLogger("Mensaje recibido del servidor: " + message);
+            LOGGER.info("Mensaje recibido del servidor: " + message);
             return message;
         } catch (IOException | ClassNotFoundException e) {
-            Logger.getLogger("Error al recibir mensaje del servidor: " + e.getMessage());
+            LOGGER.severe("Al recibir mensaje del servidor: " + e.getMessage());
             return null;
         }
     }

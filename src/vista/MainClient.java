@@ -6,9 +6,6 @@
 package vista;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import negocio.ApplicationClientFactory;
 
@@ -22,8 +19,7 @@ public class MainClient extends Application {
     public void start(Stage stage) throws Exception {
         ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
 
-        factory.loadSignUpWindowJavi(stage);
-        //factory.loadMainWindow(stage);
+        factory.loadSignInWindow(stage, "");
     }
 
     /**

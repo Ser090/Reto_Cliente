@@ -6,12 +6,14 @@
 package negocio;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import utilidades.User;
 import vista.ApplicationClientPrincipalController;
 import vista.ApplicationClientSignInController;
 import vista.ApplicationClientSignUpController;
@@ -22,6 +24,7 @@ import vista.ApplicationClientSignUpController;
  */
 public class ApplicationClientFactory {
 
+    private static final Logger LOGGER = Logger.getLogger(ApplicationClientFactory.class.getName());
     private static ApplicationClientFactory instance;
     private static Client client;
 
@@ -46,13 +49,14 @@ public class ApplicationClientFactory {
             controller.setLogin(login);
             controller.initStage(root);
         } catch (IOException e) {
+            LOGGER.severe("Abriendo ventana SignIn: " + e.getMessage());
             showErrorDialog("No se pudo cargar la vista de Inicio de Sesion.");
-            e.printStackTrace();
+
         }
     }
 
     // Método para cargar la ventana de Registro (SignUp)
-    public void loadSignUpWindowJavi(Stage stage) {
+    public void loadSignUpWindow(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
             Parent root = loader.load();
@@ -61,22 +65,25 @@ public class ApplicationClientFactory {
             controller.setStage(stage);
             controller.initStage(root);
         } catch (IOException e) {
+            LOGGER.severe("Abriendo ventana SignUp: " + e.getMessage());
             showErrorDialog("No se pudo cargar la vista de Registro.");
-            e.printStackTrace();
+
         }
     }
 
-    public void loadMainWindow(Stage stage) {
+    public void loadMainWindow(Stage stage, User user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLMain.fxml"));
             Parent root = loader.load();
             ApplicationClientPrincipalController controller = (ApplicationClientPrincipalController) loader.getController();
             controller.setClient(client);
+            controller.setUser(user);
             controller.setStage(stage);
             controller.initStage(root);
         } catch (IOException e) {
+            LOGGER.severe("Abriendo ventana Main: " + e.getMessage());
             showErrorDialog("No se pudo cargar la vista principal.");
-            e.printStackTrace();
+
         }
     }
 

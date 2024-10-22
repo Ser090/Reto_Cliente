@@ -39,8 +39,6 @@ TextField, PasswordField {
     -fx-alignment: center-left;
 }
 
-
-
 .titulo {
     -fx-font-family: "Protest Strike";
     -fx-font-size: 45px;
@@ -99,7 +97,7 @@ VBox {
     -fx-text-fill: #E0E0E0;
     -fx-background-color: rgba(58, 58, 58, 0.5);
     -fx-border-radius: 5;
-    -fx-padding: 5;
+    
 }
 
 .custom-hyperlink:pressed {
