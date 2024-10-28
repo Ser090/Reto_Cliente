@@ -402,7 +402,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 factory.loadSignInWindow(stage, user.getLogin());
                 break;
             case SIGNUP_ERROR:
-                showErrorDialog(AlertType.ERROR, "Correo electrónico (login) y/o contraseña incorrectas.");
+                showErrorDialog(AlertType.ERROR, "Se ha producido un error al intentar registrar sus datos vuelva a intentarlo.");
                 break;
             case LOGIN_EXIST_ERROR:
                 showErrorDialog(AlertType.ERROR, "El correo electronico ya existe en la base de datos.");
