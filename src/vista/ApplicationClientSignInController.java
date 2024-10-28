@@ -272,7 +272,7 @@ public class ApplicationClientSignInController implements Initializable {
                 showErrorDialog(Alert.AlertType.ERROR, "Error interno de la base de datos, inténtelo de nuevo...");
                 break;
             case CONNECTION_ERROR:
-                showErrorDialog(Alert.AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...");
+                showErrorDialog(Alert.AlertType.ERROR, "Error de conexion con la base de datos,  no hay conexión disponible, inténtelo de nuevo...");
                 break;
             case NON_ACTIVE:
                 showErrorDialog(Alert.AlertType.ERROR, "El usuario introducido esta desactivado, no puede hacer login.");
