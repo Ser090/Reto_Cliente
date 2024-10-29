@@ -1,5 +1,6 @@
-package vista;
+package view;
 
+import view.MainClient;
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

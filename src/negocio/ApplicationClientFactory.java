@@ -14,9 +14,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import utilidades.User;
-import vista.ApplicationClientPrincipalController;
-import vista.ApplicationClientSignInController;
-import vista.ApplicationClientSignUpController;
+import view.ApplicationClientPrincipalController;
+import view.ApplicationClientSignInController;
+import view.ApplicationClientSignUpController;
 
 /**
  *

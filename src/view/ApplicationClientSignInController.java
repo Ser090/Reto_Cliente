@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista;
+package view;
 
+import static utilities.AlertUtilities.showErrorDialog;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -35,6 +36,7 @@ import negocio.ApplicationClientFactory;
 import negocio.Client;
 import utilidades.Message;
 import utilidades.User;
+import static utilities.ValidateUtilities.isValid;
 
 /**
  *
@@ -223,25 +225,26 @@ public class ApplicationClientSignInController implements Initializable {
                     }
                 }
             }
-        } else {
-            // Validar campos específicos como contraseña y correo electrónico
-            passwordField.setText(passwordField.getText().trim());
-            if (!isValid(passwordField.getText(), PASSPATTERN)) {
-                showErrorImage(passwordField);
-                hasError = true;
-            }
-
-            if (!isValid(loginField.getText(), EMAILPATTERN)) {
-                showErrorImage(loginField);
-                hasError = true;
-            }
         }
+        // Validar campos específicos como contraseña y correo electrónico
+        passwordField.setText(passwordField.getText().trim());
+        if (!isValid(passwordField.getText(), "pass")) {
+            showErrorImage(passwordField);
+            hasError = true;
+        }
+
+        if (!isValid(loginField.getText(), "email")) {
+            showErrorImage(loginField);
+            hasError = true;
+        }
+
         // Si hay errores, no continuar
         if (hasError) {
             LOGGER.severe("Hay errores en el formulario.");
             // Volver a habilitar el botón si hay errores
-            loginButton.setDisable(false);
+            showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.");
         } else {
+
             // Si no hay errores, proceder con el formulario
             user = new User();
             user.setLogin(loginField.getText());
@@ -274,12 +277,13 @@ public class ApplicationClientSignInController implements Initializable {
             case CONNECTION_ERROR:
                 showErrorDialog(Alert.AlertType.ERROR, "Error de conexion con la base de datos,  no hay conexión disponible, inténtelo de nuevo...");
                 break;
+            case SERVER_ERROR:
+                showErrorDialog(Alert.AlertType.ERROR, "Servidor no encontrado, inténtelo de nuevo...");
+                break;
             case NON_ACTIVE:
                 showErrorDialog(Alert.AlertType.ERROR, "El usuario introducido esta desactivado, no puede hacer login.");
                 break;
-            default:
-                showErrorDialog(Alert.AlertType.ERROR, "No hay señal del servidor.");
-                break;
+
         }
     }
 
@@ -293,20 +297,6 @@ public class ApplicationClientSignInController implements Initializable {
             }
         }
         return true;
-    }
-
-    private void showErrorDialog(AlertType type, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private Boolean isValid(String validacion, String VALIDATOR) {
-        Pattern patron = Pattern.compile(VALIDATOR);
-        Matcher matcher = patron.matcher(validacion);
-        return matcher.matches();
     }
 
     private void showErrorImage(Node node) {

@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import exception.ServerNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,7 +16,7 @@ import utilidades.Message;
 import utilidades.MessageType;
 import utilidades.Signable;
 import utilidades.User;
-import vista.ApplicationClientSignUpController;
+import view.ApplicationClientSignUpController;
 
 /**
  *
@@ -53,6 +54,7 @@ public class Client implements Signable {
             LOGGER.info("Conectado al servidor en " + serverIP + ":" + serverPort);
         } catch (IOException e) {
             LOGGER.severe("Al abrir conexión. " + e.getMessage());
+            throw new ServerNotFoundException();
         }
     }
 
@@ -75,22 +77,34 @@ public class Client implements Signable {
      */
     @Override
     public Message signUp(User user) {
-        connect();
-        Message signUpRequest = new Message(MessageType.SIGN_UP_REQUEST, user);
-        sendMessage(signUpRequest);
-        Message response = receiveMessage();
-        closeConnection();
-        return response;
+        Message response = null;
+        try {
+            connect();
+            Message signUpRequest = new Message(MessageType.SIGN_UP_REQUEST, user);
+            sendMessage(signUpRequest);
+            response = receiveMessage();
+            closeConnection();
+            return response;
+        } catch (ServerNotFoundException e) {
+
+            return e.CreateMessage();
+        }
+
     }
 
     @Override
     public Message signIn(User user) {
-        connect();
-        Message signInRequest = new Message(MessageType.SIGN_IN_REQUEST, user);
-        sendMessage(signInRequest);
-        Message response = receiveMessage();
-        closeConnection();
-        return response;
+        Message response = null;
+        try {
+            connect();
+            Message signInRequest = new Message(MessageType.SIGN_IN_REQUEST, user);
+            sendMessage(signInRequest);
+            response = receiveMessage();
+            closeConnection();
+            return response;
+        } catch (ServerNotFoundException e) {
+            return e.CreateMessage();
+        }
     }
 
     //METODOS PRIVADOS

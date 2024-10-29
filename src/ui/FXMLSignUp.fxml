@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" maxHeight="850.0" maxWidth="8750.0" minHeight="850.0" minWidth="875.0" prefHeight="850.0" prefWidth="875.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ApplicationClientSignUpController">
+<AnchorPane id="AnchorPane" maxHeight="850.0" maxWidth="8750.0" minHeight="850.0" minWidth="875.0" prefHeight="850.0" prefWidth="875.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ApplicationClientSignUpController">
     <children>
         <GridPane fx:id="gridPane" alignment="center" hgap="10" vgap="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <columnConstraints>

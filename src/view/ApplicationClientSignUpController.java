@@ -1,5 +1,6 @@
-package vista;
+package view;
 
+import static utilities.AlertUtilities.showErrorDialog;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -33,6 +34,7 @@ import negocio.ApplicationClientFactory;
 import negocio.Client;
 import utilidades.Message;
 import utilidades.User;
+import static utilities.ValidateUtilities.isValid;
 
 /**
  * FXML Controller class for the SignUp view.
@@ -104,10 +106,6 @@ public class ApplicationClientSignUpController implements Initializable {
     private ContextMenu contextMenu;
 
     private Client client;
-
-    private final String EMAILPATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-    private final String PASSPATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[\\S]{9,}$";
-    private final String ZIPPATTERN = "^\\d{5}$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -246,14 +244,6 @@ public class ApplicationClientSignUpController implements Initializable {
 
     }
 
-    private void showErrorDialog(AlertType type, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     @FXML
     private void handleButtonRegister(ActionEvent event) {
         LOGGER.info("Botón Aceptar presionado");
@@ -272,7 +262,7 @@ public class ApplicationClientSignUpController implements Initializable {
         }
         passwordField.setText(passwordField.getText().trim());
         // Validar campos específicos como contraseña y correo electrónico
-        if (!isValid(passwordField.getText(), PASSPATTERN)) {
+        if (!isValid(passwordField.getText(), "pass")) {
             showErrorImage(passwordField);
             hasError = true;
         }
@@ -282,11 +272,11 @@ public class ApplicationClientSignUpController implements Initializable {
             hasError = true;
         }
 
-        if (!isValid(emailField.getText(), EMAILPATTERN)) {
+        if (!isValid(emailField.getText(), "email")) {
             showErrorImage(emailField);
             hasError = true;
         }
-        if (!isValid(zipField.getText(), ZIPPATTERN)) {
+        if (!isValid(zipField.getText(), "zip")) {
             showErrorImage(zipField);
             hasError = true;
         }
@@ -418,6 +408,9 @@ public class ApplicationClientSignUpController implements Initializable {
             case CONNECTION_ERROR:
                 showErrorDialog(AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...");
                 break;
+            case SERVER_ERROR:
+                showErrorDialog(Alert.AlertType.ERROR, "Servidor no encontrado, inténtelo de nuevo...");
+                break;
         }
     }
 
@@ -432,12 +425,6 @@ public class ApplicationClientSignUpController implements Initializable {
             }
         }
         return true;
-    }
-
-    private Boolean isValid(String validacion, String VALIDATOR) {
-        Pattern patron = Pattern.compile(VALIDATOR);
-        Matcher matcher = patron.matcher(validacion);
-        return matcher.matches();
     }
 
     @FXML

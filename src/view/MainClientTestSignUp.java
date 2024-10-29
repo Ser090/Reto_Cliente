@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista;
+package view;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,13 +13,13 @@ import negocio.ApplicationClientFactory;
  *
  * @author 2dam
  */
-public class MainClient extends Application {
+public class MainClientTestSignUp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
         ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
 
-        factory.loadSignInWindow(stage, "");
+        factory.loadSignUpWindow(stage);
     }
 
     /**
