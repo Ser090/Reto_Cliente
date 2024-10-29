@@ -34,7 +34,7 @@
                     <Image url="@../resources/iconos/usuario2.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="nameField" promptText="Nombre" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <TextField fx:id="nameField"  id="nameField" promptText="Nombre" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
                 <tooltip>
                     <Tooltip text="Ingrese su nombre" />
                 </tooltip>
@@ -45,7 +45,7 @@
                     <Image url="@../resources/iconos/usuario3.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="surname1Field" promptText="Primer Apellido" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <TextField fx:id="surname1Field" id="surname1Field" promptText="Primer Apellido" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
                 <tooltip>
                     <Tooltip text="Ingrese su primer apellido" />
                 </tooltip>
@@ -56,7 +56,7 @@
                     <Image url="@../resources/iconos/usuario1.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="surname2Field" promptText="Segundo Apellido" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <TextField fx:id="surname2Field" id="surname2Field" promptText="Segundo Apellido" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
                 <tooltip>
                     <Tooltip text="Ingrese su segundo apellido" />
                 </tooltip>
@@ -67,7 +67,7 @@
                     <Image url="@../resources/iconos/email.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="emailField" promptText="Correo Electrónico" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <TextField fx:id="emailField" id="emailField" promptText="Correo Electrónico" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
                 <tooltip>
                     <Tooltip text="Ingrese su correo electrónico, formato xxxxx@yyyy.zzz" />
                 </tooltip>
@@ -78,12 +78,12 @@
                     <Image url="@../resources/iconos/contraseña.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="passwordField" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+            <PasswordField fx:id="passwordField" id="passwordField" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
                 <tooltip>
                     <Tooltip text="Ingrese su contraseña, minimo 8 caracteres, una mayúscula, una minúscula y un número" />
                 </tooltip>
             </PasswordField>
-            <TextField fx:id="passwordFieldVisual" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" visible="false">
+            <TextField fx:id="passwordFieldVisual" id="passwordFieldVisual" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" visible="false">
                 <tooltip>
                     <Tooltip text="Ingrese su contraseña, minimo 8 caracteres, una mayúscula, una minúscula y un número" />
                 </tooltip>
@@ -104,7 +104,7 @@
                     <Image url="@../resources/iconos/contraseñaconf.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="confirmpasswordField" promptText="Confirmar contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
+            <PasswordField fx:id="confirmpasswordField" id="confirmpasswordField" promptText="Confirmar contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
                 <tooltip>
                     <Tooltip text="Confirme su contraseña, minimo 8 caracteres, una mayúscula, una minúscula y un número" />
                 </tooltip>
@@ -130,7 +130,7 @@
                     <Image url="@../resources/iconos/direccion.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="streetField" promptText="Dirección" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
+            <TextField fx:id="streetField" id="streetField" promptText="Dirección" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                 <tooltip>
                     <Tooltip text="Ingrese su dirección" />
                 </tooltip>
@@ -141,7 +141,7 @@
                     <Image url="@../resources/iconos/ciudad.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="cityField" promptText="Ciudad" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8">
+            <TextField fx:id="cityField" id="cityField" promptText="Ciudad" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8">
                 <tooltip>
                     <Tooltip text="Ingrese su ciudad" />
                 </tooltip>
@@ -152,7 +152,7 @@
                     <Image url="@../resources/iconos/cp.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="zipField" promptText="Código Postal" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9">
+            <TextField fx:id="zipField" id="zipField" promptText="Código Postal" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9">
                 <tooltip>
                     <Tooltip text="Ingrese su código postal, 5 digitos." />
                 </tooltip>
@@ -173,47 +173,47 @@
             <Button fx:id="btnRegistrar" maxWidth="Infinity" onAction="#handleButtonRegister" text="Registrar" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="13" />
             <Button fx:id="btnCancelar" maxWidth="Infinity" onAction="#handleButtonCancel" text="Cancelar" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="14" />
 
-            <ImageView fx:id="errorImageName" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <ImageView fx:id="errorImageName" id="errorImageName" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImageSurname1" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <ImageView fx:id="errorImageSurname1" id="errorImageSurname1" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImageSurname2" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <ImageView fx:id="errorImageSurname2" id="errorImageSurname2" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImageEmail" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <ImageView fx:id="errorImageEmail" id="errorImageEmail" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImagePass" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <ImageView fx:id="errorImagePass" id="errorImagePass" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImagePassRepeat" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <ImageView fx:id="errorImagePassRepeat" id="errorImagePassRepeat" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="6">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImageStreet" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="7">
+            <ImageView fx:id="errorImageStreet" id="errorImageStreet" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="7">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImageCity" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="8">
+            <ImageView fx:id="errorImageCity" id="errorImageCity" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="8">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="errorImageZip" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="9">
+            <ImageView fx:id="errorImageZip" id="errorImageZip" fitHeight="28.0" fitWidth="28.0" nodeOrientation="INHERIT" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="9">
                 <image>
                     <Image url="@../resources/iconos/error.png" />
                 </image>
