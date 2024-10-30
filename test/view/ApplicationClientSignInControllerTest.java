@@ -30,6 +30,7 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
     public ApplicationClientSignInControllerTest() {
     }
 
+    //Poner usuario correcto en la base de datos
     @Test
     public void test_A_LoginOK() {
         clickOn("#loginField");
@@ -55,35 +56,35 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
     public void test_C_LoginEmpty() {
         // Caso 1: Ambos campos están vacíos
         clickOn("#loginButton");
-        verifyThat("Todos los campos deben ser rellenados.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
 
         // Caso 2: Solo el campo de login está vacío
         clickOn("#passwordField");
         write("12345678U");
         clickOn("#loginButton");
-        verifyThat("Todos los campos deben ser rellenados.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
 
         // Limpia los campos para el siguiente caso
         clickOn("#passwordField");
-        write("");
+        eraseText(9);
 
         // Caso 3: Solo el campo de contraseña está vacío
         clickOn("#loginField");
         write("sergio@sergio.org");
         clickOn("#loginButton");
-        verifyThat("Todos los campos deben ser rellenados.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
     }
 
+    //Poner usuario no activo en la base de datos
     @Test
     public void test_D_LoginNonActive() {
-        //hay que cambiar el login a uno que tengamos sin el activo
         clickOn("#loginField");
-        write("sergio@sergio.org");
+        write("noactive@gmail.com");
         clickOn("#passwordField");
-        write("12345678A");
+        write("12345678U");
         clickOn("#loginButton");
         verifyThat("El usuario introducido esta desactivado, no puede hacer login.", isVisible());
         clickOn("Aceptar");
