@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ApplicationClientPrincipalController" stylesheets="@estilos.css">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ApplicationClientMainUserController" stylesheets="@estilos.css">
     <children>
         <!-- MenuBar en la parte superior -->
         <MenuBar AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

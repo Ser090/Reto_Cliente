@@ -26,8 +26,6 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ApplicationClientSignUpControllerTest extends ApplicationTest {
 
-    public ApplicationClientSignUpControllerTest() {
-    }
 
     /*@BeforeClass
     public static void setUpClass() throws TimeoutException {
@@ -39,10 +37,7 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         new MainClientTestSignUp().start(stage);
     }
 
-    @Before
-    public void setUp() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(MainClientTestSignUp.class);
+    public ApplicationClientSignUpControllerTest() {
     }
 
     @Test

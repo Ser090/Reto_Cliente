@@ -26,6 +26,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -176,6 +178,21 @@ public class ApplicationClientSignUpController implements Initializable {
                 node.setOnKeyTyped(event -> hideErrorImage(node));  // Ocultar error tan pronto como se escribe algo
             }
         }
+
+        // Asegura que se salte estos campos porque son auxiliares
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+                confirmpasswordField.requestFocus();
+            }
+        });
+
+        confirmpasswordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+                streetField.requestFocus();
+            }
+        });
     }
 
     private void assignCustomContextMenu(TextField textField) {
@@ -229,11 +246,23 @@ public class ApplicationClientSignUpController implements Initializable {
                     togglePasswordVisibilityReleased(confirmpasswordField, confirmPasswordFieldVisual);
                 }
             });
-
+            configureMnemotecnicKeys();
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al inicializar el stage", e);
         }
+    }
+
+    private void configureMnemotecnicKeys() {
+        stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isAltDown() && event.getCode() == KeyCode.C) {
+                btnCancelar.fire();  // Simula el clic en el botón Cancelar
+                event.consume();  // Evita la propagación adicional del evento
+            } else if (event.isAltDown() && event.getCode() == KeyCode.R) {
+                btnRegistrar.fire();  // Simula el clic en el botón Registrar
+                event.consume();  // Evita la propagación adicional del evento
+            }
+        });
     }
 
     private void handleWindowShowing(javafx.event.Event event) {

@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import utilidades.User;
-import view.ApplicationClientPrincipalController;
+import view.ApplicationClientMainUserController;
 import view.ApplicationClientSignInController;
 import view.ApplicationClientSignUpController;
 
@@ -71,11 +71,11 @@ public class ApplicationClientFactory {
         }
     }
 
-    public void loadMainWindow(Stage stage, User user) {
+    public void loadMainUserWindow(Stage stage, User user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLMain.fxml"));
             Parent root = loader.load();
-            ApplicationClientPrincipalController controller = (ApplicationClientPrincipalController) loader.getController();
+            ApplicationClientMainUserController controller = (ApplicationClientMainUserController) loader.getController();
             controller.setClient(client);
             controller.setUser(user);
             controller.setStage(stage);
