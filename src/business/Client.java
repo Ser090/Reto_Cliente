@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package negocio;
+package business;
 
 import exception.ServerNotFoundException;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import utilidades.Message;
 import utilidades.MessageType;
@@ -31,10 +32,11 @@ public class Client implements Signable {
 
     private String serverIP;
     private Integer serverPort;
+    private ResourceBundle bundle = ResourceBundle.getBundle("business.conecction");
 
     public Client() {
-        this.serverIP = "127.0.0.1";
-        this.serverPort = 1234;
+        this.serverIP = bundle.getString("serverIP");
+        this.serverPort = Integer.parseInt(bundle.getString("serverPort"));
     }
 
     private static Client instance;

@@ -22,8 +22,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import negocio.ApplicationClientFactory;
-import negocio.Client;
+import business.ApplicationClientFactory;
+import business.Client;
 import utilidades.User;
 
 /**
