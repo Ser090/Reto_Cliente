@@ -29,11 +29,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import negocio.ApplicationClientFactory;
-import negocio.Client;
+import business.ApplicationClientFactory;
+import business.Client;
 import utilidades.Message;
 import utilidades.User;
 import static utilities.ValidateUtilities.isValid;
@@ -187,10 +189,23 @@ public class ApplicationClientSignInController implements Initializable {
                     togglePasswordVisibilityReleased();
                 }
             });
+            configureMnemotecnicKeys();
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al inicializar el stage", e);
         }
+    }
+
+    private void configureMnemotecnicKeys() {
+        stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isAltDown() && event.getCode() == KeyCode.I) {
+                loginButton.fire();  // Simula el clic en el botón Iniciar sesión
+                event.consume();  // Evita la propagación adicional del evento
+            } else if (event.isAltDown() && event.getCode() == KeyCode.R) {
+                registerLink.fire();  // Simula el clic en el hipervínculo Registrar
+                event.consume();  // Evita la propagación adicional del evento
+            }
+        });
     }
 
     public void setLogin(String login) {
@@ -216,7 +231,6 @@ public class ApplicationClientSignInController implements Initializable {
         // Verificar si todos los campos están llenos
         if (!areAllFieldsFilled()) {
             LOGGER.severe("Error: Todos los campos deben ser completados.");
-            showErrorDialog(Alert.AlertType.ERROR, "Todos los campos deben ser rellenados.");
             for (Node node : gridPane.getChildren()) {
                 if (node instanceof TextField || node instanceof PasswordField) {
                     if (((TextField) node).getText().isEmpty()) {
@@ -262,7 +276,7 @@ public class ApplicationClientSignInController implements Initializable {
             case LOGIN_OK:
                 // Aviso de registro correcto y vuelta a la ventana de sign in
                 loginButton.setDisable(true);
-                factory.loadMainWindow(stage, (User) message.getObject());
+                factory.loadMainUserWindow(stage, (User) message.getObject());
                 break;
             case SIGNIN_ERROR:
                 loginField.setStyle("-fx-border-color: red;");

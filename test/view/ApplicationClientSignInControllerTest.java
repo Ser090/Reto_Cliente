@@ -11,7 +11,7 @@ import static org.testfx.matcher.base.NodeMatchers.*;
 
 /**
  *
- * @author Sergio
+ * @author Urko
  */
 //Establece el orden de los metodos
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

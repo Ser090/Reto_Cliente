@@ -16,17 +16,20 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import negocio.ApplicationClientFactory;
-import negocio.Client;
+import business.ApplicationClientFactory;
+import business.Client;
 import utilidades.User;
 
 /**
  * FXML Controller class
  */
-public class ApplicationClientPrincipalController implements Initializable {
+public class ApplicationClientMainUserController implements Initializable {
 
     @FXML
     private MenuItem menuCerrarSesion;
@@ -91,12 +94,16 @@ public class ApplicationClientPrincipalController implements Initializable {
         // Añadir las opciones personalizadas al menú contextual
         contextMenu.getItems().addAll(clearFieldsItem, exitItem);
 
-        // Asignar el menú contextual al GridPane
         anchorPane.setOnMouseClicked(event -> {
+            // Asignar el menú contextual al GridPane
             if (event.getButton() == MouseButton.SECONDARY) {
                 contextMenu.show(anchorPane, event.getScreenX(), event.getScreenY());
+            } else {
+                // Ocultar el menú contextual al hacer clic izquierdo en cualquier parte de la pantalla
+                contextMenu.hide();
             }
         });
+
     }
 
     public void setClient(Client client) {
@@ -123,16 +130,32 @@ public class ApplicationClientPrincipalController implements Initializable {
 
             factory = ApplicationClientFactory.getInstance();
 
+            // Añadir filtro para ocultar el menú contextual
+            scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+                if (contextMenu.isShowing() && event.getButton() != MouseButton.SECONDARY) {
+                    contextMenu.hide();
+                }
+            });
             logoutButton.setOnAction(null);
 
             logoutButton.setOnAction(event -> cerrarSesion());
             menuCerrarSesion.setOnAction(event -> cerrarSesion());
             menuSalir.setOnAction(event -> salirAplicacion());
             //scene.getStylesheets().add(getClass().getResource("estilos.css").toExternalForm());
+            configureMnemotecnicKeys();
             stage.show();
         } catch (Exception e) {
 
         }
+    }
+
+    private void configureMnemotecnicKeys() {
+        stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isAltDown() && event.getCode() == KeyCode.C) {
+                logoutButton.fire();  // Simula el clic en el botón Cancelar
+                event.consume();  // Evita la propagación adicional del evento
+            }
+        });
     }
 
     private void handleWindowShowing(javafx.event.Event event) {

@@ -8,18 +8,20 @@ package view;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import business.ApplicationClientFactory;
+import utilidades.User;
 
 /**
  *
  * @author 2dam
  */
-public class MainClientTestSignUp extends Application {
+public class MainClientTestMainUser extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
         ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
-
-        factory.loadSignUpWindow(stage);
+        User user = new User();
+        user.setName("UsuarioPrueba");
+        factory.loadMainUserWindow(stage, user);
     }
 
     /**
