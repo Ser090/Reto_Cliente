@@ -1,13 +1,12 @@
 package view;
 
-import static utilities.AlertUtilities.showErrorDialog;
+import business.ApplicationClientFactory;
+import business.Client;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,10 +31,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import business.ApplicationClientFactory;
-import business.Client;
 import utilidades.Message;
 import utilidades.User;
+import static utilities.AlertUtilities.showErrorDialog;
 import static utilities.ValidateUtilities.isValid;
 
 /**
@@ -435,7 +433,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 showErrorDialog(AlertType.ERROR, "Error al introducir los datos en la base de datos, inténtelo de nuevo...");
                 break;
             case CONNECTION_ERROR:
-                showErrorDialog(AlertType.ERROR, "Error de conexion con la base de datos, inténtelo de nuevo...");
+                showErrorDialog(AlertType.ERROR, "Error de conexion con la base de datos,  no hay conexión disponible, inténtelo de nuevo...");
                 break;
             case SERVER_ERROR:
                 showErrorDialog(Alert.AlertType.ERROR, "Servidor no encontrado, inténtelo de nuevo...");

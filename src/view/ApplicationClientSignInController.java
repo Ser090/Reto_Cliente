@@ -5,13 +5,12 @@
  */
 package view;
 
-import static utilities.AlertUtilities.showErrorDialog;
+import business.ApplicationClientFactory;
+import business.Client;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,10 +33,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import business.ApplicationClientFactory;
-import business.Client;
 import utilidades.Message;
 import utilidades.User;
+import static utilities.AlertUtilities.showErrorDialog;
 import static utilities.ValidateUtilities.isValid;
 
 /**
