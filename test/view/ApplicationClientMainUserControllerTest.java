@@ -1,8 +1,9 @@
 package view;
 
-import view.MainClient;
 import javafx.stage.Stage;
+import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.*;
@@ -31,14 +32,25 @@ public class ApplicationClientMainUserControllerTest extends ApplicationTest {
     }
 
     //FALTA TERMINAR
+    @Ignore
     @Test
-    public void test_A_LoginOK() {
+    public void test_A_LogOutButton() {
         clickOn("#logoutButton");
-        write("pruebapruebita@gmail.com");
-        clickOn("#passwordField");
-        write("12345678U");
-        clickOn("#loginButton");
-        verifyThat("#logoutButton", isVisible());
+        verifyThat("¿Estás seguro de que deseas cerrar sesión?", isVisible());
+        clickOn("Aceptar");
+        verifyThat("#loginButton", isVisible());
+    }
+
+    //@Ignore
+    @Test
+    public void test_B_GetOutOfHere() {
+        clickOn("#menuApp");
+        clickOn("#menuSalir");
+        verifyThat("¿Estás seguro de que deseas salir de la aplicación?", isVisible());
+        clickOn("Aceptar");
+        assertFalse(lookup("#main").tryQuery().isPresent());
+        assertFalse(lookup("#signIn").tryQuery().isPresent());
+        assertFalse(lookup("#signUp").tryQuery().isPresent());
     }
 
 }

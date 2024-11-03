@@ -1,10 +1,10 @@
 package view;
 
+import business.ApplicationClientFactory;
+import business.Client;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -15,15 +15,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import business.ApplicationClientFactory;
-import business.Client;
 import utilidades.User;
 
 /**
@@ -38,7 +35,7 @@ public class ApplicationClientMainUserController implements Initializable {
     @FXML
     private Label welcomeLabel;
     @FXML
-    private AnchorPane anchorPane;
+    private AnchorPane main;
     @FXML
     private Button logoutButton;
 
@@ -94,10 +91,10 @@ public class ApplicationClientMainUserController implements Initializable {
         // Añadir las opciones personalizadas al menú contextual
         contextMenu.getItems().addAll(clearFieldsItem, exitItem);
 
-        anchorPane.setOnMouseClicked(event -> {
+        main.setOnMouseClicked(event -> {
             // Asignar el menú contextual al GridPane
             if (event.getButton() == MouseButton.SECONDARY) {
-                contextMenu.show(anchorPane, event.getScreenX(), event.getScreenY());
+                contextMenu.show(main, event.getScreenX(), event.getScreenY());
             } else {
                 // Ocultar el menú contextual al hacer clic izquierdo en cualquier parte de la pantalla
                 contextMenu.hide();
