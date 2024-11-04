@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import business.ApplicationClientFactory;
@@ -40,7 +35,7 @@ import static utilities.ValidateUtilities.isValid;
 
 /**
  *
- * @author 2dam
+ * @author Lucian
  */
 public class ApplicationClientSignInController implements Initializable {
 
@@ -73,9 +68,6 @@ public class ApplicationClientSignInController implements Initializable {
     private Button toggleVisibilityButton;
 
     private ContextMenu contextMenu;
-
-    private final String EMAILPATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-    private final String PASSPATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9]).{9,}$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

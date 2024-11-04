@@ -24,37 +24,48 @@ import javafx.stage.Stage;
 import utilidades.User;
 
 /**
- * FXML Controller class
+ * Controlador para la vista principal de la aplicación para usuarios,
+ * implementado en FXML. Este controlador gestiona las interacciones de usuario
+ * en la pantalla principal, permitiendo acciones como cerrar sesión y salir de
+ * la aplicación.
+ *
+ * También incluye un menú contextual personalizado y asignación de teclas de
+ * acceso rápido.
+ *
+ * @author Lucian
  */
 public class ApplicationClientMainUserController implements Initializable {
 
     @FXML
-    private MenuItem menuCerrarSesion;
+    private MenuItem logOutMenu;   // Opción de menú para cerrar sesión
     @FXML
-    private MenuItem menuSalir;
+    private MenuItem logOut;          // Opción de menú para salir de la aplicación
     @FXML
-    private Label welcomeLabel;
+    private Label welcomeLabel;          // Etiqueta para mostrar mensaje de bienvenida al usuario
     @FXML
-    private AnchorPane main;
+    private AnchorPane main;             // Panel principal de la vista
     @FXML
-    private Button logoutButton;
+    private Button logoutButton;         // Botón para cerrar sesión
 
-    private ContextMenu contextMenu;
+    private ContextMenu contextMenu;     // Menú contextual personalizado
+    private Stage stage;                 // Ventana principal de la aplicación
+    private Client client;               // Cliente asociado a la sesión actual
+    private User user;                   // Usuario que inició sesión
+    private ApplicationClientFactory factory; // Factoría para crear instancias de clientes
 
-    private Stage stage;
-    private Client client;
-    private User user;
-    private ApplicationClientFactory factory;
-
+    /**
+     * Método de inicialización de la vista. Configura el menú contextual, los
+     * estilos de la interfaz y las acciones de los componentes.
+     *
+     * @param url URL de ubicación del recurso FXML
+     * @param rb ResourceBundle para los recursos específicos de la vista
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        // Crear el menú contextual personalizado
         contextMenu = new ContextMenu();
 
-        // Añadir una clase de estilo para el menú contextual
+        // Aplicar estilo personalizado al menú contextual
         contextMenu.getStyleClass().add("context-menu");
-        // Aplicar el mismo estilo que el Tooltip al ContextMenu
         contextMenu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);"
                 + "-fx-text-fill: #FFFFFF;"
                 + "-fx-font-size: 18px;"
@@ -66,7 +77,8 @@ public class ApplicationClientMainUserController implements Initializable {
                 + "-fx-border-width: 1;"
                 + "-fx-border-radius: 5;"
                 + "-fx-background-radius: 5;");
-        // Opción "Borrar campos"
+
+        // Configurar y añadir opción de cerrar sesión al menú contextual
         MenuItem clearFieldsItem = new MenuItem("Cerrar sesión");
         clearFieldsItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
@@ -75,9 +87,9 @@ public class ApplicationClientMainUserController implements Initializable {
                 + "-fx-background-color: transparent;"
                 + "-fx-max-width: 250px;"
                 + "-fx-wrap-text: true;");
-        clearFieldsItem.setOnAction(event -> cerrarSesion());
+        clearFieldsItem.setOnAction(event -> logOut());
 
-        // Opción "Salir"
+        // Configurar y añadir opción de salir al menú contextual
         MenuItem exitItem = new MenuItem("Salir");
         exitItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
@@ -86,39 +98,57 @@ public class ApplicationClientMainUserController implements Initializable {
                 + "-fx-background-color: transparent;"
                 + "-fx-max-width: 250px;"
                 + "-fx-wrap-text: true;");
-        exitItem.setOnAction(event -> salirAplicacion());
+        exitItem.setOnAction(event -> applicationExit());
 
-        // Añadir las opciones personalizadas al menú contextual
         contextMenu.getItems().addAll(clearFieldsItem, exitItem);
 
+        // Configurar menú contextual para mostrar al hacer clic derecho
         main.setOnMouseClicked(event -> {
-            // Asignar el menú contextual al GridPane
             if (event.getButton() == MouseButton.SECONDARY) {
                 contextMenu.show(main, event.getScreenX(), event.getScreenY());
             } else {
-                // Ocultar el menú contextual al hacer clic izquierdo en cualquier parte de la pantalla
                 contextMenu.hide();
             }
         });
-
     }
 
+    /**
+     * Establece el cliente asociado a esta sesión.
+     *
+     * @param client el cliente actual
+     */
     public void setClient(Client client) {
         this.client = client;
     }
 
+    /**
+     * Establece el usuario que ha iniciado sesión y muestra el mensaje de
+     * bienvenida.
+     *
+     * @param user el usuario actual
+     */
     public void setUser(User user) {
         this.user = user;
         welcomeLabel.setText("Bienvenid@ " + user.getName());
     }
 
+    /**
+     * Establece la ventana principal de la aplicación.
+     *
+     * @param stage la ventana principal de la aplicación
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Inicializa la escena principal de la aplicación, configurando el menú,
+     * los estilos, y los manejadores de eventos.
+     *
+     * @param root el nodo raíz de la escena principal
+     */
     public void initStage(Parent root) {
         try {
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Programa principal");
@@ -127,65 +157,70 @@ public class ApplicationClientMainUserController implements Initializable {
 
             factory = ApplicationClientFactory.getInstance();
 
-            // Añadir filtro para ocultar el menú contextual
+            // Filtro para ocultar el menú contextual al hacer clic fuera
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                 if (contextMenu.isShowing() && event.getButton() != MouseButton.SECONDARY) {
                     contextMenu.hide();
                 }
             });
-            logoutButton.setOnAction(null);
 
-            logoutButton.setOnAction(event -> cerrarSesion());
-            menuCerrarSesion.setOnAction(event -> cerrarSesion());
-            menuSalir.setOnAction(event -> salirAplicacion());
-            //scene.getStylesheets().add(getClass().getResource("estilos.css").toExternalForm());
-            configureMnemotecnicKeys();
+            // Configurar acciones para los botones y elementos de menú
+            logoutButton.setOnAction(event -> logOut());
+            logOutMenu.setOnAction(event -> logOut());
+            logOut.setOnAction(event -> applicationExit());
+
+            configureMnemotecnicKeys(); // Configurar teclas de acceso rápido
             stage.show();
         } catch (Exception e) {
-
+            // Capturar excepciones en la inicialización de la escena
         }
     }
 
+    /**
+     * Configura teclas de acceso rápido para los botones de la vista.
+     */
     private void configureMnemotecnicKeys() {
         stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.isAltDown() && event.getCode() == KeyCode.C) {
-                logoutButton.fire();  // Simula el clic en el botón Cancelar
-                event.consume();  // Evita la propagación adicional del evento
+                logoutButton.fire();
+                event.consume();
             }
         });
     }
 
+    /**
+     * Maneja el evento al mostrar la ventana.
+     *
+     * @param event el evento de mostrar ventana
+     */
     private void handleWindowShowing(javafx.event.Event event) {
-
+        // Implementación personalizada al mostrar la ventana
     }
 
-    private void cerrarSesion() {
-        // Crear la alerta de confirmación
+    /**
+     * Cierra la sesión del usuario mostrando una confirmación.
+     */
+    private void logOut() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
-        alert.setHeaderText(null);
         alert.setContentText("¿Estás seguro de que deseas cerrar sesión?");
-
-        // Obtener la respuesta del usuario
         Optional<ButtonType> result = alert.showAndWait();
+
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Si el usuario confirma, realizar la acción de cancelar
             factory.loadSignInWindow(stage, "");
         }
     }
 
-    private void salirAplicacion() {
-        // Crear la alerta de confirmación
+    /**
+     * Cierra la aplicación mostrando una confirmación.
+     */
+    private void applicationExit() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
-        alert.setHeaderText(null);
         alert.setContentText("¿Estás seguro de que deseas salir de la aplicación?");
-
-        // Obtener la respuesta del usuario
         Optional<ButtonType> result = alert.showAndWait();
+
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Si el usuario confirma, realizar la acción de cancelar
-            Stage stage = (Stage) menuSalir.getParentPopup().getOwnerWindow();
             stage.close();
         }
     }

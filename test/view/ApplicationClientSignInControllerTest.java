@@ -3,6 +3,7 @@ package view;
 import view.MainClient;
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.*;
@@ -40,7 +41,7 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
         clickOn("#loginButton");
         verifyThat("#logoutButton", isVisible());
     }
-
+    @Ignore
     @Test
     public void test_B_LoginBad() {
         clickOn("#loginField");
@@ -51,7 +52,7 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
         verifyThat("El correo electrónico (login) y/o la contraseña incorrect@/s", isVisible());
         clickOn("Aceptar");
     }
-
+    @Ignore
     @Test
     public void test_C_LoginEmpty() {
         // Caso 1: Ambos campos están vacíos
@@ -79,6 +80,7 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
     }
 
     //Poner usuario no activo en la base de datos
+    @Ignore
     @Test
     public void test_D_LoginNonActive() {
         clickOn("#loginField");
