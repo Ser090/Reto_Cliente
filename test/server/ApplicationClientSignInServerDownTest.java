@@ -1,4 +1,4 @@
-package view;
+package server;
 
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.*;
 import org.testfx.framework.junit.ApplicationTest;
+import view.MainClient;
 import static org.testfx.matcher.base.NodeMatchers.*;
 
 /**
@@ -14,14 +15,14 @@ import static org.testfx.matcher.base.NodeMatchers.*;
  * @author 2dam
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ApplicationClientSignInControllerServerDownTest extends ApplicationTest {
+public class ApplicationClientSignInServerDownTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
         new MainClient().start(stage);
     }
 
-    public ApplicationClientSignInControllerServerDownTest() {
+    public ApplicationClientSignInServerDownTest() {
     }
 
     @Ignore
