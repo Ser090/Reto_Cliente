@@ -37,7 +37,11 @@ import static utilities.AlertUtilities.showErrorDialog;
 import static utilities.ValidateUtilities.isValid;
 
 /**
- * FXML Controller class for the SignUp view.
+ * Controlador FXML para la vista de registro (SignUp). Este controlador
+ * gestiona la interacción entre la interfaz de usuario y la lógica de negocio
+ * para el registro de nuevos usuarios.
+ *
+ * @author Urko, Sergio
  */
 public class ApplicationClientSignUpController implements Initializable {
 
@@ -45,7 +49,9 @@ public class ApplicationClientSignUpController implements Initializable {
     private Stage stage = new Stage();
     private ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
     private User user;
-    private boolean hasError = false;
+    private boolean hasError = false;  // Indica si hay errores en el formulario
+
+    // Elementos de la interfaz FXML
     @FXML
     private Label labelTitulo;
     @FXML
@@ -77,7 +83,7 @@ public class ApplicationClientSignUpController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private GridPane gridPane;  // Asume que todos los campos están dentro de este GridPane
+    private GridPane gridPane;  // Contenedor de todos los campos del formulario
     @FXML
     private ImageView errorImageName;
     @FXML
@@ -97,25 +103,29 @@ public class ApplicationClientSignUpController implements Initializable {
     @FXML
     private ImageView errorImageZip;
     @FXML
-    private HBox warningbox;
+    private HBox warningbox;  // Caja de advertencia para mostrar información adicional
     @FXML
-    private Button toggleVisibilityButton1;
+    private Button toggleVisibilityButton1;  // Botón para alternar la visibilidad de la contraseña
     @FXML
-    private Button toggleVisibilityButton2;
+    private Button toggleVisibilityButton2;  // Botón para alternar la visibilidad de la confirmación de la contraseña
 
-    private ContextMenu contextMenu;
+    private ContextMenu contextMenu;  // Menú contextual personalizado
+    private Client client;  // Cliente para la comunicación con el servidor
 
-    private Client client;
-
+    /**
+     * Inicializa el controlador y configura el menú contextual, los eventos de
+     * los botones y la lógica de validación del formulario.
+     *
+     * @param location La ubicación de la vista FXML.
+     * @param resources Los recursos de internacionalización.
+     *
+     * @author Urko
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Crear el menú contextual personalizado
         contextMenu = new ContextMenu();
-
-        // Añadir una clase de estilo para el menú contextual
         contextMenu.getStyleClass().add("context-menu");
-        // Aplicar el mismo estilo que el Tooltip al ContextMenu
         contextMenu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);"
                 + "-fx-text-fill: #FFFFFF;"
                 + "-fx-font-size: 18px;"
@@ -127,7 +137,8 @@ public class ApplicationClientSignUpController implements Initializable {
                 + "-fx-border-width: 1;"
                 + "-fx-border-radius: 5;"
                 + "-fx-background-radius: 5;");
-        // Opción "Borrar campos"
+
+        // Opción "Borrar campos" en el menú contextual
         MenuItem clearFieldsItem = new MenuItem("Borrar campos");
         clearFieldsItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
@@ -138,7 +149,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 + "-fx-wrap-text: true;");
         clearFieldsItem.setOnAction(event -> handleClearFields());
 
-        // Opción "Salir"
+        // Opción "Salir" en el menú contextual
         MenuItem exitItem = new MenuItem("Salir");
         exitItem.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
@@ -180,32 +191,57 @@ public class ApplicationClientSignUpController implements Initializable {
         // Asegura que se salte estos campos porque son auxiliares
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.TAB) {
-                event.consume();
-                confirmpasswordField.requestFocus();
+                event.consume();  // Evita la acción por defecto de la tecla TAB
+                confirmpasswordField.requestFocus();  // Mover el foco al siguiente campo
             }
         });
 
         confirmpasswordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.TAB) {
-                event.consume();
-                streetField.requestFocus();
+                event.consume();  // Evita la acción por defecto de la tecla TAB
+                streetField.requestFocus();  // Mover el foco al siguiente campo
             }
         });
     }
 
+    /**
+     * Asigna el menú contextual personalizado a un campo de texto.
+     *
+     * @param textField El campo de texto al que se le asignará el menú
+     * contextual.
+     * @author Sergio
+     */
     private void assignCustomContextMenu(TextField textField) {
         // Asignar el menú contextual personalizado y eliminar el predeterminado
         textField.setContextMenu(contextMenu);
     }
 
+    /**
+     * Establece el cliente para la conexión con el servidor.
+     *
+     * @param client El cliente que se conectará al servidor.
+     * @author Sergio
+     */
     public void setClient(Client client) {
         this.client = client;
     }
 
+    /**
+     * Establece la ventana principal.
+     *
+     * @param stage El escenario de la aplicación.
+     * @author Sergio
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Inicializa el escenario con el contenido de la vista.
+     *
+     * @param root El nodo raíz de la escena.
+     * @author Sergio
+     */
     public void initStage(Parent root) {
         try {
             LOGGER.info("Inicializando la carga del stage");
@@ -216,13 +252,14 @@ public class ApplicationClientSignUpController implements Initializable {
             stage.setResizable(false);
             stage.setOnShowing(this::handleWindowShowing);
             btnRegistrar.setOnAction(null);
-            btnCancelar.setOnAction(null);// Eliminar cualquier manejador anterior
-            /*Si alguna parte del código está corriendo en un hilo separado
-            (por ejemplo, si llamas a un servicio remoto o una tarea asíncrona),
-            asegúrate de que no estés haciendo la misma llamada varias veces de manera simultánea.*/
+            btnCancelar.setOnAction(null); // Eliminar cualquier manejador anterior
+
+            // Asignar manejadores de eventos a los botones
             btnRegistrar.addEventHandler(ActionEvent.ACTION, this::handleButtonRegister);
             btnCancelar.addEventHandler(ActionEvent.ACTION, this::handleButtonCancel);
             activeCheckBox.addEventHandler(ActionEvent.ACTION, this::handleActiveCheckBoxChange);
+
+            // Configurar la visibilidad de las contraseñas
             toggleVisibilityButton1.setOnMousePressed(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     togglePasswordVisibility(passwordField, passwordFieldVisual);
@@ -244,13 +281,19 @@ public class ApplicationClientSignUpController implements Initializable {
                     togglePasswordVisibilityReleased(confirmpasswordField, confirmPasswordFieldVisual);
                 }
             });
-            configureMnemotecnicKeys();
+            configureMnemotecnicKeys();  // Configurar teclas de acceso rápido
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al inicializar el stage", e);
         }
     }
 
+    /**
+     * Configura las teclas de acceso rápido para los botones de registrar y
+     * cancelar.
+     *
+     * @author Urko
+     */
     private void configureMnemotecnicKeys() {
         stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.isAltDown() && event.getCode() == KeyCode.C) {
@@ -263,18 +306,29 @@ public class ApplicationClientSignUpController implements Initializable {
         });
     }
 
+    /**
+     * Maneja la acción al mostrar la ventana de registro.
+     *
+     * @param event El evento de acción.
+     *
+     * @author Urko
+     */
     private void handleWindowShowing(javafx.event.Event event) {
         LOGGER.info("Mostrando Ventana de registro");
-
-        // Establecer el foco en el GridPane o en algún otro componente que no sea un TextField.
-        gridPane.requestFocus(); // Esto evitará que el foco esté en el primer TextField.
-
+        gridPane.requestFocus();  // Establecer el foco en el GridPane
     }
 
+    /**
+     * Maneja la acción del botón de registro.
+     *
+     * @param event El evento de acción.
+     * @author Sergio
+     */
     @FXML
     private void handleButtonRegister(ActionEvent event) {
         LOGGER.info("Botón Aceptar presionado");
         hasError = false;
+
         // Verificar si todos los campos están llenos
         if (!areAllFieldsFilled()) {
             LOGGER.severe("Error: Todos los campos deben ser completados.");
@@ -287,8 +341,9 @@ public class ApplicationClientSignUpController implements Initializable {
                 }
             }
         }
+
+        // Validar el formato de los campos
         passwordField.setText(passwordField.getText().trim());
-        // Validar campos específicos como contraseña y correo electrónico
         if (!isValid(passwordField.getText(), "pass")) {
             showErrorImage(passwordField);
             hasError = true;
@@ -311,8 +366,7 @@ public class ApplicationClientSignUpController implements Initializable {
         // Si hay errores, no continuar
         if (hasError) {
             LOGGER.severe("Hay errores en el formulario.");
-            // Volver a habilitar el botón si hay errores
-            showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.");
+            showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.");
             btnRegistrar.setDisable(false);
         } else {
             // Si no hay errores, proceder con el registro
@@ -324,9 +378,15 @@ public class ApplicationClientSignUpController implements Initializable {
             Message response = client.signUp(user);
             messageManager(response);
         }
-
     }
 
+    /**
+     * Maneja la acción del botón de cancelar.
+     *
+     * @param event El evento de acción.
+     *
+     * @author Urko
+     */
     @FXML
     private void handleButtonCancel(ActionEvent event) {
         // Crear la alerta de confirmación
@@ -343,29 +403,46 @@ public class ApplicationClientSignUpController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el cambio en el estado del CheckBox de actividad.
+     *
+     * @param event El evento de acción.
+     * @author Sergio
+     */
     @FXML
     private void handleActiveCheckBoxChange(ActionEvent event) {
-        if (!activeCheckBox.isSelected()) {
-            warningbox.setVisible(true);
-        } else {
-            warningbox.setVisible(false);
-        }
+        warningbox.setVisible(!activeCheckBox.isSelected());  // Mostrar/ocultar la advertencia
     }
 
+    /**
+     * Muestra el icono de error en un campo que contiene un error de
+     * validación.
+     *
+     * @param node El nodo que representa el campo.
+     * @author Urko
+     */
     private void showErrorImage(Node node) {
-
         node.getStyleClass().add("error-field");  // Añadir clase CSS para marcar el error
         showErrorIcon(node);  // Mostrar icono de error
-
     }
 
+    /**
+     * Oculta el icono de error en un campo cuando se corrige el error.
+     *
+     * @param node El nodo que representa el campo.
+     * @author Urko
+     */
     private void hideErrorImage(Node node) {
-
         node.getStyleClass().remove("error-field");  // Eliminar clase CSS
         hideErrorIcon(node);  // Ocultar el icono de error
-
     }
 
+    /**
+     * Muestra el icono de error correspondiente al campo indicado.
+     *
+     * @param node El nodo que representa el campo.
+     * @author Urko
+     */
     private void showErrorIcon(Node node) {
         if (node == nameField) {
             errorImageName.setVisible(true);
@@ -388,6 +465,12 @@ public class ApplicationClientSignUpController implements Initializable {
         }
     }
 
+    /**
+     * Oculta el icono de error correspondiente al campo indicado.
+     *
+     * @param node El nodo que representa el campo.
+     * @author Urko
+     */
     private void hideErrorIcon(Node node) {
         if (node == nameField) {
             errorImageName.setVisible(false);
@@ -410,19 +493,24 @@ public class ApplicationClientSignUpController implements Initializable {
         }
     }
 
+    /**
+     * Gestiona la respuesta del servidor a la solicitud de registro.
+     *
+     * @param message El mensaje de respuesta del servidor.
+     * @author Sergio
+     */
     private void messageManager(Message message) {
         switch (message.getType()) {
             case OK_RESPONSE:
-                // Aviso de registro correcto y vuelta a la ventana de sign in
                 btnRegistrar.setDisable(true);
                 showErrorDialog(AlertType.CONFIRMATION, "El registro se ha realizado con éxito.");
                 factory.loadSignInWindow(stage, user.getLogin());
                 break;
             case SIGNUP_ERROR:
-                showErrorDialog(AlertType.ERROR, "Se ha producido un error al intentar registrar sus datos vuelva a intentarlo.");
+                showErrorDialog(AlertType.ERROR, "Se ha producido un error al intentar registrar sus datos. Vuelva a intentarlo.");
                 break;
             case LOGIN_EXIST_ERROR:
-                showErrorDialog(AlertType.ERROR, "El correo electronico ya existe en la base de datos.");
+                showErrorDialog(AlertType.ERROR, "El correo electrónico ya existe en la base de datos.");
                 emailField.setStyle("-fx-border-color: red;");
                 errorImageEmail.setVisible(true);
                 break;
@@ -433,7 +521,7 @@ public class ApplicationClientSignUpController implements Initializable {
                 showErrorDialog(AlertType.ERROR, "Error al introducir los datos en la base de datos, inténtelo de nuevo...");
                 break;
             case CONNECTION_ERROR:
-                showErrorDialog(AlertType.ERROR, "Error de conexion con la base de datos,  no hay conexión disponible, inténtelo de nuevo...");
+                showErrorDialog(AlertType.ERROR, "Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...");
                 break;
             case SERVER_ERROR:
                 showErrorDialog(Alert.AlertType.ERROR, "Servidor no encontrado, inténtelo de nuevo...");
@@ -441,12 +529,19 @@ public class ApplicationClientSignUpController implements Initializable {
         }
     }
 
+    /**
+     * Verifica que todos los campos obligatorios estén llenos.
+     *
+     * @return true si todos los campos están llenos, false en caso contrario.
+     * @author Sergio
+     */
     private boolean areAllFieldsFilled() {
         for (Node node : gridPane.getChildren()) {
-            if ((node instanceof TextField || node instanceof PasswordField) && (node != passwordFieldVisual) && (node != confirmPasswordFieldVisual)) {
+            if ((node instanceof TextField || node instanceof PasswordField)
+                    && (node != passwordFieldVisual)
+                    && (node != confirmPasswordFieldVisual)) {
                 if (((TextField) node).getText() == null || ((TextField) node).getText().isEmpty()) {
                     LOGGER.severe("Error: El campo " + ((TextField) node).getPromptText() + " está vacío.");
-
                     return false;
                 }
             }
@@ -454,6 +549,11 @@ public class ApplicationClientSignUpController implements Initializable {
         return true;
     }
 
+    /**
+     * Limpia todos los campos del formulario.
+     *
+     * @author Sergio
+     */
     @FXML
     private void handleClearFields() {
         nameField.clear();
@@ -465,9 +565,14 @@ public class ApplicationClientSignUpController implements Initializable {
         streetField.clear();
         cityField.clear();
         zipField.clear();
-        labelTitulo.requestFocus();
+        labelTitulo.requestFocus();  // Devuelve el foco al título
     }
 
+    /**
+     * Cierra la ventana de registro.
+     *
+     * @author Sergio
+     */
     @FXML
     private void handleExit() {
         // Obtener el Stage a través del GridPane (o cualquier otro nodo de la ventana)
@@ -475,9 +580,14 @@ public class ApplicationClientSignUpController implements Initializable {
         stage.close();  // Cierra la ventana
     }
 
+    /**
+     * Muestra el campo de contraseña en texto plano y oculta el PasswordField.
+     *
+     * @param passwordFieldParam El PasswordField que se está mostrando.
+     * @param textFieldParam El TextField alternativo para ver la contraseña.
+     * @author Urko
+     */
     private void togglePasswordVisibility(PasswordField passwordFieldParam, TextField textFieldParam) {
-
-        // Mostrar el TextField y ocultar el PasswordField
         textFieldParam.setText(passwordFieldParam.getText());  // Copiar contenido del PasswordField al TextField
         passwordFieldParam.setVisible(false);
         textFieldParam.setVisible(true);
@@ -495,9 +605,15 @@ public class ApplicationClientSignUpController implements Initializable {
         textFieldParam.positionCaret(textFieldParam.getText().length());
     }
 
+    /**
+     * Oculta el campo de texto plano y muestra el PasswordField.
+     *
+     * @param passwordFieldParam El PasswordField que se mostrará.
+     * @param textFieldParam El TextField alternativo para ocultar la
+     * contraseña.
+     * @author Sergio
+     */
     private void togglePasswordVisibilityReleased(PasswordField passwordFieldParam, TextField textFieldParam) {
-
-        // Mostrar el PasswordField y ocultar el TextField
         passwordFieldParam.setText(textFieldParam.getText());  // Copiar contenido del TextField al PasswordField
         passwordFieldParam.setVisible(true);
         textFieldParam.setVisible(false);
@@ -513,7 +629,5 @@ public class ApplicationClientSignUpController implements Initializable {
         // Recuperar el foco y colocar el cursor al final del texto sin seleccionar todo
         passwordFieldParam.requestFocus();
         passwordFieldParam.positionCaret(passwordFieldParam.getText().length());
-
     }
-
 }
