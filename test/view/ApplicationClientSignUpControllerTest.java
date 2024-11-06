@@ -5,7 +5,7 @@
  */
 package view;
 
-import view.MainClientTestSignUp;
+import auxiliarMainTests.MainClientTestSignUp;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.Before;

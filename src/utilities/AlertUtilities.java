@@ -15,7 +15,7 @@ public class AlertUtilities {
 
     public static void showErrorDialog(Alert.AlertType type, String message) {
         Alert alert = new Alert(type);
-        alert.setTitle("Error");
+        alert.setTitle(type.name());
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

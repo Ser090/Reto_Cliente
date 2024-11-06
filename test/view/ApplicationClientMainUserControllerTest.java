@@ -1,5 +1,6 @@
 package view;
 
+import auxiliarMainTests.MainClientTestMainUser;
 import javafx.stage.Stage;
 import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;

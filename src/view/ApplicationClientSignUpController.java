@@ -375,8 +375,12 @@ public class ApplicationClientSignUpController implements Initializable {
                     streetField.getText(), zipField.getText(), cityField.getText(), activeCheckBox.isSelected());
 
             LOGGER.info("Validación de campos correcta.");
-            Message response = client.signUp(user);
-            messageManager(response);
+
+            if (activeCheckBox.isSelected() || (!activeCheckBox.isSelected() && confirmNoActiveUserRegister())) {
+                Message response = client.signUp(user);
+                messageManager(response);
+            }
+
         }
     }
 
@@ -400,6 +404,29 @@ public class ApplicationClientSignUpController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // Si el usuario confirma, realizar la acción de cancelar
             factory.loadSignInWindow(stage, "");
+        }
+    }
+
+    /**
+     * Metodo para visualizar una alerta de confirmacion de registro.
+     *
+     * @return true si pulsa aceptar o false si pulsa cancelar.
+     *
+     * @author Urko
+     */
+    private boolean confirmNoActiveUserRegister() {
+        // Crear la alerta de confirmación
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de Registro");
+        alert.setHeaderText(null);
+        alert.setContentText("Si el usuario esta 'No Activo', no podrá iniciar sesión ¿Desea continuar el registro?");
+
+        // Obtener la respuesta del usuario
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
         }
     }
 
