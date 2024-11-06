@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,19 +35,41 @@ public class Client implements Signable {
 
     private String serverIP; // Dirección IP del servidor
     private Integer serverPort; // Puerto del servidor
-    private ResourceBundle bundle = ResourceBundle.getBundle("business.conecction"); // Carga de configuración
+    private ResourceBundle bundle; // Carga de configuración
 
     // Instancia única del cliente
     private static Client instance;
 
     /**
-     * Constructor que inicializa la dirección IP y el puerto del servidor desde
-     * el archivo de configuración.
+     * Constructor que inicializa la dirección IP y el puerto del servidor
+     * utilizando los valores configurados en un archivo de propiedades.
+     *
+     * <p>
+     * Este constructor intenta cargar la dirección IP y el puerto del servidor
+     * desde el archivo de propiedades {@code business.conecction}. Si el
+     * archivo de propiedades no se encuentra o contiene valores incorrectos, se
+     * lanza una excepción personalizada {@link ServerNotFoundException}.
+     *
+     * @throws ServerNotFoundException Si no se encuentra el archivo de
+     * propiedades o si los valores de la dirección IP o puerto son inválidos.
+     *
+     * @throws NumberFormatException Si el valor del puerto en el archivo de
+     * propiedades no es un número válido.
      */
     public Client() {
-        this.serverIP = bundle.getString("serverIP");
-        this.serverPort = Integer.parseInt(bundle.getString("serverPort"));
+        try {
+            bundle = ResourceBundle.getBundle("business.conecction");
+            this.serverIP = bundle.getString("serverIP");
+            this.serverPort = Integer.parseInt(bundle.getString("serverPort"));
+        } catch (MissingResourceException event) {
+            LOGGER.log(Level.SEVERE, "No se encuentra el archivo de propiedades {0}", event.getMessage());
+            throw new ServerNotFoundException(); // Lanza excepción personalizada si falla
+        } catch (NumberFormatException event) {
+            LOGGER.log(Level.SEVERE, "El archivo de propiedades tiene parámetros incorrectos: {0}", event.getMessage());
+            throw new ServerNotFoundException(); // Lanza excepción personalizada si falla
+        }
     }
+
 
     /**
      * Obtiene la instancia única del cliente. Si no existe, crea una nueva
@@ -63,11 +86,18 @@ public class Client implements Signable {
 
     /**
      * Establece una conexión con el servidor utilizando la dirección IP y el
-     * puerto especificados. Crea los flujos de entrada y salida para la
-     * comunicación.
+     * puerto especificados. Crea los flujos de entrada y salida necesarios para
+     * la comunicación con el servidor.
      *
-     * @throws ServerNotFoundException Si no se puede establecer la conexión con
-     * el servidor.
+     * <p>
+     * Este método intenta establecer una conexión mediante un socket a la
+     * dirección y puerto proporcionados. Si la conexión es exitosa, se
+     * inicializan los flujos de entrada y salida para la transmisión de datos.
+     * Si ocurre un error durante el proceso de conexión, se lanza una excepción
+     * {@link ServerNotFoundException}.
+     *
+     * @throws ServerNotFoundException ya que sin el archivo de configuracion o
+     * cualquier parametro no se podra realizar la conexion.
      */
     public void connect() {
         try {
@@ -80,6 +110,7 @@ public class Client implements Signable {
             throw new ServerNotFoundException(); // Lanza excepción personalizada si falla
         }
     }
+
 
     /**
      * Cierra la conexión con el servidor, liberando los recursos asociados al
