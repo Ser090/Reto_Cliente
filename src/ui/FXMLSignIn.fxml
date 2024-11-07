@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Hyperlink?>
+
+<AnchorPane fx:id="signIn" prefHeight="800.0" prefWidth="750.0" maxHeight="800.0" maxWidth="750.0" minHeight="800.0" minWidth="750.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ApplicationClientSignInController">
+    <children>
+        <GridPane fx:id="gridPane" alignment="CENTER" hgap="10" vgap="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <!-- Definición de columnas para mejor alineación -->
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" />
+                <ColumnConstraints halignment="CENTER" />
+                <ColumnConstraints halignment="CENTER" />
+            </columnConstraints>
+
+            <!-- Título -->
+            <Label fx:id="label" styleClass="titulo" text="Iniciar Sesión" GridPane.columnSpan="2" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <!-- Campo de Login con Imagen -->
+            <ImageView fitWidth="40" fitHeight="40" GridPane.rowIndex="1">
+                <image>
+                    <Image url="@../resources/iconos/usuario2.png" />
+                </image>
+            </ImageView>
+            <TextField fx:id="loginField" promptText="Introduce tu correo electrónico" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                <tooltip>
+                    <Tooltip text="Ingrese su correo electronico para iniciar la sesión." />
+                </tooltip>
+            </TextField>
+            <!-- Campo de Contraseña con Imagen -->
+            <ImageView fitWidth="40" fitHeight="40" GridPane.rowIndex="2">
+                <image>
+                    <Image url="@../resources/iconos/contraseña.png" />
+                </image>
+            </ImageView>
+            <PasswordField fx:id="passwordField" promptText="Introduce tu contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" >
+                <tooltip>
+                    <Tooltip text="Introduce tu contraseña." />
+                </tooltip>
+            </PasswordField>
+            <TextField fx:id="passwordFieldVisual" promptText="Introduce tu contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" visible="false">
+
+            </TextField>
+            <!-- Botón con imagen del ojo -->
+            <Button fx:id="toggleVisibilityButton" styleClass="mostrarPass" translateX = "163" GridPane.columnIndex="2" GridPane.rowIndex="2" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView  fx:id="eyeIcon2" styleClass="mostrarPassImage" fitHeight="30" fitWidth="30"  pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image fx:id="imagePassConfirm" url="@../resources/iconos/visualizar.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <!-- Botón de Iniciar Sesión -->
+            <Button fx:id="loginButton" text="Iniciar Sesión" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" onAction="#handleButtonLoginButton"/>
+
+            <!-- Etiqueta de Error -->
+            <Label fx:id="errorLabel" styleClass="error" textFill="red" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+
+            <!-- Enlace de Registro -->
+            <Label fx:id="RegisterLinkText" text="No tienes cuenta?" styleClass="label-text" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <Hyperlink fx:id="registerLink" text="Regístrate" styleClass="custom-hyperlink" GridPane.rowIndex="6" GridPane.columnIndex="1" GridPane.columnSpan="2" onAction="#handleHyperLinkRegistry"/>
+
+            <!-- Errores visuales -->
+            <ImageView fx:id="errorImageLogin" fitHeight="28.0" fitWidth="28.0" GridPane.columnIndex="3" GridPane.rowIndex="1" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+
+            <ImageView fx:id="errorImagePass" fitHeight="28.0" fitWidth="28.0" GridPane.columnIndex="3" GridPane.rowIndex="2" visible="false">
+                <image>
+                    <Image url="@../resources/iconos/error.png" />
+                </image>
+            </ImageView>
+
+            <!-- Definición de filas para mejor alineación -->
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </children>
+</AnchorPane>
