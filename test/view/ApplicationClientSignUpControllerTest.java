@@ -6,6 +6,8 @@
 package view;
 
 import auxiliarMainTests.MainClientTestSignUp;
+import java.math.BigInteger;
+import java.util.Random;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.Before;
@@ -16,6 +18,7 @@ import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.*;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
@@ -26,25 +29,30 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ApplicationClientSignUpControllerTest extends ApplicationTest {
 
+    private static String textoClave;
 
-    /*@BeforeClass
-    public static void setUpClass() throws TimeoutException {
+    //Esto  se ejecuta una vez antes de lanzar el Main
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        /*La expresión  genera un número aleatorio de 25 cifras. Si el número tiene menos
+        de 25 cifras, completa con ceros. 83 bits son suficientes para representar un
+        número 10^25 que garantiza 25 cifras.*/
+        textoClave = String.format("%025d", new BigInteger(83, new Random()));
+
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(MainClientTestSignUp.class);
-    }*/
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         new MainClientTestSignUp().start(stage);
-    }
-
-    public ApplicationClientSignUpControllerTest() {
     }
 
     @Test
     public void test_A_SignUp_EmptyTexts() {
 
         clickOn("#btnRegistrar");
-        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
         verifyThat("#errorImageName", isVisible());
         verifyThat("#errorImageSurname1", isVisible());
@@ -68,7 +76,7 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Garcia");
         clickOn("#emailField");
-        write("manologarcia.es");
+        write(textoClave + "gmail.es");
         clickOn("#passwordField");
         write("1234b");
         clickOn("#confirmpasswordField");
@@ -81,7 +89,7 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         write("1234");
         clickOn("#btnRegistrar");
 
-        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
 
         verifyThat("#errorImageEmail", isVisible());
@@ -89,18 +97,6 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         verifyThat("#errorImagePassRepeat", isVisible());
         verifyThat("#errorImageZip", isVisible());
 
-        /*clickOn(MouseButton.SECONDARY);
-        clickOn("Borrar campos");
-
-        verifyThat("#nameField", hasText(""));
-        verifyThat("#surname1Field", hasText(""));
-        verifyThat("#surname2Field", hasText(""));
-        verifyThat("#emailField", hasText(""));
-        verifyThat("#passwordField", hasText(""));
-        verifyThat("#confirmpasswordField", hasText(""));
-        verifyThat("#streetField", hasText(""));
-        verifyThat("#cityField", hasText(""));
-        verifyThat("#zipField", hasText(""));*/
     }
 
     @Test
@@ -112,7 +108,8 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Garcia");
         clickOn("#emailField");
-        write("manolo@garcia.es");
+        write(textoClave + "@tartanga.es");
+        //write("manolo@garcia.es"); // Esta linea solo es en el caso de que la base de datos este limpia
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#confirmpasswordField");
@@ -140,7 +137,11 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Garcia");
         clickOn("#emailField");
-        write("manolo@garcia.es");
+        write("manolo@garcia.es"); // Correo controlado previo a introducirlo en la base de datos
+
+        /*Este se puede usar para aprobechar el la insercion del testC
+          solo para cuando se ejecuta previamente el C*/
+        //write(textoClave + "@tartanga.es");
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#confirmpasswordField");
@@ -154,8 +155,53 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
 
         clickOn("#btnRegistrar");
 
-        verifyThat("El correo electronico ya existe en la base de datos.", isVisible());
+        verifyThat("El correo electrónico ya existe en la base de datos.", isVisible());
 
+        clickOn("Aceptar");
     }
 
+    @Test
+    public void test_E_SignUp_NonActiveUser() {
+        textoClave = String.format("%025d", new BigInteger(83, new Random()));
+
+        clickOn("#nameField");
+        write("Tipo");
+        clickOn("#surname1Field");
+        write("De");
+        clickOn("#surname2Field");
+        write("Incognito");
+        clickOn("#emailField");
+        //write(textoClave + "@noactivo.es");
+        write("incognito@noactivo.es");
+        clickOn("#passwordField");
+        write("12345678A");
+        clickOn("#confirmpasswordField");
+        write("12345678A");
+        clickOn("#streetField");
+        write("Calle Aleatoria, -1");
+        clickOn("#cityField");
+        write("Cuenca");
+        clickOn("#zipField");
+        write("99991");
+
+        clickOn("#activeCheckBox");
+        verifyThat("#warningbox", isVisible());
+
+        clickOn("#activeCheckBox");
+        verifyThat("#warningbox", isInvisible());
+
+        clickOn("#activeCheckBox");
+        verifyThat("#warningbox", isVisible());
+
+        clickOn("#btnRegistrar");
+
+        verifyThat("Si el usuario esta 'No Activo', no podrá iniciar sesión ¿Desea continuar el registro?", isVisible());
+
+        clickOn("Aceptar");
+
+        verifyThat("El registro se ha realizado con éxito.", isVisible());
+
+        clickOn("Aceptar");
+
+    }
 }

@@ -33,6 +33,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import utilidades.Message;
 import utilidades.User;
+import static utilities.AlertUtilities.showConfirmationDialog;
 import static utilities.AlertUtilities.showErrorDialog;
 import static utilities.ValidateUtilities.isValid;
 
@@ -366,7 +367,7 @@ public class ApplicationClientSignUpController implements Initializable {
         // Si hay errores, no continuar
         if (hasError) {
             LOGGER.severe("Hay errores en el formulario.");
-            showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.");
+            showErrorDialog(AlertType.ERROR, "Error", "Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.");
             btnRegistrar.setDisable(false);
         } else {
             // Si no hay errores, proceder con el registro
@@ -394,14 +395,8 @@ public class ApplicationClientSignUpController implements Initializable {
     @FXML
     private void handleButtonCancel(ActionEvent event) {
         // Crear la alerta de confirmación
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmación");
-        alert.setHeaderText(null);
-        alert.setContentText("¿Estás seguro de que deseas cancelar?");
 
-        // Obtener la respuesta del usuario
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (showConfirmationDialog("Confirmación", "¿Estás seguro de que deseas cancelar?")) {
             // Si el usuario confirma, realizar la acción de cancelar
             factory.loadSignInWindow(stage, "");
         }
@@ -416,18 +411,8 @@ public class ApplicationClientSignUpController implements Initializable {
      */
     private boolean confirmNoActiveUserRegister() {
         // Crear la alerta de confirmación
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmación de Registro");
-        alert.setHeaderText(null);
-        alert.setContentText("Si el usuario esta 'No Activo', no podrá iniciar sesión ¿Desea continuar el registro?");
+        return showConfirmationDialog("Confirmación de Registro", "Si el usuario esta 'No Activo', no podrá iniciar sesión ¿Desea continuar el registro?");
 
-        // Obtener la respuesta del usuario
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -530,28 +515,28 @@ public class ApplicationClientSignUpController implements Initializable {
         switch (message.getType()) {
             case OK_RESPONSE:
                 btnRegistrar.setDisable(true);
-                showErrorDialog(AlertType.CONFIRMATION, "El registro se ha realizado con éxito.");
+                showErrorDialog(AlertType.INFORMATION, "Error", "El registro se ha realizado con éxito.");
                 factory.loadSignInWindow(stage, user.getLogin());
                 break;
             case SIGNUP_ERROR:
-                showErrorDialog(AlertType.ERROR, "Se ha producido un error al intentar registrar sus datos. Vuelva a intentarlo.");
+                showErrorDialog(AlertType.ERROR, "Error", "Se ha producido un error al intentar registrar sus datos. Vuelva a intentarlo.");
                 break;
             case LOGIN_EXIST_ERROR:
-                showErrorDialog(AlertType.ERROR, "El correo electrónico ya existe en la base de datos.");
+                showErrorDialog(AlertType.ERROR, "Error", "El correo electrónico ya existe en la base de datos.");
                 emailField.setStyle("-fx-border-color: red;");
                 errorImageEmail.setVisible(true);
                 break;
             case BAD_RESPONSE:
-                showErrorDialog(AlertType.ERROR, "Error interno de la base de datos, inténtelo de nuevo...");
+                showErrorDialog(AlertType.ERROR, "Error", "Error interno de la base de datos, inténtelo de nuevo...");
                 break;
             case SQL_ERROR:
-                showErrorDialog(AlertType.ERROR, "Error al introducir los datos en la base de datos, inténtelo de nuevo...");
+                showErrorDialog(AlertType.ERROR, "Error", "Error al introducir los datos en la base de datos, inténtelo de nuevo...");
                 break;
             case CONNECTION_ERROR:
-                showErrorDialog(AlertType.ERROR, "Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...");
+                showErrorDialog(AlertType.ERROR, "Error", "Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...");
                 break;
             case SERVER_ERROR:
-                showErrorDialog(Alert.AlertType.ERROR, "Servidor no encontrado, inténtelo de nuevo...");
+                showErrorDialog(AlertType.ERROR, "Error", "Servidor no encontrado, inténtelo de nuevo...");
                 break;
         }
     }
