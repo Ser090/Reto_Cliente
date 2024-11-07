@@ -108,8 +108,10 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Garcia");
         clickOn("#emailField");
+
         write(textoClave + "@tartanga.es");
         //write("manolo@garcia.es"); // Esta linea solo es en el caso de que la base de datos este limpia
+
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#confirmpasswordField");
@@ -137,11 +139,11 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Garcia");
         clickOn("#emailField");
-        write("manolo@garcia.es"); // Correo controlado previo a introducirlo en la base de datos
+        //write("manolo@garcia.es"); // Correo controlado previo a introducirlo en la base de datos
 
         /*Este se puede usar para aprobechar el la insercion del testC
           solo para cuando se ejecuta previamente el C*/
-        //write(textoClave + "@tartanga.es");
+        write(textoClave + "@tartanga.es");
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#confirmpasswordField");
@@ -171,8 +173,10 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Incognito");
         clickOn("#emailField");
-        //write(textoClave + "@noactivo.es");
-        write("incognito@noactivo.es");
+
+        write(textoClave + "@noactivo.es");
+        //write("incognito@noactivo.es");
+
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#confirmpasswordField");

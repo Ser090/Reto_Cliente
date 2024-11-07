@@ -25,7 +25,7 @@ public class ApplicationClientSignInServerDownTest extends ApplicationTest {
     public ApplicationClientSignInServerDownTest() {
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void test_A_ServerOff() {
         clickOn("#loginField");
@@ -38,7 +38,7 @@ public class ApplicationClientSignInServerDownTest extends ApplicationTest {
 
     }
 
-    //@Ignore
+    @Ignore
     @Test
     public void test_B_MaxConnections() {
         //Previamente o ponemos conexiones de pool a 0
@@ -47,7 +47,7 @@ public class ApplicationClientSignInServerDownTest extends ApplicationTest {
         clickOn("#passwordField");
         write("12345678U");
         clickOn("#loginButton");
-        verifyThat("Error de conexion con la base de datos,  no hay conexión disponible, inténtelo de nuevo...", isVisible());
+        verifyThat("Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...", isVisible());
         clickOn("Aceptar");
     }
 

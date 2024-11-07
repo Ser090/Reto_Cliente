@@ -25,7 +25,7 @@ public class ApplicationClientSignUpServerDownTest extends ApplicationTest {
     public ApplicationClientSignUpServerDownTest() {
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void test_A_ServerOff() {
         clickOn("#nameField");
@@ -52,7 +52,7 @@ public class ApplicationClientSignUpServerDownTest extends ApplicationTest {
         clickOn("Aceptar");
     }
 
-    //@Ignore
+    @Ignore
     @Test
     public void test_B_MaxConnections() {
         clickOn("#nameField");
@@ -76,7 +76,7 @@ public class ApplicationClientSignUpServerDownTest extends ApplicationTest {
 
         clickOn("#btnRegistrar");
 
-        verifyThat("Error de conexion con la base de datos,  no hay conexión disponible, inténtelo de nuevo...", isVisible());
+        verifyThat("Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...", isVisible());
         clickOn("Aceptar");
     }
 
