@@ -196,12 +196,16 @@ public class ApplicationClientSignInController implements Initializable {
             LOGGER.info("Inicializando la carga del stage");
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("Inicio de Sesión");
+            stage.setTitle("Iniciar Sesión");
             stage.setResizable(false);
             stage.setOnShowing(this::handleWindowShowing);
             loginButton.setOnAction(null);
             loginButton.addEventHandler(ActionEvent.ACTION, this::handleButtonLoginButton);
             registerLink.setOnAction(this::handleHyperLinkRegistry);  // Manejar clic en el hipervínculo de registro
+
+            if (!loginField.getText().equals("")) {
+                passwordField.requestFocus();  // Establece el foco en el campo de contraseña
+            }
 
             // Configurar la visibilidad de la contraseña
             toggleVisibilityButton.setOnMousePressed(event -> {
@@ -247,7 +251,6 @@ public class ApplicationClientSignInController implements Initializable {
     public void setLogin(String login) {
         if (login != null && !login.isEmpty()) {
             loginField.setText(login);
-            passwordField.requestFocus();  // Establece el foco en el campo de contraseña
         }
     }
 

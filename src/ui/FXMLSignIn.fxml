@@ -31,9 +31,9 @@
                     <Image url="@../resources/iconos/usuario2.png" />
                 </image>
             </ImageView>
-            <TextField fx:id="loginField" promptText="Login" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <TextField fx:id="loginField" promptText="Introduce tu correo electrónico" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
                 <tooltip>
-                    <Tooltip text="Ingrese su correo electronico para hacer login." />
+                    <Tooltip text="Ingrese su correo electronico para iniciar la sesión." />
                 </tooltip>
             </TextField>
             <!-- Campo de Contraseña con Imagen -->
@@ -42,12 +42,12 @@
                     <Image url="@../resources/iconos/contraseña.png" />
                 </image>
             </ImageView>
-            <PasswordField fx:id="passwordField" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" >
+            <PasswordField fx:id="passwordField" promptText="Introduce tu contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" >
                 <tooltip>
-                    <Tooltip text="Ingrese su contraseña." />
+                    <Tooltip text="Introduce tu contraseña." />
                 </tooltip>
             </PasswordField>
-            <TextField fx:id="passwordFieldVisual" promptText="Confirmar contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" visible="false">
+            <TextField fx:id="passwordFieldVisual" promptText="Introduce tu contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" visible="false">
 
             </TextField>
             <!-- Botón con imagen del ojo -->
