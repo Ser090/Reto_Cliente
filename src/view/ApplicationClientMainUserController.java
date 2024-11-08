@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -37,15 +38,17 @@ import utilidades.User;
 public class ApplicationClientMainUserController implements Initializable {
 
     @FXML
-    private MenuItem logOutMenu;   // Opción de menú para cerrar sesión
+    private MenuItem menuCerrarSesion;   // Opción de menú para cerrar sesión
     @FXML
-    private MenuItem logOut;          // Opción de menú para salir de la aplicación
+    private MenuItem menuSalir;          // Opción de menú para salir de la aplicación
     @FXML
     private Label welcomeLabel;          // Etiqueta para mostrar mensaje de bienvenida al usuario
     @FXML
     private AnchorPane main;             // Panel principal de la vista
     @FXML
     private Button logoutButton;         // Botón para cerrar sesión
+    @FXML
+    private Menu menuApp;
 
     private ContextMenu contextMenu;     // Menú contextual personalizado
     private Stage stage;                 // Ventana principal de la aplicación
@@ -79,15 +82,15 @@ public class ApplicationClientMainUserController implements Initializable {
                 + "-fx-background-radius: 5;");
 
         // Configurar y añadir opción de cerrar sesión al menú contextual
-        MenuItem clearFieldsItem = new MenuItem("Cerrar sesión");
-        clearFieldsItem.setStyle("-fx-font-size: 18px;"
+        MenuItem closeSesion = new MenuItem("Cerrar sesión");
+        closeSesion.setStyle("-fx-font-size: 18px;"
                 + "-fx-font-weight: bold;"
                 + "-fx-font-family: 'Protest Strike';"
                 + "-fx-text-fill: #FFFFFF;"
                 + "-fx-background-color: transparent;"
                 + "-fx-max-width: 250px;"
                 + "-fx-wrap-text: true;");
-        clearFieldsItem.setOnAction(event -> logOut());
+        closeSesion.setOnAction(event -> logOut());
 
         // Configurar y añadir opción de salir al menú contextual
         MenuItem exitItem = new MenuItem("Salir");
@@ -100,7 +103,7 @@ public class ApplicationClientMainUserController implements Initializable {
                 + "-fx-wrap-text: true;");
         exitItem.setOnAction(event -> applicationExit());
 
-        contextMenu.getItems().addAll(clearFieldsItem, exitItem);
+        contextMenu.getItems().addAll(closeSesion, exitItem);
 
         // Configurar menú contextual para mostrar al hacer clic derecho
         main.setOnMouseClicked(event -> {
@@ -166,8 +169,8 @@ public class ApplicationClientMainUserController implements Initializable {
 
             // Configurar acciones para los botones y elementos de menú
             logoutButton.setOnAction(event -> logOut());
-            logOutMenu.setOnAction(event -> logOut());
-            logOut.setOnAction(event -> applicationExit());
+            menuCerrarSesion.setOnAction(event -> logOut());
+            menuSalir.setOnAction(event -> applicationExit());
 
             configureMnemotecnicKeys(); // Configurar teclas de acceso rápido
             stage.show();
@@ -203,6 +206,7 @@ public class ApplicationClientMainUserController implements Initializable {
     private void logOut() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
+        alert.setHeaderText(null);
         alert.setContentText("¿Estás seguro de que deseas cerrar sesión?");
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -217,6 +221,7 @@ public class ApplicationClientMainUserController implements Initializable {
     private void applicationExit() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
+        alert.setHeaderText(null);
         alert.setContentText("¿Estás seguro de que deseas salir de la aplicación?");
         Optional<ButtonType> result = alert.showAndWait();
 

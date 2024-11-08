@@ -32,8 +32,7 @@ public class ApplicationClientMainUserControllerTest extends ApplicationTest {
     public ApplicationClientMainUserControllerTest() {
     }
 
-    //FALTA TERMINAR
-    @Ignore
+    //@Ignore
     @Test
     public void test_A_LogOutButton() {
         clickOn("#logoutButton");

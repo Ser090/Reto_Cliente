@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package auxiliarMainTests;
 
 import javafx.application.Application;
@@ -11,8 +6,9 @@ import business.ApplicationClientFactory;
 import utilidades.User;
 
 /**
+ * Este Main es unicamente para poder ejecutar los test del Main
  *
- * @author 2dam
+ * @author Sergio
  */
 public class MainClientTestMainUser extends Application {
 

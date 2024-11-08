@@ -35,36 +35,38 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
     @Test
     public void test_A_LoginOK() {
         clickOn("#loginField");
-        write("pruebapruebita@gmail.com");
+        write("manolo@garcia.es");
         clickOn("#passwordField");
-        write("12345678U");
+        write("12345678A");
         clickOn("#loginButton");
         verifyThat("#logoutButton", isVisible());
     }
-    @Ignore
+
+    //@Ignore
     @Test
     public void test_B_LoginBad() {
         clickOn("#loginField");
-        write("sergio@sergio.org");
+        write("testmal@testb.org");
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#loginButton");
         verifyThat("El correo electrónico (login) y/o la contraseña incorrect@/s", isVisible());
         clickOn("Aceptar");
     }
-    @Ignore
+
+    //@Ignore
     @Test
     public void test_C_LoginEmpty() {
         // Caso 1: Ambos campos están vacíos
         clickOn("#loginButton");
-        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
 
         // Caso 2: Solo el campo de login está vacío
         clickOn("#passwordField");
         write("12345678U");
         clickOn("#loginButton");
-        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
 
         // Limpia los campos para el siguiente caso
@@ -73,22 +75,22 @@ public class ApplicationClientSignInControllerTest extends ApplicationTest {
 
         // Caso 3: Solo el campo de contraseña está vacío
         clickOn("#loginField");
-        write("sergio@sergio.org");
+        write("testloginempty@testc.org");
         clickOn("#loginButton");
-        verifyThat("Uno o varios campos incorrectos o vacios, mantenga el cursor encima de los campos para más información.", isVisible());
+        verifyThat("Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.", isVisible());
         clickOn("Aceptar");
     }
 
     //Poner usuario no activo en la base de datos
-    @Ignore
+    //@Ignore
     @Test
     public void test_D_LoginNonActive() {
         clickOn("#loginField");
-        write("noactive@gmail.com");
+        write("incognito@noactivo.es");
         clickOn("#passwordField");
-        write("12345678U");
+        write("12345678A");
         clickOn("#loginButton");
-        verifyThat("El usuario introducido esta desactivado, no puede hacer login.", isVisible());
+        verifyThat("El usuario introducido está desactivado, no puede hacer iniciar sesión comuniquese con el departamento de Sistemas.", isVisible());
         clickOn("Aceptar");
     }
 

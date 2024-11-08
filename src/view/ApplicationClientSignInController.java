@@ -280,7 +280,7 @@ public class ApplicationClientSignInController implements Initializable {
      */
     @FXML
     private void handleButtonLoginButton(ActionEvent event) {
-        LOGGER.info("Botón Aceptar presionado");
+        LOGGER.info("Botón Iniciar Sesion presionado");
         hasError = false;
 
         // Verificar si todos los campos están llenos
@@ -311,7 +311,7 @@ public class ApplicationClientSignInController implements Initializable {
         // Si hay errores, no continuar
         if (hasError) {
             LOGGER.severe("Hay errores en el formulario.");
-            showErrorDialog(AlertType.ERROR, "Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.");
+            showErrorDialog(AlertType.ERROR, "Error", "Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.");
         } else {
             // Si no hay errores, proceder con el formulario
             user = new User();  // Crear un nuevo usuario
@@ -340,19 +340,19 @@ public class ApplicationClientSignInController implements Initializable {
                 passwordField.setStyle("-fx-border-color: red;");
                 errorImageLogin.setVisible(true);  // Mostrar icono de error para nombre de usuario
                 errorImagePass.setVisible(true);  // Mostrar icono de error para contraseña
-                showErrorDialog(Alert.AlertType.ERROR, "El correo electrónico (login) y/o la contraseña incorrect@/s");
+                showErrorDialog(Alert.AlertType.ERROR, "Error", "El correo electrónico (login) y/o la contraseña incorrect@/s");
                 break;
             case BAD_RESPONSE:
-                showErrorDialog(Alert.AlertType.ERROR, "Error interno de la base de datos, inténtelo de nuevo...");
+                showErrorDialog(Alert.AlertType.ERROR, "Error", "Error interno de la base de datos, inténtelo de nuevo...");
                 break;
             case CONNECTION_ERROR:
-                showErrorDialog(Alert.AlertType.ERROR, "Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...");
+                showErrorDialog(Alert.AlertType.ERROR, "Error", "Error de conexión con la base de datos. No hay conexión disponible, inténtelo de nuevo...");
                 break;
             case SERVER_ERROR:
-                showErrorDialog(Alert.AlertType.ERROR, "Servidor no encontrado, inténtelo de nuevo...");
+                showErrorDialog(Alert.AlertType.ERROR, "Error", "Servidor no encontrado, inténtelo de nuevo...");
                 break;
             case NON_ACTIVE:
-                showErrorDialog(Alert.AlertType.ERROR, "El usuario introducido está desactivado, no puede hacer login.");
+                showErrorDialog(Alert.AlertType.ERROR, "Error", "El usuario introducido está desactivado, no puede hacer iniciar sesión comuniquese con el departamento de Sistemas.");
                 break;
         }
     }
