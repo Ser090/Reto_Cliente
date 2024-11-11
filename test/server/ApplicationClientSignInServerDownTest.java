@@ -12,7 +12,7 @@ import static org.testfx.matcher.base.NodeMatchers.*;
 
 /**
  *
- * @author 2dam
+ * @author Lucian
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ApplicationClientSignInServerDownTest extends ApplicationTest {

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import utilidades.Signable;
 import utilidades.User;
 import view.ApplicationClientMainUserController;
 import view.ApplicationClientSignInController;
@@ -59,7 +60,6 @@ public class ApplicationClientFactory {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignIn.fxml"));
             Parent root = loader.load(); // Carga el archivo FXML
             ApplicationClientSignInController controller = loader.getController();
-            controller.setClient(client); // Establece el cliente en el controlador
             controller.setStage(stage); // Asigna el escenario al controlador
             controller.setLogin(login); // Establece el login en el controlador
             controller.initStage(root); // Inicializa la escena con el root cargado
@@ -79,7 +79,6 @@ public class ApplicationClientFactory {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
             Parent root = loader.load(); // Carga el archivo FXML
             ApplicationClientSignUpController controller = loader.getController();
-            controller.setClient(client); // Establece el cliente en el controlador
             controller.setStage(stage); // Asigna el escenario al controlador
             controller.initStage(root); // Inicializa la escena con el root cargado
         } catch (IOException event) {
@@ -144,5 +143,13 @@ public class ApplicationClientFactory {
     public void applyStyle(Scene scene, String cssFileName) {
         scene.getStylesheets().clear(); // Limpia las hojas de estilo actuales
         scene.getStylesheets().add(getClass().getResource(cssFileName).toExternalForm()); // Añade la nueva hoja de estilo
+    }
+    /**
+     * Retorna el cliente para ser usado al llamar a la factoria
+     *
+     * @return
+     */
+    public Signable access() {
+        return client;
     }
 }
