@@ -1,9 +1,7 @@
 package view;
 
 import business.ApplicationClientFactory;
-import business.Client;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,10 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -111,7 +107,6 @@ public class ApplicationClientSignUpController implements Initializable {
     private Button toggleVisibilityButton2;  // Botón para alternar la visibilidad de la confirmación de la contraseña
 
     private ContextMenu contextMenu;  // Menú contextual personalizado
-    private Client client;  // Cliente para la comunicación con el servidor
 
     /**
      * Inicializa el controlador y configura el menú contextual, los eventos de
@@ -215,16 +210,6 @@ public class ApplicationClientSignUpController implements Initializable {
     private void assignCustomContextMenu(TextField textField) {
         // Asignar el menú contextual personalizado y eliminar el predeterminado
         textField.setContextMenu(contextMenu);
-    }
-
-    /**
-     * Establece el cliente para la conexión con el servidor.
-     *
-     * @param client El cliente que se conectará al servidor.
-     * @author Sergio
-     */
-    public void setClient(Client client) {
-        this.client = client;
     }
 
     /**
@@ -378,7 +363,7 @@ public class ApplicationClientSignUpController implements Initializable {
             LOGGER.info("Validación de campos correcta.");
 
             if (activeCheckBox.isSelected() || (!activeCheckBox.isSelected() && confirmNoActiveUserRegister())) {
-                Message response = client.signUp(user);
+                Message response = ApplicationClientFactory.getInstance().access().signUp(user);
                 messageManager(response);
             }
 

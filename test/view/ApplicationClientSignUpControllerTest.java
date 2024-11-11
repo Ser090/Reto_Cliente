@@ -8,9 +8,7 @@ package view;
 import auxiliarMainTests.MainClientTestSignUp;
 import java.math.BigInteger;
 import java.util.Random;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.FixMethodOrder;
@@ -20,7 +18,6 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 /**
  *
@@ -109,8 +106,8 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         write("Garcia");
         clickOn("#emailField");
 
-        write(textoClave + "@tartanga.es");
-        //write("manolo@garcia.es"); // Esta linea solo es en el caso de que la base de datos este limpia
+        //write(textoClave + "@tartanga.es");
+        write("manolo@garcia.es"); // Esta linea solo es en el caso de que la base de datos este limpia
 
         clickOn("#passwordField");
         write("12345678A");
@@ -139,11 +136,11 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         clickOn("#surname2Field");
         write("Garcia");
         clickOn("#emailField");
-        //write("manolo@garcia.es"); // Correo controlado previo a introducirlo en la base de datos
+        write("manolo@garcia.es"); // Correo controlado previo a introducirlo en la base de datos
 
         /*Este se puede usar para aprobechar el la insercion del testC
           solo para cuando se ejecuta previamente el C*/
-        write(textoClave + "@tartanga.es");
+        //write(textoClave + "@tartanga.es");
         clickOn("#passwordField");
         write("12345678A");
         clickOn("#confirmpasswordField");
@@ -174,8 +171,8 @@ public class ApplicationClientSignUpControllerTest extends ApplicationTest {
         write("Incognito");
         clickOn("#emailField");
 
-        write(textoClave + "@noactivo.es");
-        //write("incognito@noactivo.es");
+        //write(textoClave + "@noactivo.es");
+        write("incognito@noactivo.es");
 
         clickOn("#passwordField");
         write("12345678A");

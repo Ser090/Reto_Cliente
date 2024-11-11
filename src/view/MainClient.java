@@ -11,7 +11,7 @@ import business.ApplicationClientFactory;
 
 /**
  *
- * @author 2dam
+ * @author Lucian
  */
 public class MainClient extends Application {
 

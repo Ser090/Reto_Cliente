@@ -1,7 +1,6 @@
 package view;
 
 import business.ApplicationClientFactory;
-import business.Client;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,7 +44,6 @@ public class ApplicationClientSignInController implements Initializable {
     private static final Logger LOGGER = Logger.getLogger(ApplicationClientSignInController.class.getName());
     private Stage stage = new Stage();
     private ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
-    private Client client;  // Cliente para la conexión al servidor
     private boolean hasError = false;  // Indica si hay errores en el formulario
     private User user;  // Usuario que intenta iniciar sesión
 
@@ -166,15 +164,6 @@ public class ApplicationClientSignInController implements Initializable {
         loginField.clear();  // Limpiar el campo de nombre de usuario
         passwordField.clear();  // Limpiar el campo de contraseña
         label.requestFocus();  // Devuelve el foco al título
-    }
-
-    /**
-     * Establece el cliente para la conexión con el servidor.
-     *
-     * @param client El cliente que se conectará al servidor.
-     */
-    public void setClient(Client client) {
-        this.client = client;
     }
 
     /**
@@ -319,7 +308,7 @@ public class ApplicationClientSignInController implements Initializable {
             user.setPass(passwordField.getText());
 
             LOGGER.info("Validación de campos correcta.");
-            Message response = client.signIn(user);  // Enviar los datos de inicio de sesión al servidor
+            Message response = ApplicationClientFactory.getInstance().access().signIn(user);  // Enviar los datos de inicio de sesión al servidor
             messageManager(response);  // Manejar la respuesta del servidor
         }
     }
