@@ -62,13 +62,14 @@
             </Button>
             <!-- Botón de Iniciar Sesión -->
             <Button fx:id="loginButton" text="Iniciar Sesión" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" onAction="#handleButtonLoginButton"/>
-
+            <!-- Botón de Iniciar Sesión -->
+            <Button fx:id="actualizarDatos" text="Actualizar Datos" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" onAction="#handleButtonLoginButton"/>
             <!-- Etiqueta de Error -->
-            <Label fx:id="errorLabel" styleClass="error" textFill="red" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+            <Label fx:id="errorLabel" styleClass="error" textFill="red" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="5" />
 
             <!-- Enlace de Registro -->
-            <Label fx:id="RegisterLinkText" text="No tienes cuenta?" styleClass="label-text" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.columnSpan="2" />
-            <Hyperlink fx:id="registerLink" text="Regístrate" styleClass="custom-hyperlink" GridPane.rowIndex="6" GridPane.columnIndex="1" GridPane.columnSpan="2" onAction="#handleHyperLinkRegistry"/>
+            <Label fx:id="RegisterLinkText" text="No tienes cuenta?" styleClass="label-text" GridPane.rowIndex="6" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <Hyperlink fx:id="registerLink" text="Regístrate" styleClass="custom-hyperlink" GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="2" onAction="#handleHyperLinkRegistry"/>
 
             <!-- Errores visuales -->
             <ImageView fx:id="errorImageLogin" fitHeight="28.0" fitWidth="28.0" GridPane.columnIndex="3" GridPane.rowIndex="1" visible="false">

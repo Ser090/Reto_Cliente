@@ -15,7 +15,7 @@ public class MainClientTestSignUp extends Application {
     public void start(Stage stage) throws Exception {
         ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
 
-        factory.loadSignUpWindow(stage);
+        factory.loadSignUpWindow(stage, null);
     }
 
     /**

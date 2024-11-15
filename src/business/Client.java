@@ -70,7 +70,6 @@ public class Client implements Signable {
         }
     }
 
-
     /**
      * Obtiene la instancia única del cliente. Si no existe, crea una nueva
      * instancia.
@@ -111,7 +110,6 @@ public class Client implements Signable {
         }
     }
 
-
     /**
      * Cierra la conexión con el servidor, liberando los recursos asociados al
      * socket.
@@ -144,6 +142,21 @@ public class Client implements Signable {
             connect(); // Conectar al servidor
             Message signUpRequest = new Message(MessageType.SIGN_UP_REQUEST, user); // Crear solicitud
             sendMessage(signUpRequest); // Enviar solicitud
+            response = receiveMessage(); // Recibir respuesta
+            closeConnection(); // Cerrar conexión
+            return response; // Retornar respuesta
+        } catch (ServerNotFoundException event) {
+            return event.CreateMessage(); // Crear mensaje de error
+        }
+    }
+
+    @Override
+    public Message actualizar(User user) {
+        Message response = null;
+        try {
+            connect(); // Conectar al servidor
+            Message actualizar = new Message(MessageType.ACTUALIZAR_REQUEST, user); // Crear solicitud
+            sendMessage(actualizar); // Enviar solicitud
             response = receiveMessage(); // Recibir respuesta
             closeConnection(); // Cerrar conexión
             return response; // Retornar respuesta

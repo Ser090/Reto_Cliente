@@ -46,6 +46,7 @@ public class ApplicationClientSignUpController implements Initializable {
     private Stage stage = new Stage();
     private ApplicationClientFactory factory = ApplicationClientFactory.getInstance();
     private User user;
+    private User user2;
     private boolean hasError = false;  // Indica si hay errores en el formulario
 
     // Elementos de la interfaz FXML
@@ -107,6 +108,7 @@ public class ApplicationClientSignUpController implements Initializable {
     private Button toggleVisibilityButton2;  // Botón para alternar la visibilidad de la confirmación de la contraseña
 
     private ContextMenu contextMenu;  // Menú contextual personalizado
+    private boolean actualizar;
 
     /**
      * Inicializa el controlador y configura el menú contextual, los eventos de
@@ -222,6 +224,14 @@ public class ApplicationClientSignUpController implements Initializable {
         this.stage = stage;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setModoActualizar(boolean modo) {
+        this.actualizar = modo;
+    }
+
     /**
      * Inicializa el escenario con el contenido de la vista.
      *
@@ -268,6 +278,9 @@ public class ApplicationClientSignUpController implements Initializable {
                 }
             });
             configureMnemotecnicKeys();  // Configurar teclas de acceso rápido
+            if (actualizar) {
+                actualizarInit();
+            }
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al inicializar el stage", e);
@@ -334,6 +347,7 @@ public class ApplicationClientSignUpController implements Initializable {
             showErrorImage(passwordField);
             hasError = true;
         }
+
         confirmpasswordField.setText(confirmpasswordField.getText().trim());
         if (!passwordField.getText().equals(confirmpasswordField.getText())) {
             showErrorImage(confirmpasswordField);
@@ -356,14 +370,20 @@ public class ApplicationClientSignUpController implements Initializable {
             btnRegistrar.setDisable(false);
         } else {
             // Si no hay errores, proceder con el registro
-            user = new User(emailField.getText(), passwordField.getText(),
+            user2 = new User(emailField.getText(), passwordField.getText(),
                     nameField.getText() + " " + surname1Field.getText() + " " + surname2Field.getText(),
                     streetField.getText(), zipField.getText(), cityField.getText(), activeCheckBox.isSelected());
 
             LOGGER.info("Validación de campos correcta.");
-
+            Message response;
             if (activeCheckBox.isSelected() || (!activeCheckBox.isSelected() && confirmNoActiveUserRegister())) {
-                Message response = ApplicationClientFactory.getInstance().access().signUp(user);
+                if (actualizar) {
+                    user2.setResUserId(user.getResUserId());
+                    response = ApplicationClientFactory.getInstance().access().actualizar(user2);
+                } else {
+                    response = ApplicationClientFactory.getInstance().access().signUp(user2);
+                }
+
                 messageManager(response);
             }
 
@@ -447,11 +467,11 @@ public class ApplicationClientSignUpController implements Initializable {
             errorImageSurname1.setVisible(true);
         } else if (node == surname2Field) {
             errorImageSurname2.setVisible(true);
-        } else if (node == emailField) {
+        } else if (node == emailField && !actualizar) {
             errorImageEmail.setVisible(true);
-        } else if (node == passwordField) {
+        } else if (node == passwordField && !actualizar) {
             errorImagePass.setVisible(true);
-        } else if (node == confirmpasswordField) {
+        } else if (node == confirmpasswordField && !actualizar) {
             errorImagePassRepeat.setVisible(true);
         } else if (node == streetField) {
             errorImageStreet.setVisible(true);
@@ -475,11 +495,11 @@ public class ApplicationClientSignUpController implements Initializable {
             errorImageSurname1.setVisible(false);
         } else if (node == surname2Field) {
             errorImageSurname2.setVisible(false);
-        } else if (node == emailField) {
+        } else if (node == emailField && !actualizar) {
             errorImageEmail.setVisible(false);
-        } else if (node == passwordField) {
+        } else if (node == passwordField && !actualizar) {
             errorImagePass.setVisible(false);
-        } else if (node == confirmpasswordField) {
+        } else if (node == confirmpasswordField && !actualizar) {
             errorImagePassRepeat.setVisible(false);
         } else if (node == streetField) {
             errorImageStreet.setVisible(false);
@@ -500,7 +520,19 @@ public class ApplicationClientSignUpController implements Initializable {
         switch (message.getType()) {
             case OK_RESPONSE:
                 btnRegistrar.setDisable(true);
-                showErrorDialog(AlertType.INFORMATION, "Error", "El registro se ha realizado con éxito.");
+                if (!actualizar) {
+                    showErrorDialog(AlertType.INFORMATION, "Información", "El registro se ha realizado con éxito.");
+                } else {
+                    showErrorDialog(AlertType.INFORMATION, "Información", "La actualización se ha realizado con éxito.");
+                }
+
+                factory.loadSignInWindow(stage, user.getLogin());
+                break;
+            case OK_ACTUALIZAR:
+                btnRegistrar.setDisable(true);
+
+                showErrorDialog(AlertType.INFORMATION, "Información", "La actualización se ha realizado con éxito.");
+
                 factory.loadSignInWindow(stage, user.getLogin());
                 break;
             case SIGNUP_ERROR:
@@ -556,9 +588,12 @@ public class ApplicationClientSignUpController implements Initializable {
         nameField.clear();
         surname1Field.clear();
         surname2Field.clear();
-        emailField.clear();
-        passwordField.clear();
-        confirmpasswordField.clear();
+        if (!actualizar) {
+            emailField.clear();
+            passwordField.clear();
+            confirmpasswordField.clear();
+        }
+
         streetField.clear();
         cityField.clear();
         zipField.clear();
@@ -626,5 +661,31 @@ public class ApplicationClientSignUpController implements Initializable {
         // Recuperar el foco y colocar el cursor al final del texto sin seleccionar todo
         passwordFieldParam.requestFocus();
         passwordFieldParam.positionCaret(passwordFieldParam.getText().length());
+    }
+
+    private void actualizarInit() {
+        labelTitulo.setText("Actualizar Datos");
+        String[] nombreCompleto = user.getName().split(" ");
+
+        nameField.setText(nombreCompleto[0]);
+        surname1Field.setText(nombreCompleto[1]);
+        surname2Field.setText(nombreCompleto[2]);
+        emailField.setText(user.getLogin());
+        emailField.setDisable(true);
+        passwordField.setText(user.getPass());
+        passwordField.setDisable(true);
+        confirmpasswordField.setText(user.getPass());
+        confirmpasswordField.setVisible(false);
+        passwordFieldVisual.setVisible(false);
+        confirmPasswordFieldVisual.setVisible(false);
+        streetField.setText(user.getStreet());
+        cityField.setText(user.getCity());
+        zipField.setText(user.getZip());
+        activeCheckBox.setSelected(user.getActive());
+        btnRegistrar.setText("Actualizar Datos");
+
+        toggleVisibilityButton1.setVisible(false);
+        toggleVisibilityButton2.setVisible(false);;
+
     }
 }

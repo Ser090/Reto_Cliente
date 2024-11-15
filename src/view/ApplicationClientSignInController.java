@@ -68,8 +68,11 @@ public class ApplicationClientSignInController implements Initializable {
     private ImageView errorImagePass;  // Icono de error para el campo de contraseña
     @FXML
     private Button toggleVisibilityButton;  // Botón para alternar la visibilidad de la contraseña
+    @FXML
+    private Button actualizarDatos;
 
     private ContextMenu contextMenu;  // Menú contextual personalizado
+    private Boolean actualizar = false;
 
     /**
      * Inicializa el controlador y configura el menú contextual, los eventos de
@@ -189,7 +192,9 @@ public class ApplicationClientSignInController implements Initializable {
             stage.setResizable(false);
             stage.setOnShowing(this::handleWindowShowing);
             loginButton.setOnAction(null);
+            actualizarDatos.setOnAction(null);
             loginButton.addEventHandler(ActionEvent.ACTION, this::handleButtonLoginButton);
+            actualizarDatos.addEventHandler(ActionEvent.ACTION, this::handleButtonLoginButton);
             registerLink.setOnAction(this::handleHyperLinkRegistry);  // Manejar clic en el hipervínculo de registro
 
             if (!loginField.getText().equals("")) {
@@ -259,7 +264,7 @@ public class ApplicationClientSignInController implements Initializable {
      */
     @FXML
     private void handleHyperLinkRegistry(ActionEvent event) {
-        ApplicationClientFactory.getInstance().loadSignUpWindow(stage);  // Cargar la ventana de registro
+        ApplicationClientFactory.getInstance().loadSignUpWindow(stage, null);  // Cargar la ventana de registro
     }
 
     /**
@@ -269,9 +274,19 @@ public class ApplicationClientSignInController implements Initializable {
      */
     @FXML
     private void handleButtonLoginButton(ActionEvent event) {
-        LOGGER.info("Botón Iniciar Sesion presionado");
-        hasError = false;
 
+        if (event.getSource().equals(actualizarDatos)) {
+            actualizar = true;
+        } else {
+            actualizar = false;
+        }
+        if (actualizar) {
+            LOGGER.info("Botón Actualizar Sesion presionado");
+        } else {
+            LOGGER.info("Botón Iniciar Sesion presionado");
+        }
+
+        hasError = false;
         // Verificar si todos los campos están llenos
         if (!areAllFieldsFilled()) {
             LOGGER.severe("Error: Todos los campos deben ser completados.");
@@ -307,8 +322,8 @@ public class ApplicationClientSignInController implements Initializable {
             user.setLogin(loginField.getText());
             user.setPass(passwordField.getText());
 
-            LOGGER.info("Validación de campos correcta.");
             Message response = ApplicationClientFactory.getInstance().access().signIn(user);  // Enviar los datos de inicio de sesión al servidor
+
             messageManager(response);  // Manejar la respuesta del servidor
         }
     }
@@ -322,7 +337,12 @@ public class ApplicationClientSignInController implements Initializable {
         switch (message.getType()) {
             case LOGIN_OK:
                 loginButton.setDisable(true);  // Deshabilitar el botón de inicio de sesión
-                factory.loadMainUserWindow(stage, (User) message.getObject());  // Cargar la ventana principal
+                if (!actualizar) {
+
+                    factory.loadMainUserWindow(stage, (User) message.getObject());  // Cargar la ventana principal
+                } else {
+                    factory.loadSignUpWindow(stage, (User) message.getObject());  // Cargar el SignUP
+                }
                 break;
             case SIGNIN_ERROR:
                 loginField.setStyle("-fx-border-color: red;");

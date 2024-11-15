@@ -74,12 +74,14 @@ public class ApplicationClientFactory {
      *
      * @param stage El escenario donde se mostrará la ventana de registro.
      */
-    public void loadSignUpWindow(Stage stage) {
+    public void loadSignUpWindow(Stage stage, User user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLSignUp.fxml"));
             Parent root = loader.load(); // Carga el archivo FXML
             ApplicationClientSignUpController controller = loader.getController();
             controller.setStage(stage); // Asigna el escenario al controlador
+            controller.setUser(user);
+            controller.setModoActualizar(user != null);
             controller.initStage(root); // Inicializa la escena con el root cargado
         } catch (IOException event) {
             LOGGER.log(Level.SEVERE, "Error al abrir la ventana de registro: {0}", event.getMessage());
@@ -144,6 +146,7 @@ public class ApplicationClientFactory {
         scene.getStylesheets().clear(); // Limpia las hojas de estilo actuales
         scene.getStylesheets().add(getClass().getResource(cssFileName).toExternalForm()); // Añade la nueva hoja de estilo
     }
+
     /**
      * Retorna el cliente para ser usado al llamar a la factoria
      *
