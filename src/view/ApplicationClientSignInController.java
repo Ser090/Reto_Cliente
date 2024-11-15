@@ -28,6 +28,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import utilidades.Message;
+import utilidades.MessageType;
 import utilidades.User;
 import static utilities.AlertUtilities.showErrorDialog;
 import static utilities.ValidateUtilities.isValid;
@@ -68,6 +69,8 @@ public class ApplicationClientSignInController implements Initializable {
     private ImageView errorImagePass;  // Icono de error para el campo de contraseña
     @FXML
     private Button toggleVisibilityButton;  // Botón para alternar la visibilidad de la contraseña
+    @FXML
+    private Button updateButton;
 
     private ContextMenu contextMenu;  // Menú contextual personalizado
 
@@ -188,8 +191,8 @@ public class ApplicationClientSignInController implements Initializable {
             stage.setTitle("Iniciar Sesión");
             stage.setResizable(false);
             stage.setOnShowing(this::handleWindowShowing);
-            loginButton.setOnAction(null);
             loginButton.addEventHandler(ActionEvent.ACTION, this::handleButtonLoginButton);
+            updateButton.addEventHandler(ActionEvent.ACTION, this::handleUpdateData);
             registerLink.setOnAction(this::handleHyperLinkRegistry);  // Manejar clic en el hipervínculo de registro
 
             if (!loginField.getText().equals("")) {
@@ -262,6 +265,59 @@ public class ApplicationClientSignInController implements Initializable {
         ApplicationClientFactory.getInstance().loadSignUpWindow(stage);  // Cargar la ventana de registro
     }
 
+    @FXML
+    private void handleUpdateData(ActionEvent event) {
+        LOGGER.info("Botón UpdateData Sesion presionado");
+        hasError = false;
+        // Verificar si todos los campos están llenos
+        if (!areAllFieldsFilled()) {
+            LOGGER.severe("Error: Todos los campos deben ser completados.");
+            for (Node node : gridPane.getChildren()) {
+                if (node instanceof TextField || node instanceof PasswordField) {
+                    if (((TextField) node).getText().isEmpty()) {
+                        showErrorImage(node); // Mostrar error y marcar el campo
+                        hasError = true;
+                    }
+                }
+            }
+        }
+
+        // Validar campos específicos como contraseña y nombre de usuario
+        passwordField.setText(passwordField.getText().trim());
+        if (!isValid(passwordField.getText(), "pass")) {
+            showErrorImage(passwordField);
+            hasError = true;
+        }
+
+        if (!isValid(loginField.getText(), "email")) {
+            showErrorImage(loginField);
+            hasError = true;
+        }
+
+        // Si hay errores, no continuar
+        if (hasError) {
+            LOGGER.severe("Hay errores en el formulario.");
+            showErrorDialog(AlertType.ERROR, "Error", "Uno o varios campos incorrectos o vacíos. Mantenga el cursor encima de los campos para más información.");
+        } else {
+            // Si no hay errores, proceder con el formulario
+            user = new User();  // Crear un nuevo usuario
+            user.setLogin(loginField.getText());
+            user.setPass(passwordField.getText());
+
+            LOGGER.info("Validación de campos correcta.");
+            //Message response = ApplicationClientFactory.getInstance().access().getUser(user);  // Enviar los datos de inicio de sesión al servidor
+            user.setResUserId(5);
+            user.setName("Sergio Rodriguez Colon");
+            user.setStreet("calle falsa 123");
+            user.setZip("45879");
+            user.setCity("Bilbao");
+            Message response = new Message(MessageType.GET_OK, user);
+            messageManager(response);  // Manejar la respuesta del servidor
+        }
+//        loginField.setText("freddy@gmail.com");
+//        passwordField.setText("12345678A");
+    }
+
     /**
      * Maneja la acción del botón de inicio de sesión.
      *
@@ -320,10 +376,13 @@ public class ApplicationClientSignInController implements Initializable {
      */
     private void messageManager(Message message) {
         switch (message.getType()) {
+            case GET_OK:
+                updateButton.setDisable(true);  // Deshabilitar el botón de updateData
+                factory.loadMainUserWindow(stage, (User) message.getObject());
+                break;
             case LOGIN_OK:
                 loginButton.setDisable(true);  // Deshabilitar el botón de inicio de sesión
                 factory.loadMainUserWindow(stage, (User) message.getObject());  // Cargar la ventana principal
-                break;
             case SIGNIN_ERROR:
                 loginField.setStyle("-fx-border-color: red;");
                 passwordField.setStyle("-fx-border-color: red;");

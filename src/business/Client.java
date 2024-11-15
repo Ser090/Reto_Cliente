@@ -177,6 +177,7 @@ public class Client implements Signable {
         }
     }
 
+
     // Métodos privados
     /**
      * Envía un mensaje al servidor a través del flujo de salida.
@@ -206,6 +207,21 @@ public class Client implements Signable {
         } catch (IOException | ClassNotFoundException event) {
             LOGGER.log(Level.SEVERE, "Error al recibir mensaje del servidor: {0}", event.getMessage());
             return null; // Retornar null si hay un error
+        }
+    }
+
+    @Override
+    public Message getUser(User user) {
+        Message response = null;
+        try {
+            connect(); // Conectar al servidor
+            Message getUserRequest = new Message(MessageType.GET_USER, user); // Crear solicitud
+            sendMessage(getUserRequest); // Enviar solicitud
+            response = receiveMessage(); // Recibir respuesta
+            closeConnection(); // Cerrar conexión
+            return response; // Retornar respuesta
+        } catch (ServerNotFoundException event) {
+            return event.CreateMessage(); // Crear mensaje de error
         }
     }
 }

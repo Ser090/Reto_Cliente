@@ -222,6 +222,26 @@ public class ApplicationClientSignUpController implements Initializable {
         this.stage = stage;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+        String nameCompleto = user.getName();
+        //Lo hago asi porque no me acuerdo cortar strings
+        String name = "Sergio";
+        String surname = "Rodriguez";
+        String surname2 = "Colon";
+        
+        nameField.setText(name);
+        surname1Field.setText(surname);
+        surname2Field.setText(surname2);
+        emailField.setText(user.getLogin());
+        passwordField.setText(user.getPass());
+        passwordFieldVisual.setText(user.getPass());
+        streetField.setText(user.getStreet());
+        cityField.setText(user.getCity());
+        zipField.setText(user.getZip());
+        
+    }
+
     /**
      * Inicializa el escenario con el contenido de la vista.
      *
