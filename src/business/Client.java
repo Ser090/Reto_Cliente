@@ -44,12 +44,6 @@ public class Client implements Signable {
      * Constructor que inicializa la dirección IP y el puerto del servidor
      * utilizando los valores configurados en un archivo de propiedades.
      *
-     * <p>
-     * Este constructor intenta cargar la dirección IP y el puerto del servidor
-     * desde el archivo de propiedades {@code business.conecction}. Si el
-     * archivo de propiedades no se encuentra o contiene valores incorrectos, se
-     * lanza una excepción personalizada {@link ServerNotFoundException}.
-     *
      * @throws ServerNotFoundException Si no se encuentra el archivo de
      * propiedades o si los valores de la dirección IP o puerto son inválidos.
      *
@@ -61,15 +55,11 @@ public class Client implements Signable {
             bundle = ResourceBundle.getBundle("business.conecction");
             this.serverIP = bundle.getString("serverIP");
             this.serverPort = Integer.parseInt(bundle.getString("serverPort"));
-        } catch (MissingResourceException event) {
-            LOGGER.log(Level.SEVERE, "No se encuentra el archivo de propiedades {0}", event.getMessage());
-            throw new ServerNotFoundException(); // Lanza excepción personalizada si falla
-        } catch (NumberFormatException event) {
-            LOGGER.log(Level.SEVERE, "El archivo de propiedades tiene parámetros incorrectos: {0}", event.getMessage());
+        } catch (MissingResourceException | NumberFormatException event) {
+            LOGGER.log(Level.SEVERE, "Error al cargar la configuración: {0}", event.getMessage());
             throw new ServerNotFoundException(); // Lanza excepción personalizada si falla
         }
     }
-
 
     /**
      * Obtiene la instancia única del cliente. Si no existe, crea una nueva
@@ -89,28 +79,21 @@ public class Client implements Signable {
      * puerto especificados. Crea los flujos de entrada y salida necesarios para
      * la comunicación con el servidor.
      *
-     * <p>
-     * Este método intenta establecer una conexión mediante un socket a la
-     * dirección y puerto proporcionados. Si la conexión es exitosa, se
-     * inicializan los flujos de entrada y salida para la transmisión de datos.
-     * Si ocurre un error durante el proceso de conexión, se lanza una excepción
-     * {@link ServerNotFoundException}.
-     *
-     * @throws ServerNotFoundException ya que sin el archivo de configuracion o
-     * cualquier parametro no se podra realizar la conexion.
+     * @throws ServerNotFoundException si ocurre un error de conexión.
      */
     public void connect() {
         try {
-            socket = new Socket(serverIP, serverPort);
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
-            inputStream = new ObjectInputStream(socket.getInputStream());
-            LOGGER.log(Level.INFO, "Conectado al servidor en {0}:{1}", new Object[]{serverIP, serverPort});
+            if (socket == null || socket.isClosed()) {
+                socket = new Socket(serverIP, serverPort);
+                outputStream = new ObjectOutputStream(socket.getOutputStream());
+                inputStream = new ObjectInputStream(socket.getInputStream());
+                LOGGER.log(Level.INFO, "Conectado al servidor en {0}:{1}", new Object[]{serverIP, serverPort});
+            }
         } catch (IOException event) {
-            LOGGER.log(Level.SEVERE, "Error al abrir la conexión. {0}", event.getMessage());
+            LOGGER.log(Level.SEVERE, "Error al abrir la conexión: {0}", event.getMessage());
             throw new ServerNotFoundException(); // Lanza excepción personalizada si falla
         }
     }
-
 
     /**
      * Cierra la conexión con el servidor, liberando los recursos asociados al
@@ -118,12 +101,12 @@ public class Client implements Signable {
      */
     public void closeConnection() {
         try {
-            if (socket != null) {
+            if (socket != null && !socket.isClosed()) {
                 socket.close();
                 LOGGER.info("Conexión cerrada.");
             }
         } catch (IOException event) {
-            LOGGER.log(Level.SEVERE, "Error al cerrar la conexión. {0}", event.getMessage());
+            LOGGER.log(Level.SEVERE, "Error al cerrar la conexión: {0}", event.getMessage());
         }
     }
 
@@ -145,7 +128,6 @@ public class Client implements Signable {
             Message signUpRequest = new Message(MessageType.SIGN_UP_REQUEST, user); // Crear solicitud
             sendMessage(signUpRequest); // Enviar solicitud
             response = receiveMessage(); // Recibir respuesta
-            closeConnection(); // Cerrar conexión
             return response; // Retornar respuesta
         } catch (ServerNotFoundException event) {
             return event.CreateMessage(); // Crear mensaje de error
@@ -170,7 +152,6 @@ public class Client implements Signable {
             Message signInRequest = new Message(MessageType.SIGN_IN_REQUEST, user); // Crear solicitud
             sendMessage(signInRequest); // Enviar solicitud
             response = receiveMessage(); // Recibir respuesta
-            closeConnection(); // Cerrar conexión
             return response; // Retornar respuesta
         } catch (ServerNotFoundException event) {
             return event.CreateMessage(); // Crear mensaje de error
@@ -207,5 +188,15 @@ public class Client implements Signable {
             LOGGER.log(Level.SEVERE, "Error al recibir mensaje del servidor: {0}", event.getMessage());
             return null; // Retornar null si hay un error
         }
+    }
+
+    @Override
+    public boolean updatePassword(String email, String newPassword) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean verifyEmail(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

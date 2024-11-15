@@ -1,12 +1,14 @@
 package view;
 
 import business.ApplicationClientFactory;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -136,6 +138,23 @@ public class ApplicationClientSignInController implements Initializable {
             if (node instanceof TextField || node instanceof PasswordField) {
                 node.setOnKeyTyped(event -> hideErrorImage(node));  // Ocultar error al escribir
             }
+        }
+    }
+   /**
+     * MManeja el boton de cambiar contraseña 
+     */
+    @FXML
+    private void handleButtonChangePassword(ActionEvent event) {
+        try {
+            // Cargar la vista de cambio de contraseña
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/FXMLPasswordChange.fxml"));
+            Parent root = loader.load();
+
+            // Cambiar la escena actual
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -435,4 +454,5 @@ public class ApplicationClientSignInController implements Initializable {
         ImageView imageView = (ImageView) toggleVisibilityButton.getGraphic();
         imageView.setImage(new Image("resources/iconos/visualizar.png"));
     }
+    
 }

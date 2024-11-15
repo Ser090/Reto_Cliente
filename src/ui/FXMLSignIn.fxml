@@ -70,6 +70,9 @@
             <Label fx:id="RegisterLinkText" text="No tienes cuenta?" styleClass="label-text" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.columnSpan="2" />
             <Hyperlink fx:id="registerLink" text="Regístrate" styleClass="custom-hyperlink" GridPane.rowIndex="6" GridPane.columnIndex="1" GridPane.columnSpan="2" onAction="#handleHyperLinkRegistry"/>
 
+            <Button text="Cambiar Contraseña" onAction="#handleButtonChangePassword" GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="2"/>
+
+
             <!-- Errores visuales -->
             <ImageView fx:id="errorImageLogin" fitHeight="28.0" fitWidth="28.0" GridPane.columnIndex="3" GridPane.rowIndex="1" visible="false">
                 <image>
